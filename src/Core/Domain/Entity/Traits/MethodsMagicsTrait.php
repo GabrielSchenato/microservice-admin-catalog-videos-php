@@ -11,7 +11,7 @@ trait MethodsMagicsTrait
      */
     public function __get(string $name)
     {
-        if ($this->{$name})
+        if (isset($this->{$name}))
             return $this->{$name};
 
         $className = get_class($this);
