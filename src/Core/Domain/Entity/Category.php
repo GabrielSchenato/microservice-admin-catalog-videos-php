@@ -55,7 +55,7 @@ class Category
     /**
      * @throws EntityValidationException
      */
-    public function validate(): void
+    private function validate(): void
     {
         DomainValidation::strMaxLength($this->name);
         DomainValidation::strMinLength($this->name);
