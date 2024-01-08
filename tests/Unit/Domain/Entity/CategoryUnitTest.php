@@ -3,7 +3,9 @@
 namespace Tests\Unit\Domain\Entity;
 
 use Core\Domain\Entity\Category;
+use Core\Domain\Exception\EntityValidationException;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 
 class CategoryUnitTest extends TestCase
 {
@@ -15,6 +17,8 @@ class CategoryUnitTest extends TestCase
             isActive: true
         );
 
+        $this->assertNotEmpty($category->id());
+        $this->assertNotEmpty($category->createdAt());
         $this->assertEquals('New Cat', $category->name);
         $this->assertEquals('New desc', $category->description);
         $this->assertTrue($category->isActive);
@@ -45,20 +49,52 @@ class CategoryUnitTest extends TestCase
 
     public function testUpdate()
     {
-        $uuid = 'uuid.value';
+        $uuid = Uuid::uuid4()->toString();
+        $createdAt = '2024-01-01 12:00:00';
 
         $category = new Category(
             id: $uuid,
             name: 'Old Cat',
             description: 'Old desc',
-            isActive: true
+            isActive: true,
+            createdAt: $createdAt
         );
         $category->update(
             name: 'New Cat',
             description: 'New desc'
         );
 
+        $this->assertEquals($uuid, $category->id());
+        $this->assertEquals($createdAt, $category->createdAt());
         $this->assertEquals('New Cat', $category->name);
         $this->assertEquals('New desc', $category->description);
+    }
+
+    public function testExceptionName()
+    {
+        try {
+            new Category(
+                name: 'Na',
+                description: 'New desc'
+            );
+
+            $this->fail();
+        } catch (\Throwable $th) {
+            $this->assertInstanceOf(EntityValidationException::class, $th);
+        }
+    }
+
+    public function testExceptionDescription()
+    {
+        try {
+            new Category(
+                name: 'New Cat',
+                description: random_bytes(300)
+            );
+
+            $this->fail();
+        } catch (\Throwable $th) {
+            $this->assertInstanceOf(EntityValidationException::class, $th);
+        }
     }
 }
