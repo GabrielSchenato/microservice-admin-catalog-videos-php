@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use Core\Domain\Exception\EntityValidationException;
+use Core\Domain\Exception\NotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,5 +30,23 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof NotFoundException)
+            return $this->showError($e->getMessage(), Response::HTTP_NOT_FOUND);
+
+        if ($e instanceof EntityValidationException)
+            return $this->showError($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        return parent::render($request, $e);
+    }
+
+    private function showError(string $message, int $statusCode): JsonResponse
+    {
+        return response()->json([
+            'message' => $message
+        ], $statusCode);
     }
 }

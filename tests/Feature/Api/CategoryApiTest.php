@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Models\Category;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class CategoryApiTest extends TestCase
@@ -13,7 +14,7 @@ class CategoryApiTest extends TestCase
     {
         $response = $this->getJson($this->endpoint);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     public function testListAllCategories(): void
@@ -22,7 +23,7 @@ class CategoryApiTest extends TestCase
 
         $response = $this->getJson($this->endpoint);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'meta' => [
                 'total',
@@ -42,7 +43,7 @@ class CategoryApiTest extends TestCase
 
         $response = $this->getJson("$this->endpoint?page=2");
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'meta' => [
                 'total',
@@ -55,5 +56,14 @@ class CategoryApiTest extends TestCase
             ]
         ]);
         $this->assertEquals(2, $response['meta']['current_page']);
+        $this->assertEquals(30, $response['meta']['total']);
     }
+
+    public function testListCategoryNotFound(): void
+    {
+        $response = $this->getJson("$this->endpoint/fale_value");
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
 }
