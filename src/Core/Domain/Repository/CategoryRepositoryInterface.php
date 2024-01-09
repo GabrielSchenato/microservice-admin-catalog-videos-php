@@ -14,8 +14,6 @@ interface CategoryRepositoryInterface
 
     public function delete(string $id): bool;
 
-    public function toCategory(object $data): CategoryEntity;
-
     public function findAll(string $filter = '', $order = 'DESC'): array;
 
     public function paginate(string $filter = '', $order = 'DESC', int $page = 1, int $totalPage = 15): PaginationInterface;
