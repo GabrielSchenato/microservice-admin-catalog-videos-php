@@ -7,6 +7,8 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use Core\UseCase\Category\CreateCategoryUseCase;
 use Core\UseCase\Category\ListCategoriesUseCase;
+use Core\UseCase\Category\ListCategoryUseCase;
+use Core\UseCase\DTO\Category\CategoryInputDto;
 use Core\UseCase\DTO\Category\CreateCategory\CategoryCreateInputDto;
 use Core\UseCase\DTO\Category\ListCategories\ListCategoriesInputDto;
 use Illuminate\Http\Request;
@@ -50,5 +52,18 @@ class CategoryController extends Controller
         return (new CategoryResource(collect($response)))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
+    }
+
+    public function show($id, ListCategoryUseCase $useCase)
+    {
+        $response = $useCase->execute(
+            input: new CategoryInputDto(
+                id: $id
+            )
+        );
+
+        return (new CategoryResource(collect($response)))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 }
