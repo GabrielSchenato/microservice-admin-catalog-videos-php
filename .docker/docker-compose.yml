@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+
+    app:
+        build: .
+        container_name: microservice-videos-app
+        volumes:
+            - ../:/var/www
+            - ./php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+        networks:
+            - app-network
+        depends_on:
+            - db
+            - redis
+
+    nginx:
+        build: ./nginx
+        container_name: microservice-videos-nginx
+        restart: always
+        tty: true
+        ports:
+            - "80:80"
+        volumes:
+            - ../:/var/www
+        networks:
+            - app-network
+        depends_on:
+            - app
+
+    db:
+        build: ./mysql
+        container_name: microservice-videos-db
+        restart: always
+        tty: true
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./dbdata:/var/lib/mysql
+            - ./mysql:/docker-entrypoint-initdb.d
+        environment:
+            - MYSQL_DATABASE=catalog_videos
+            - MYSQL_ROOT_PASSWORD=root
+        networks:
+            - app-network
+
+    redis:
+        image: redis:alpine
+        container_name: microservice-videos-redis
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge

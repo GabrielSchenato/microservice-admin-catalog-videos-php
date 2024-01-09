@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/admin-catalog-video-php.iml" filepath="$PROJECT_DIR$/.idea/admin-catalog-video-php.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/microservice-admin-catalog-videos-php.iml" filepath="$PROJECT_DIR$/.idea/microservice-admin-catalog-videos-php.iml" />
     </modules>
   </component>
 </project>
