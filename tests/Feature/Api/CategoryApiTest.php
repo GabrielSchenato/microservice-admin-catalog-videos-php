@@ -137,4 +137,57 @@ class CategoryApiTest extends TestCase
         ]);
     }
 
+    public function testNotFoundUpdate(): void
+    {
+        $response = $this->putJson("$this->endpoint/fake_value", [
+            'name' => 'Teste'
+        ]);
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    public function testValidationsUpdate(): void
+    {
+        $data = [
+            'name' => ''
+        ];
+
+        $response = $this->putJson("$this->endpoint/fake_value", $data);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonStructure([
+            'message',
+            'errors' => [
+                'name'
+            ]
+        ]);
+    }
+
+    public function testUpdate(): void
+    {
+        $category = Category::factory()->create();
+
+        $data = [
+            'name' => 'Teste'
+        ];
+
+        $response = $this->putJson("{$this->endpoint}/{$category->id}", $data);
+
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'name',
+                'description',
+                'is_active',
+                'created_at'
+            ]
+        ]);
+
+        $this->assertEquals($data['name'], $response['data']['name']);
+        $this->assertDatabaseHas('categories', [
+            'name' => $data['name']
+        ]);
+    }
+
 }
