@@ -61,7 +61,12 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 
     public function paginate(string $filter = '', $order = 'DESC', int $page = 1, int $totalPage = 15): PaginationInterface
     {
-        return new PaginationPresenter();
+        $paginator = $this->model
+            ->when($filter, fn($query) => $query->where('name', 'LIKE', "%{$filter}%"))
+            ->orderBy('id', $order)
+            ->paginate();
+
+        return new PaginationPresenter($paginator);
     }
 
     private function toCategory(object $object): CategoryEntity
