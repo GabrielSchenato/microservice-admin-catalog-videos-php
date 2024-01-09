@@ -4,8 +4,8 @@ namespace Core\UseCase\Category;
 
 use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\Repository\CategoryRepositoryInterface;
-use Core\UseCase\DTO\Category\CategoryUpdateInputDto;
-use Core\UseCase\DTO\Category\CategoryUpdateOutputDto;
+use Core\UseCase\DTO\Category\UpdateCategory\CategoryUpdateInputDto;
+use Core\UseCase\DTO\Category\UpdateCategory\CategoryUpdateOutputDto;
 
 class UpdateCategoryUseCase
 {
@@ -32,7 +32,8 @@ class UpdateCategoryUseCase
             id: $categoryUpdated->id,
             name: $categoryUpdated->name,
             description: $categoryUpdated->description,
-            is_active: $categoryUpdated->isActive
+            is_active: $categoryUpdated->isActive,
+            created_at: $categoryUpdated->createdAt()
         );
     }
 }

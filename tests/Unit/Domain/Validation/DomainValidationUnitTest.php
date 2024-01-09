@@ -5,6 +5,7 @@ namespace Tests\Unit\Domain\Validation;
 use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\Validation\DomainValidation;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 class DomainValidationUnitTest extends TestCase
 {
@@ -14,7 +15,7 @@ class DomainValidationUnitTest extends TestCase
             $value = '';
             DomainValidation::notNull($value);
             $this->fail();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             $this->assertInstanceOf(EntityValidationException::class, $th);
         }
     }
@@ -26,7 +27,7 @@ class DomainValidationUnitTest extends TestCase
             $error = 'custom message error';
             DomainValidation::notNull($value, $error);
             $this->fail();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             $this->assertInstanceOf(EntityValidationException::class, $th, $error);
         }
     }
@@ -38,7 +39,7 @@ class DomainValidationUnitTest extends TestCase
             $error = 'custom message error';
             DomainValidation::strMaxLength($value, 3, $error);
             $this->fail();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             $this->assertInstanceOf(EntityValidationException::class, $th, $error);
         }
     }
@@ -50,7 +51,7 @@ class DomainValidationUnitTest extends TestCase
             $error = 'custom message error';
             DomainValidation::strMinLength($value, 8, $error);
             $this->fail();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             $this->assertInstanceOf(EntityValidationException::class, $th, $error);
         }
     }
@@ -62,7 +63,7 @@ class DomainValidationUnitTest extends TestCase
             $error = 'custom message error';
             DomainValidation::strCanNullAndMaxLength($value, 3, $error);
             $this->fail();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             $this->assertInstanceOf(EntityValidationException::class, $th, $error);
         }
     }

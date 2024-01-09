@@ -2,19 +2,19 @@
 
 namespace Core\Domain\Repository;
 
-use Core\Domain\Entity\Category;
+use Core\Domain\Entity\CategoryEntity;
 
 interface CategoryRepositoryInterface
 {
-    public function insert(Category $category): Category;
+    public function insert(CategoryEntity $category): CategoryEntity;
 
-    public function findById(string $id): Category;
+    public function findById(string $id): CategoryEntity;
 
-    public function update(Category $category): Category;
+    public function update(CategoryEntity $category): CategoryEntity;
 
     public function delete(string $id): bool;
 
-    public function toCategory(object $data): Category;
+    public function toCategory(object $data): CategoryEntity;
 
     public function findAll(string $filter = '', $order = 'DESC'): array;
 

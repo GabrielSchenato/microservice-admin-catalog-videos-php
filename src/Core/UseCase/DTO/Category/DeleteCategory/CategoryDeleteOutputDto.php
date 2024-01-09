@@ -1,6 +1,7 @@
 <?php
 
-namespace Core\UseCase\DTO\Category;
+namespace Core\UseCase\DTO\Category\DeleteCategory;
+
 class CategoryDeleteOutputDto
 {
     public function __construct(

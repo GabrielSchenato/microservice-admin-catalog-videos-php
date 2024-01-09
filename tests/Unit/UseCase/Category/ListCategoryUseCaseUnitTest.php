@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\UseCase\Category;
 
-use Core\Domain\Entity\Category;
+use Core\Domain\Entity\CategoryEntity;
 use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\UseCase\Category\ListCategoryUseCase;
 use Core\UseCase\DTO\Category\CategoryInputDto;
@@ -18,15 +18,17 @@ class ListCategoryUseCaseUnitTest extends TestCase
     {
         $uuid = Uuid::uuid4()->toString();
         $categoryName = 'New Cat';
-        $mockEntity = Mockery::mock(Category::class, [
+        $mockEntity = Mockery::mock(CategoryEntity::class, [
             $uuid,
             $categoryName
         ]);
         $mockEntity->shouldReceive('id')->andReturn($uuid);
+        $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
 
         $mockRepository = Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);
         $mockRepository
             ->shouldReceive('findById')
+            ->once()
             ->with($uuid)
             ->andReturn($mockEntity);
 
@@ -40,19 +42,6 @@ class ListCategoryUseCaseUnitTest extends TestCase
         $this->assertInstanceOf(CategoryOutputDto::class, $response);
         $this->assertEquals($categoryName, $response->name);
         $this->assertEquals('', $response->description);
-
-        /**
-         * Spies
-         */
-        $spy = Mockery::spy(stdClass::class, CategoryRepositoryInterface::class);
-        $spy->shouldReceive('findById')
-            ->with($uuid)
-            ->andReturn($mockEntity);
-
-        $useCase = new ListCategoryUseCase($spy);
-        $response = $useCase->execute($mockInputDto);
-
-        $spy->shouldHaveReceived('findById');
     }
 
     protected function tearDown(): void

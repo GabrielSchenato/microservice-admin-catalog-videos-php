@@ -9,7 +9,7 @@ use Core\Domain\ValueObject\Uuid;
 use DateTime;
 use Exception;
 
-class Category
+class CategoryEntity
 {
     use MethodsMagicsTrait;
 
@@ -31,6 +31,16 @@ class Category
         $this->validate();
     }
 
+    /**
+     * @throws EntityValidationException
+     */
+    private function validate(): void
+    {
+        DomainValidation::strMaxLength($this->name);
+        DomainValidation::strMinLength($this->name);
+        DomainValidation::strCanNullAndMaxLength($this->description);
+    }
+
     public function activate(): void
     {
         $this->isActive = true;
@@ -50,15 +60,5 @@ class Category
         $this->description = $description;
 
         $this->validate();
-    }
-
-    /**
-     * @throws EntityValidationException
-     */
-    private function validate(): void
-    {
-        DomainValidation::strMaxLength($this->name);
-        DomainValidation::strMinLength($this->name);
-        DomainValidation::strCanNullAndMaxLength($this->description);
     }
 }
