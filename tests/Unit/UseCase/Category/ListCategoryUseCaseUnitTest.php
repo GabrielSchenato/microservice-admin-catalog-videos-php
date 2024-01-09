@@ -44,7 +44,6 @@ class ListCategoryUseCaseUnitTest extends TestCase
         /**
          * Spies
          */
-
         $spy = Mockery::spy(stdClass::class, CategoryRepositoryInterface::class);
         $spy->shouldReceive('findById')
             ->with($uuid)
