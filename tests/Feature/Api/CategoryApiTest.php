@@ -85,4 +85,19 @@ class CategoryApiTest extends TestCase
         $this->assertEquals($category->id, $response['data']['id']);
     }
 
+    public function testValidationsStore(): void
+    {
+        $data = [];
+
+        $response = $this->postJson($this->endpoint, $data);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonStructure([
+            'message',
+            'errors' => [
+                'name'
+            ]
+        ]);
+    }
+
 }
