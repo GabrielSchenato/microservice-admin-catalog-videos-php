@@ -21,6 +21,7 @@ class GenreEntity
         protected string    $name,
         protected ?Uuid     $id = null,
         protected bool      $isActive = true,
+        protected array     $categoriesId = [],
         protected ?DateTime $createdAt = null
     )
     {
@@ -57,5 +58,15 @@ class GenreEntity
         $this->name = $name;
 
         $this->validate();
+    }
+
+    public function addCategory(string $categoryId): void
+    {
+        $this->categoriesId[] = $categoryId;
+    }
+
+    public function removeCategory(string $categoryId): void
+    {
+        unset($this->categoriesId[array_search($categoryId, $this->categoriesId)]);
     }
 }

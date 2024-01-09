@@ -94,4 +94,44 @@ class GenreEntityUnitTest extends TestCase
         );
     }
 
+    public function testAddCategoryToGenre()
+    {
+        $categoryId = RamseyUuid::uuid4();
+
+        $genre = new GenreEntity(
+            name: 'New Genre'
+        );
+
+        $this->assertIsArray($genre->categoriesId);
+        $this->assertCount(0, $genre->categoriesId);
+
+        $genre->addCategory(
+            categoryId: $categoryId
+        );
+        $genre->addCategory(
+            categoryId: $categoryId
+        );
+        $this->assertCount(2, $genre->categoriesId);
+    }
+
+    public function testRemoveCategoryToGenre()
+    {
+        $categoryId1 = RamseyUuid::uuid4();
+        $categoryId2 = RamseyUuid::uuid4();
+
+        $genre = new GenreEntity(
+            name: 'New Genre',
+            categoriesId: [
+                $categoryId1,
+                $categoryId2
+            ]
+        );
+
+        $this->assertCount(2, $genre->categoriesId);
+
+        $genre->removeCategory($categoryId1);
+
+        $this->assertCount(1, $genre->categoriesId);
+        $this->assertEquals($genre->categoriesId[1], $categoryId2);
+    }
 }
