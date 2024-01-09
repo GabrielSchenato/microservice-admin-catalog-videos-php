@@ -21,12 +21,18 @@ class CategoryControllerUnitTest extends TestCase
         ]);
 
         $mockUseCase = Mockery::mock(ListCategoriesUseCase::class);
-        $mockUseCase->shouldReceive('execute')->andReturn($mockDtoOutput);
+        $mockUseCase->shouldReceive('execute')->once()->andReturn($mockDtoOutput);
 
         $controller = new CategoryController();
         $response = $controller->index($mockRequest, $mockUseCase);
 
         $this->assertIsObject($response->resource);
         $this->assertArrayHasKey('meta', $response->additional);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
     }
 }
