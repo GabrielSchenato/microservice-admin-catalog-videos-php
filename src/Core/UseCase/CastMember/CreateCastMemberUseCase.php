@@ -3,6 +3,7 @@
 namespace Core\UseCase\CastMember;
 
 use Core\Domain\Entity\CastMemberEntity;
+use Core\Domain\Enum\CastMemberType;
 use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\Repository\CastMemberRepositoryInterface;
 use Core\UseCase\DTO\CastMember\CreateCastMember\CastMemberCreateInputDto;
@@ -23,7 +24,7 @@ class CreateCastMemberUseCase
     {
         $castMember = new CastMemberEntity(
             name: $input->name,
-            type: $input->type,
+            type: $input->type == 1 ? CastMemberType::DIRECTOR : CastMemberType::ACTOR,
             isActive: $input->isActive
         );
 
@@ -32,7 +33,7 @@ class CreateCastMemberUseCase
         return new CastMemberCreateOutputDto(
             id: $newCastMember->id(),
             name: $newCastMember->name,
-            type: $newCastMember->type,
+            type: $input->type,
             is_active: $newCastMember->isActive,
             created_at: $newCastMember->createdAt()
         );

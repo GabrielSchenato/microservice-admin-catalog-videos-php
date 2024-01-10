@@ -36,7 +36,7 @@ class CreateCastMemberUseCaseUnitTest extends TestCase
 
         $mockInputDto = Mockery::mock(CastMemberCreateInputDto::class, [
             $castMemberName,
-             CastMemberType::DIRECTOR
+            1
         ]);
 
         $useCase = new CreateCastMemberUseCase($mockRepository);
@@ -44,7 +44,7 @@ class CreateCastMemberUseCaseUnitTest extends TestCase
 
         $this->assertInstanceOf(CastMemberCreateOutputDto::class, $response);
         $this->assertEquals($castMemberName, $response->name);
-        $this->assertEquals(CastMemberType::DIRECTOR, $response->type);
+        $this->assertEquals(1, $response->type);
     }
 
     protected function tearDown(): void
