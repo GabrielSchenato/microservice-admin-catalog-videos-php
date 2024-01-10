@@ -37,6 +37,14 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
         return $this->toCategory($category);
     }
 
+    public function getIdsListIds(array $categoriesId = []): array
+    {
+        return $this->model
+            ->whereIn('id', $categoriesId)
+            ->pluck('id')
+            ->toArray();
+    }
+
     public function update(CategoryEntity $category): CategoryEntity
     {
         if (!$categoryDb = $this->model->find($category->id())) {

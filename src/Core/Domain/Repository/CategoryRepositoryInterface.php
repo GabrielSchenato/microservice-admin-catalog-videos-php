@@ -10,6 +10,8 @@ interface CategoryRepositoryInterface
 
     public function findById(string $id): CategoryEntity;
 
+    public function getIdsListIds(array $categoriesId = []): array;
+
     public function update(CategoryEntity $category): CategoryEntity;
 
     public function delete(string $id): bool;
