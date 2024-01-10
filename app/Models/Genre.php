@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class Genre extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -15,8 +15,8 @@ class Category extends Model
     protected $fillable = [
         'id',
         'name',
-        'description',
         'is_active',
+        'created_at',
     ];
 
     protected $casts = [
