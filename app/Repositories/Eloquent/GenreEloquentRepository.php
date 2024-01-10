@@ -60,6 +60,10 @@ class GenreEloquentRepository implements GenreRepositoryInterface
             'is_active' => $genre->isActive
         ]);
 
+        if (count($genre->categoriesId) > 0) {
+            $genreDb->categories()->sync($genre->categoriesId);
+        }
+
         $genreDb->refresh();
 
         return $this->toGenre($genreDb);
