@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Entity;
+namespace Tests\Unit\Domain\Entity;
 
 use Core\Domain\Entity\VideoEntity;
 use Core\Domain\Enum\MediaStatus;

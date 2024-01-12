@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace Tests\Feature\App\Repositories\Eloquent;
 
 use App\Models\CastMember as Model;
+use App\Repositories\Eloquent\CastMemberEloquentRepository;
 use Core\Domain\Entity\CastMemberEntity;
 use Core\Domain\Enum\CastMemberType;
 use Core\Domain\Exception\NotFoundException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\UseCase\Genre;
+namespace Tests\Feature\Core\UseCase\Genre;
 
 use App\Models\Category as ModelCategory;
 use App\Models\Genre as Model;
@@ -9,6 +9,7 @@ use App\Repositories\Eloquent\GenreEloquentRepository;
 use App\Repositories\Transaction\TransactionDb;
 use Core\Domain\Exception\NotFoundException;
 use Core\UseCase\DTO\Genre\UpdateGenre\GenreUpdateInputDto;
+use Core\UseCase\Genre\UpdateGenreUseCase;
 use Tests\TestCase;
 use Throwable;
 

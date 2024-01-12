@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace Tests\Feature\App\Repositories\Eloquent;
 
 use App\Models\Category;
 use App\Models\Genre as Model;
+use App\Repositories\Eloquent\GenreEloquentRepository;
 use Core\Domain\Entity\GenreEntity;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\GenreRepositoryInterface;

@@ -1,10 +1,11 @@
 <?php
 
-namespace Core\UseCase\Genre;
+namespace Tests\Feature\Core\UseCase\Genre;
 
 use App\Models\Genre as Model;
 use App\Repositories\Eloquent\GenreEloquentRepository;
 use Core\UseCase\DTO\Genre\GenreInputDto;
+use Core\UseCase\Genre\DeleteGenreUseCase;
 use Tests\TestCase;
 
 class DeleteGenreUseCaseTest extends TestCase

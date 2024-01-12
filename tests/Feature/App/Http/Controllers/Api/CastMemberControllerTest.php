@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Tests\Feature\App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\CastMemberController;
 use App\Http\Requests\StoreCastMemberRequest;
 use App\Http\Requests\UpdateCastMemberRequest;
 use App\Models\CastMember;

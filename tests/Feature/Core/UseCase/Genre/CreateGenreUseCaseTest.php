@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\UseCase\Genre;
+namespace Tests\Feature\Core\UseCase\Genre;
 
 use App\Models\Category as ModelCategory;
 use App\Models\Genre as Model;
