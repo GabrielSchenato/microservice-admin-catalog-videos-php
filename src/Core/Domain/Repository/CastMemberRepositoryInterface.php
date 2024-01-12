@@ -6,11 +6,11 @@ use Core\Domain\Entity\CastMemberEntity;
 
 interface CastMemberRepositoryInterface
 {
-    public function insert(CastMemberEntity $genre): CastMemberEntity;
+    public function insert(CastMemberEntity $castMember): CastMemberEntity;
 
     public function findById(string $id): CastMemberEntity;
 
-    public function update(CastMemberEntity $genre): CastMemberEntity;
+    public function update(CastMemberEntity $castMember): CastMemberEntity;
 
     public function delete(string $id): bool;
 
