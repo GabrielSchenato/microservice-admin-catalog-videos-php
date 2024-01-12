@@ -7,6 +7,7 @@ use Core\Domain\Enum\Rating;
 use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\Validation\DomainValidation;
 use Core\Domain\ValueObject\Image;
+use Core\Domain\ValueObject\Media;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 use Exception;
@@ -34,6 +35,8 @@ class VideoEntity
         protected array     $castMembersId = [],
         protected ?Image    $thumbFile = null,
         protected ?Image    $thumbHalf = null,
+        protected ?Media    $trailerFile = null,
+        protected ?Media    $videoFile = null,
     )
     {
         $this->id = $this->id ?? Uuid::random();
@@ -117,5 +120,21 @@ class VideoEntity
     public function getThumbHalf(): ?Image
     {
         return $this->thumbHalf;
+    }
+
+    /**
+     * @return Media|null
+     */
+    public function getTrailerFile(): ?Media
+    {
+        return $this->trailerFile;
+    }
+
+    /**
+     * @return Media|null
+     */
+    public function getVideoFile(): ?Media
+    {
+        return $this->videoFile;
     }
 }

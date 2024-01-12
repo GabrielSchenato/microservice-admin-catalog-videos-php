@@ -3,8 +3,10 @@
 namespace Domain\Entity;
 
 use Core\Domain\Entity\VideoEntity;
+use Core\Domain\Enum\MediaStatus;
 use Core\Domain\Enum\Rating;
 use Core\Domain\ValueObject\Image;
+use Core\Domain\ValueObject\Media;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 use PHPUnit\Framework\TestCase;
@@ -253,7 +255,7 @@ class VideoEntityUnitTest extends TestCase
         $this->assertEquals($video->castMembersId[1], $castMemberId2);
     }
 
-    public function testValueObjectImage()
+    public function testValueObjectImageThumbFile()
     {
         $path = 'path/image-filmex.png';
         $video = new VideoEntity(
@@ -293,5 +295,53 @@ class VideoEntityUnitTest extends TestCase
         $this->assertNotNull($video->getThumbHalf());
         $this->assertInstanceOf(Image::class, $video->getThumbHalf());
         $this->assertEquals($path, $video->getThumbHalf()->getPath());
+    }
+
+    public function testValueObjectMediaTrailerFile()
+    {
+        $trailerFile = new Media(
+            filePath: 'path/video.mp4',
+            mediaStatus: MediaStatus::PENDING,
+            encodedPath: 'path/encoded.extension'
+        );
+
+        $video = new VideoEntity(
+            title: 'New Video',
+            description: 'New Description',
+            yearLaunched: 2029,
+            duration: 12,
+            opened: false,
+            rating: Rating::RATE10,
+            published: true,
+            trailerFile: $trailerFile
+        );
+
+        $this->assertNotNull($video->getTrailerFile());
+        $this->assertInstanceOf(Media::class, $video->getTrailerFile());
+        $this->assertEquals($trailerFile->filePath, $video->getTrailerFile()->filePath);
+    }
+
+
+    public function testValueObjectMediaVideoFile()
+    {
+        $videoFile = new Media(
+            filePath: 'path/video.mp4',
+            mediaStatus: MediaStatus::PENDING
+        );
+
+        $video = new VideoEntity(
+            title: 'New Video',
+            description: 'New Description',
+            yearLaunched: 2029,
+            duration: 12,
+            opened: false,
+            rating: Rating::RATE10,
+            published: true,
+            videoFile: $videoFile
+        );
+
+        $this->assertNotNull($video->getVideoFile());
+        $this->assertInstanceOf(Media::class, $video->getVideoFile());
+        $this->assertEquals($videoFile->filePath, $video->getVideoFile()->filePath);
     }
 }
