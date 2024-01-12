@@ -56,16 +56,6 @@ class VideoEntity
         DomainValidation::strCanNullAndMaxLength($this->description);
     }
 
-    public function activate(): void
-    {
-        $this->isActive = true;
-    }
-
-    public function disabled(): void
-    {
-        $this->isActive = false;
-    }
-
     /**
      * @throws EntityValidationException
      */

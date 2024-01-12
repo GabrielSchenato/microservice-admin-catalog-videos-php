@@ -5,6 +5,7 @@ namespace Domain\Entity;
 use Core\Domain\Entity\VideoEntity;
 use Core\Domain\Enum\MediaStatus;
 use Core\Domain\Enum\Rating;
+use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Media;
 use Core\Domain\ValueObject\Uuid;
@@ -86,15 +87,20 @@ class VideoEntityUnitTest extends TestCase
 //        $this->assertEquals($createdAt, $video->createdAt());
 //        $this->assertEquals('New Video', $video->title);
 //    }
-//
-//    public function testExceptionName()
-//    {
-//        $this->expectException(EntityValidationException::class);
-//        new VideoEntity(
-//            title: 'Na',
-//            type: VideoType::ACTOR
-//        );
-//    }
+
+    public function testExceptionName()
+    {
+        $this->expectException(EntityValidationException::class);
+        $video = new VideoEntity(
+            title: 'Ne',
+            description: 'De',
+            yearLaunched: 2029,
+            duration: 12,
+            opened: false,
+            rating: Rating::RATE10,
+            published: true
+        );
+    }
 
     public function testAddCategory()
     {
