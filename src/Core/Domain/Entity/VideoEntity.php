@@ -35,6 +35,7 @@ class VideoEntity
         protected array     $castMembersId = [],
         protected ?Image    $thumbFile = null,
         protected ?Image    $thumbHalf = null,
+        protected ?Image    $bannerFile = null,
         protected ?Media    $trailerFile = null,
         protected ?Media    $videoFile = null,
     )
@@ -120,6 +121,14 @@ class VideoEntity
     public function getThumbHalf(): ?Image
     {
         return $this->thumbHalf;
+    }
+
+    /**
+     * @return Image|null
+     */
+    public function getBannerFile(): ?Image
+    {
+        return $this->bannerFile;
     }
 
     /**

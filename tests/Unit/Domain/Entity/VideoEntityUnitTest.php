@@ -297,6 +297,27 @@ class VideoEntityUnitTest extends TestCase
         $this->assertEquals($path, $video->getThumbHalf()->getPath());
     }
 
+    public function testValueObjectImageBannerFile()
+    {
+        $path = 'path/image-filmex.png';
+        $video = new VideoEntity(
+            title: 'New Video',
+            description: 'New Description',
+            yearLaunched: 2029,
+            duration: 12,
+            opened: false,
+            rating: Rating::RATE10,
+            published: true,
+            bannerFile: new Image(
+                path: $path
+            )
+        );
+
+        $this->assertNotNull($video->getBannerFile());
+        $this->assertInstanceOf(Image::class, $video->getBannerFile());
+        $this->assertEquals($path, $video->getBannerFile()->getPath());
+    }
+
     public function testValueObjectMediaTrailerFile()
     {
         $trailerFile = new Media(
