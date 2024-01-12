@@ -31,7 +31,6 @@ class UpdateCastMemberUseCase
             id: $castMemberUpdated->id,
             name: $castMemberUpdated->name,
             type: $castMemberUpdated->type->value,
-            is_active: $castMemberUpdated->isActive,
             created_at: $castMemberUpdated->createdAt()
         );
     }

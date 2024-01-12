@@ -24,8 +24,7 @@ class CreateCastMemberUseCase
     {
         $castMember = new CastMemberEntity(
             name: $input->name,
-            type: $input->type == 1 ? CastMemberType::DIRECTOR : CastMemberType::ACTOR,
-            isActive: $input->isActive
+            type: $input->type == 1 ? CastMemberType::DIRECTOR : CastMemberType::ACTOR
         );
 
         $newCastMember = $this->repository->insert($castMember);
@@ -34,7 +33,6 @@ class CreateCastMemberUseCase
             id: $newCastMember->id(),
             name: $newCastMember->name,
             type: $input->type,
-            is_active: $newCastMember->isActive,
             created_at: $newCastMember->createdAt()
         );
     }

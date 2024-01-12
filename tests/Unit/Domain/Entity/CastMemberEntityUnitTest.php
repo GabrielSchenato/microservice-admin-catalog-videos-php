@@ -24,7 +24,6 @@ class CastMemberEntityUnitTest extends TestCase
         $this->assertNotEmpty($castMember->id());
         $this->assertEquals($name, $castMember->name);
         $this->assertEquals(CastMemberType::ACTOR, $castMember->type);
-        $this->assertTrue($castMember->isActive);
         $this->assertNotEmpty($castMember->createdAt());
     }
 
@@ -37,39 +36,12 @@ class CastMemberEntityUnitTest extends TestCase
             name: $name,
             type: CastMemberType::ACTOR,
             id: new Uuid($uuid),
-            isActive: true,
             createdAt: new DateTime($date)
         );
 
         $this->assertEquals($uuid, $castMember->id());
         $this->assertEquals($name, $castMember->name);
-        $this->assertTrue($castMember->isActive);
         $this->assertEquals($date, $castMember->createdAt());
-    }
-
-    public function testActivated()
-    {
-        $castMember = new CastMemberEntity(
-            name: 'New CastMember',
-            type: CastMemberType::ACTOR,
-            isActive: false
-        );
-
-        $this->assertFalse($castMember->isActive);
-        $castMember->activate();
-        $this->assertTrue($castMember->isActive);
-    }
-
-    public function testDisabled()
-    {
-        $castMember = new CastMemberEntity(
-            name: 'New CastMember',
-            type: CastMemberType::ACTOR
-        );
-
-        $this->assertTrue($castMember->isActive);
-        $castMember->disabled();
-        $this->assertFalse($castMember->isActive);
     }
 
     public function testUpdate()
@@ -81,7 +53,6 @@ class CastMemberEntityUnitTest extends TestCase
             name: 'Old CastMember',
             type: CastMemberType::ACTOR,
             id: $uuid,
-            isActive: true,
             createdAt: new DateTime($createdAt)
         );
         $castMember->update(

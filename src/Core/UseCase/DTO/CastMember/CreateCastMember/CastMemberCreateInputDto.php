@@ -7,8 +7,7 @@ class CastMemberCreateInputDto
 {
     public function __construct(
         public string $name,
-        public int    $type,
-        public bool   $isActive = true
+        public int    $type
     )
     {
     }

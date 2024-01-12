@@ -22,7 +22,6 @@ class CastMemberEntity
         protected string         $name,
         protected CastMemberType $type,
         protected ?Uuid          $id = null,
-        protected bool           $isActive = true,
         protected ?DateTime      $createdAt = null
     )
     {
@@ -39,16 +38,6 @@ class CastMemberEntity
     {
         DomainValidation::strMaxLength($this->name);
         DomainValidation::strMinLength($this->name);
-    }
-
-    public function activate(): void
-    {
-        $this->isActive = true;
-    }
-
-    public function disabled(): void
-    {
-        $this->isActive = false;
     }
 
     /**

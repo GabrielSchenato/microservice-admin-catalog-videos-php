@@ -22,7 +22,6 @@ class ListCastMemberUseCase
             id: $castMember->id(),
             name: $castMember->name,
             type: $castMember->type->value,
-            is_active: $castMember->isActive,
             created_at: $castMember->createdAt()
         );
     }

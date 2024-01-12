@@ -56,7 +56,6 @@ class ListCastMembersUseCaseUnitTest extends TestCase
         $register->id = 'id';
         $register->name = 'name';
         $register->type = CastMemberType::ACTOR;
-        $register->is_active = true;
         $register->created_at = 'created_at';
         $register->updated_at = 'updated_at';
         $register->deleted_at = 'deleted_at';
