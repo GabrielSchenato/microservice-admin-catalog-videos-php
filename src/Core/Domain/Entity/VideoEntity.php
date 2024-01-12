@@ -33,6 +33,7 @@ class VideoEntity
         protected array     $genresId = [],
         protected array     $castMembersId = [],
         protected ?Image    $thumbFile = null,
+        protected ?Image    $thumbHalf = null,
     )
     {
         $this->id = $this->id ?? Uuid::random();
@@ -108,5 +109,13 @@ class VideoEntity
     public function getThumbFile(): ?Image
     {
         return $this->thumbFile;
+    }
+
+    /**
+     * @return Image|null
+     */
+    public function getThumbHalf(): ?Image
+    {
+        return $this->thumbHalf;
     }
 }
