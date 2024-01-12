@@ -4,21 +4,18 @@ namespace Core\Domain\Entity;
 
 use Core\Domain\Entity\Traits\MethodsMagicsTrait;
 use Core\Domain\Enum\Rating;
-use Core\Domain\Exception\EntityValidationException;
-use Core\Domain\Validation\DomainValidation;
+use Core\Domain\Notification\NotificationException;
 use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Media;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
-use Exception;
 
-class VideoEntity
+class VideoEntity extends Entity
 {
     use MethodsMagicsTrait;
 
     /**
-     * @throws EntityValidationException
-     * @throws Exception
+     * @throws NotificationException
      */
     public function __construct(
         protected string    $title,
@@ -40,6 +37,8 @@ class VideoEntity
         protected ?Media    $videoFile = null,
     )
     {
+        parent::__construct();
+
         $this->id = $this->id ?? Uuid::random();
         $this->createdAt = $this->createdAt ?? new DateTime();
 
@@ -47,17 +46,38 @@ class VideoEntity
     }
 
     /**
-     * @throws EntityValidationException
+     * @throws NotificationException
      */
     private function validate(): void
     {
-        DomainValidation::strMaxLength($this->title);
-        DomainValidation::strMinLength($this->title);
-        DomainValidation::strCanNullAndMaxLength($this->description);
+        if (empty($this->title)) {
+            $this->notification->addError([
+                'context' => 'video',
+                'message' => 'Should not be empty or null'
+            ]);
+        }
+
+        if (strlen($this->title) < 3) {
+            $this->notification->addError([
+                'context' => 'video',
+                'message' => 'The value must be at least 3 characters'
+            ]);
+        }
+
+        if (strlen($this->description) < 3) {
+            $this->notification->addError([
+                'context' => 'video',
+                'message' => 'The value must be at least 3 characters'
+            ]);
+        }
+
+        if ($this->notification->hasErrors()) {
+            throw new NotificationException($this->notification->messages('video'));
+        }
     }
 
     /**
-     * @throws EntityValidationException
+     * @throws NotificationException
      */
     public function update(string $title, string $description = ''): void
     {

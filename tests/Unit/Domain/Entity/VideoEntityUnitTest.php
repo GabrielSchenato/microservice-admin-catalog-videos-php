@@ -5,7 +5,7 @@ namespace Tests\Unit\Domain\Entity;
 use Core\Domain\Entity\VideoEntity;
 use Core\Domain\Enum\MediaStatus;
 use Core\Domain\Enum\Rating;
-use Core\Domain\Exception\EntityValidationException;
+use Core\Domain\Notification\NotificationException;
 use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Media;
 use Core\Domain\ValueObject\Uuid;
@@ -88,9 +88,9 @@ class VideoEntityUnitTest extends TestCase
 //        $this->assertEquals('New Video', $video->title);
 //    }
 
-    public function testExceptionName()
+    public function testException()
     {
-        $this->expectException(EntityValidationException::class);
+        $this->expectException(NotificationException::class);
         $video = new VideoEntity(
             title: 'Ne',
             description: 'De',

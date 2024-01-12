@@ -9,6 +9,7 @@ use App\Repositories\Eloquent\GenreEloquentRepository;
 use App\Repositories\Transaction\TransactionDb;
 use Core\Domain\Exception\NotFoundException;
 use Core\UseCase\DTO\Genre\CreateGenre\GenreCreateInputDto;
+use Core\UseCase\Genre\CreateGenreUseCase;
 use Tests\TestCase;
 use Throwable;
 
