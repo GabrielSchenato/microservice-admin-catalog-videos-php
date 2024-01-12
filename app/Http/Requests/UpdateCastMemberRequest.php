@@ -28,7 +28,7 @@ class UpdateCastMemberRequest extends FormRequest
                 'max:255'
             ],
             'type' => [
-                'required',
+                'nullable',
                 'int',
             ]
         ];
