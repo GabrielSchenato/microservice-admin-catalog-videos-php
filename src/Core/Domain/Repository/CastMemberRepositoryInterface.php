@@ -10,6 +10,8 @@ interface CastMemberRepositoryInterface
 
     public function findById(string $id): CastMemberEntity;
 
+    public function getIdsListIds(array $castMembersId = []): array;
+
     public function update(CastMemberEntity $castMember): CastMemberEntity;
 
     public function delete(string $id): bool;

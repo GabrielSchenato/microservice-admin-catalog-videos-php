@@ -38,6 +38,14 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
         return $this->toCastMember($castMember);
     }
 
+    public function getIdsListIds(array $castMembersId = []): array
+    {
+        return $this->model
+            ->whereIn('id', $castMembersId)
+            ->pluck('id')
+            ->toArray();
+    }
+
     public function update(CastMemberEntity $castMember): CastMemberEntity
     {
         if (!$castMemberDb = $this->model->find($castMember->id())) {

@@ -10,6 +10,8 @@ interface GenreRepositoryInterface
 
     public function findById(string $id): GenreEntity;
 
+    public function getIdsListIds(array $genresId = []): array;
+
     public function update(GenreEntity $genre): GenreEntity;
 
     public function delete(string $id): bool;

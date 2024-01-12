@@ -41,10 +41,10 @@ class GenreEloquentRepository implements GenreRepositoryInterface
         return $this->toGenre($genre);
     }
 
-    public function getIdsListIds(array $categoriesId = []): array
+    public function getIdsListIds(array $genresId = []): array
     {
         return $this->model
-            ->whereIn('id', $categoriesId)
+            ->whereIn('id', $genresId)
             ->pluck('id')
             ->toArray();
     }

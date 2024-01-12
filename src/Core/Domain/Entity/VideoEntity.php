@@ -107,11 +107,27 @@ class VideoEntity extends AbstractEntity
     }
 
     /**
+     * @param Image $thumbFile
+     */
+    public function setThumbFile(Image $thumbFile): void
+    {
+        $this->thumbFile = $thumbFile;
+    }
+
+    /**
      * @return Image|null
      */
     public function getThumbHalf(): ?Image
     {
         return $this->thumbHalf;
+    }
+
+    /**
+     * @param Image $thumbHalf
+     */
+    public function setThumbHalf(Image $thumbHalf): void
+    {
+        $this->thumbHalf = $thumbHalf;
     }
 
     /**
@@ -123,6 +139,14 @@ class VideoEntity extends AbstractEntity
     }
 
     /**
+     * @param Image $bannerFile
+     */
+    public function setBannerFile(Image $bannerFile): void
+    {
+        $this->bannerFile = $bannerFile;
+    }
+
+    /**
      * @return Media|null
      */
     public function getTrailerFile(): ?Media
@@ -131,10 +155,26 @@ class VideoEntity extends AbstractEntity
     }
 
     /**
+     * @param Media $trailerFile
+     */
+    public function setTrailerFile(Media $trailerFile): void
+    {
+        $this->trailerFile = $trailerFile;
+    }
+
+    /**
      * @return Media|null
      */
     public function getVideoFile(): ?Media
     {
         return $this->videoFile;
+    }
+
+    /**
+     * @param Media $videoFile
+     */
+    public function setVideoFile(Media $videoFile): void
+    {
+        $this->videoFile = $videoFile;
     }
 }
