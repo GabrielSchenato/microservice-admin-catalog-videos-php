@@ -2,9 +2,9 @@
 
 namespace Core\Domain\Validation;
 
-use Core\Domain\Entity\Entity;
+use Core\Domain\Entity\AbstractEntity;
 
 interface ValidatorInterface
 {
-    public function validate(Entity $entity): void;
+    public function validate(AbstractEntity $entity): void;
 }

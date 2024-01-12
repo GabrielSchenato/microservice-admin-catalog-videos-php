@@ -2,12 +2,12 @@
 
 namespace Core\Domain\Validation;
 
-use Core\Domain\Entity\Entity;
+use Core\Domain\Entity\AbstractEntity;
 use Illuminate\Support\Facades\Validator;
 
 class VideoLaravelValidator implements ValidatorInterface
 {
-    public function validate(Entity $entity): void
+    public function validate(AbstractEntity $entity): void
     {
         $data = $this->convertEntityForArray($entity);
 
@@ -28,7 +28,7 @@ class VideoLaravelValidator implements ValidatorInterface
         }
     }
 
-    private function convertEntityForArray(Entity $entity): array
+    private function convertEntityForArray(AbstractEntity $entity): array
     {
         return [
             'title' => $entity->title,

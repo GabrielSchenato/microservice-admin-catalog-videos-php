@@ -11,7 +11,7 @@ use Core\Domain\ValueObject\Media;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 
-class VideoEntity extends Entity
+class VideoEntity extends AbstractEntity
 {
     use MethodsMagicsTrait;
 

@@ -4,7 +4,7 @@ namespace Core\Domain\Entity;
 
 use Core\Domain\Notification\Notification;
 
-abstract class Entity
+abstract class AbstractEntity
 {
     protected Notification $notification;
 
