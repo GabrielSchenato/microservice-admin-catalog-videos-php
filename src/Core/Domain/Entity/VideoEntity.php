@@ -6,6 +6,7 @@ use Core\Domain\Entity\Traits\MethodsMagicsTrait;
 use Core\Domain\Enum\Rating;
 use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\Validation\DomainValidation;
+use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 use Exception;
@@ -31,6 +32,7 @@ class VideoEntity
         protected array     $categoriesId = [],
         protected array     $genresId = [],
         protected array     $castMembersId = [],
+        protected ?Image    $thumbFile = null,
     )
     {
         $this->id = $this->id ?? Uuid::random();
@@ -98,5 +100,13 @@ class VideoEntity
     public function removeCastMember(string $castMemberId): void
     {
         unset($this->castMembersId[array_search($castMemberId, $this->castMembersId)]);
+    }
+
+    /**
+     * @return Image|null
+     */
+    public function getThumbFile(): ?Image
+    {
+        return $this->thumbFile;
     }
 }

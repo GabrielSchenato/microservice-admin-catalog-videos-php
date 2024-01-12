@@ -4,6 +4,7 @@ namespace Domain\Entity;
 
 use Core\Domain\Entity\VideoEntity;
 use Core\Domain\Enum\Rating;
+use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 use PHPUnit\Framework\TestCase;
@@ -250,5 +251,26 @@ class VideoEntityUnitTest extends TestCase
 
         $this->assertCount(1, $video->castMembersId);
         $this->assertEquals($video->castMembersId[1], $castMemberId2);
+    }
+
+    public function testValueObjectImage()
+    {
+        $path = 'path/image-filmex.png';
+        $video = new VideoEntity(
+            title: 'New Video',
+            description: 'New Description',
+            yearLaunched: 2029,
+            duration: 12,
+            opened: false,
+            rating: Rating::RATE10,
+            published: true,
+            thumbFile: new Image(
+                path: $path
+            )
+        );
+
+        $this->assertNotNull($video->getThumbFile());
+        $this->assertInstanceOf(Image::class, $video->getThumbFile());
+        $this->assertEquals($path, $video->getThumbFile()->getPath());
     }
 }
