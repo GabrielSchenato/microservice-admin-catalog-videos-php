@@ -63,6 +63,20 @@ class CastMemberApiTest extends TestCase
         $response->assertJsonCount(10, 'data');
     }
 
+    public function testListPaginateCastMembersWithFilter(): void
+    {
+        $name = 'Teste';
+        CastMember::factory()->count(10)->create();
+        CastMember::factory()->count(10)->create([
+            'name' => $name
+        ]);
+
+        $response = $this->getJson("$this->endpoint?filter={$name}");
+
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJsonCount(10, 'data');
+    }
+
     public function testListCastMemberNotFound(): void
     {
         $response = $this->getJson("$this->endpoint/fake_value");
