@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Core\Domain\Exception\EntityValidationException;
 use Core\Domain\Exception\NotFoundException;
+use Core\Domain\Notification\NotificationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,6 +40,8 @@ class Handler extends ExceptionHandler
 
         if ($e instanceof EntityValidationException)
             return $this->showError($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        if ($e instanceof NotificationException)
+            return $this->showError($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
 
         return parent::render($request, $e);
     }

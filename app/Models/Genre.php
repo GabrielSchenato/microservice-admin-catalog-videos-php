@@ -30,4 +30,9 @@ class Genre extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+
+    public function videos(): BelongsToMany
+    {
+        return $this->belongsToMany(Video::class);
+    }
 }
