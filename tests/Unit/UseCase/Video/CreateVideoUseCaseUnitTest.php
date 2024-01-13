@@ -23,10 +23,16 @@ class CreateVideoUseCaseUnitTest extends TestCase
 {
     protected CreateVideoUseCase $useCase;
 
-    protected function setUp(): void
+    protected function createUseCase(
+        int $timesCallMethodActionRepository = 1,
+        int $timesCallMethodUpdateMediaRepository = 1,
+    )
     {
         $this->useCase = new CreateVideoUseCase(
-            repository: $this->createMockRepository(),
+            repository: $this->createMockRepository(
+                timesCallAction: $timesCallMethodActionRepository,
+                timesCallActionUpdateMedia: $timesCallMethodUpdateMediaRepository
+            ),
             transaction: $this->createMockTransaction(),
             storage: $this->createMockFileStorage(),
             eventManager: $this->createMockEventManager(),
@@ -34,12 +40,12 @@ class CreateVideoUseCaseUnitTest extends TestCase
             genreRepository: $this->createMockGenreRepository(),
             castMemberRepository: $this->createMockCastMemberRepository(),
         );
-
-        parent::setUp();
     }
 
     public function testExecuteInputOutput()
     {
+        $this->createUseCase();
+
         $response = $this->useCase->execute(
             input: $this->createMockInputDto()
         );
@@ -62,6 +68,11 @@ class CreateVideoUseCaseUnitTest extends TestCase
             implode(', ', $ids
             )
         ));
+
+        $this->createUseCase(
+            timesCallMethodActionRepository: 0,
+            timesCallMethodUpdateMediaRepository: 0
+        );
 
         $this->useCase->execute(
             input: $this->createMockInputDto(categoriesId: $ids)
@@ -87,6 +98,8 @@ class CreateVideoUseCaseUnitTest extends TestCase
         array $banner,
     )
     {
+        $this->createUseCase();
+
         $response = $this->useCase->execute(
             input: $this->createMockInputDto(
                 videoFile: $video['value'],
@@ -131,14 +144,19 @@ class CreateVideoUseCaseUnitTest extends TestCase
         ];
     }
 
-    private function createMockRepository()
+    private function createMockRepository(
+        int $timesCallAction,
+        int $timesCallActionUpdateMedia,
+    )
     {
         $mockRepository = Mockery::mock(stdClass::class, VideoRepositoryInterface::class);
         $mockRepository
             ->shouldReceive('insert')
+            ->times($timesCallAction)
             ->andReturn($this->createMockEntity());
         $mockRepository
-            ->shouldReceive('updateMedia');
+            ->shouldReceive('updateMedia')
+            ->times($timesCallActionUpdateMedia);
 
         return $mockRepository;
     }
