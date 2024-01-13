@@ -2,6 +2,8 @@
 
 namespace Core\UseCase\Video\Create;
 
+use Core\Domain\Builder\Video\BuilderInterface;
+use Core\Domain\Builder\Video\CreateBuilderVideo;
 use Core\UseCase\Video\BaseVideoUseCase;
 use Core\UseCase\Video\Create\DTO\VideoCreateInputDto;
 use Core\UseCase\Video\Create\DTO\VideoCreateOutputDto;
@@ -55,5 +57,10 @@ class CreateVideoUseCase extends BaseVideoUseCase
             trailerFile: $entity->getTrailerFile()?->filePath,
             videoFile: $entity->getVideoFile()?->filePath,
         );
+    }
+
+    protected function getBuilder(): BuilderInterface
+    {
+        return new CreateBuilderVideo();
     }
 }
