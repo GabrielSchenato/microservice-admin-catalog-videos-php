@@ -104,8 +104,8 @@ abstract class BaseCreateVideoUseCase
         if ($count > 0) {
             $msg = sprintf(
                 '%s %s not found',
-                $count > 1 ? $singularLabel . 's' : $singularLabel,
-                implode(',', $arrayDiff)
+                count($arrayDiff) > 1 ? $pluralLabel ?? $singularLabel . 's' : $singularLabel,
+                implode(', ', $arrayDiff)
             );
             throw new NotFoundException($msg);
         }
