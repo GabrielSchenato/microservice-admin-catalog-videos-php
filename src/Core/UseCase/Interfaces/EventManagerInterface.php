@@ -4,5 +4,5 @@ namespace Core\UseCase\Interfaces;
 
 interface EventManagerInterface
 {
-    public function dispatch(object $data): void;
+    public function dispatch(object $event): void;
 }
