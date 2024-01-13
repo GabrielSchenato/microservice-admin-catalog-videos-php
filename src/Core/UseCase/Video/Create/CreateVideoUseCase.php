@@ -41,7 +41,7 @@ class CreateVideoUseCase
         $this->entity = $this->createEntity($input);
 
         try {
-            $newVideo = $this->repository->insert($this->entity);
+            $this->repository->insert($this->entity);
 
             $this->storageFiles($input);
             $this->repository->updateMedia($this->entity);
@@ -62,6 +62,8 @@ class CreateVideoUseCase
 
     private function createEntity(VideoCreateInputDto $input): VideoEntity
     {
+        $this->validateAllIds($input);
+
         $this->entity = new VideoEntity(
             title: $input->title,
             description: $input->description,
@@ -71,17 +73,12 @@ class CreateVideoUseCase
             rating: $input->rating
         );
 
-        $this->validateCategoriesId($input->categoriesId);
         foreach ($input->categoriesId as $categoryId) {
             $this->entity->addCategory($categoryId);
         }
-
-        $this->validateGenresId($input->genresId);
         foreach ($input->genresId as $genreId) {
             $this->entity->addGenre($genreId);
         }
-
-        $this->validateCastMembersId($input->castMembersId);
         foreach ($input->castMembersId as $castMemberId) {
             $this->entity->addCastMember($castMemberId);
         }
@@ -140,64 +137,49 @@ class CreateVideoUseCase
         return null;
     }
 
+    protected function validateAllIds(object $input)
+    {
+        $this->validateIds(
+            repository: $this->categoryRepository,
+            singularLabel: 'Category',
+            ids: $input->categoriesId,
+            pluralLabel: 'Categories'
+        );
+
+        $this->validateIds(
+            repository: $this->genreRepository,
+            singularLabel: 'Genre',
+            ids: $input->genresId
+        );
+
+        $this->validateIds(
+            repository: $this->castMemberRepository,
+            singularLabel: 'Cast Member',
+            ids: $input->castMembersId
+        );
+    }
+
     /**
      * @throws NotFoundException
      */
-    private function validateCategoriesId(array $categoriesId = []): void
+    protected function validateIds($repository, string $singularLabel, array $ids = [], ?string $pluralLabel = null): void
     {
-        $categoriesDb = $this->categoryRepository->getIdsListIds($categoriesId);
+        $idsDb = $repository->getIdsListIds($ids);
 
-        $arrayDiff = array_diff($categoriesId, $categoriesDb);
+        $arrayDiff = array_diff($ids, $idsDb);
         $count = count($arrayDiff);
         if ($count > 0) {
             $msg = sprintf(
                 '%s %s not found',
-                $count > 1 ? 'Categories' : 'Category',
+                $count > 1 ? $singularLabel . 's' : $singularLabel,
                 implode(',', $arrayDiff)
             );
             throw new NotFoundException($msg);
         }
     }
 
-    /**
-     * @throws NotFoundException
-     */
-    private function validateGenresId(array $genresId = []): void
-    {
-        $genresDb = $this->genreRepository->getIdsListIds($genresId);
-
-        $arrayDiff = array_diff($genresId, $genresDb);
-        $count = count($arrayDiff);
-        if ($count > 0) {
-            $msg = sprintf(
-                '%s %s not found',
-                $count > 1 ? 'Genres' : 'Genre',
-                implode(',', $arrayDiff)
-            );
-            throw new NotFoundException($msg);
-        }
-    }
-
-    /**
-     * @throws NotFoundException
-     */
-    private function validateCastMembersId(array $castMembersId = []): void
-    {
-        $castMembersDb = $this->castMemberRepository->getIdsListIds($castMembersId);
-
-        $arrayDiff = array_diff($castMembersId, $castMembersDb);
-        $count = count($arrayDiff);
-        if ($count > 0) {
-            $msg = sprintf(
-                '%s %s not found',
-                $count > 1 ? 'Cast Members' : 'Cast Member',
-                implode(',', $arrayDiff)
-            );
-            throw new NotFoundException($msg);
-        }
-    }
-
-    private function output(VideoEntity $entity): VideoCreateOutputDto
+    private
+    function output(VideoEntity $entity): VideoCreateOutputDto
     {
         return new VideoCreateOutputDto(
             id: $entity->id(),
