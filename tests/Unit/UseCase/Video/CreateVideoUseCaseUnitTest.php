@@ -80,13 +80,17 @@ class CreateVideoUseCaseUnitTest extends TestCase
     {
         $response = $this->useCase->execute(
             input: $this->createMockInputDto(
-                videoFile: [
-                    'tmp' => 'tmp/file.png'
-                ]
+                videoFile: ['tmp' => 'tmp/file.mp4'],
+                trailerFile: ['tmp' => 'tmp/file.mp4'],
+                thumbFile: ['tmp' => 'tmp/file.png'],
+                thumbHalf: ['tmp' => 'tmp/file.png']
             )
         );
 
         $this->assertNotNull($response->videoFile);
+        $this->assertNotNull($response->trailerFile);
+        $this->assertNotNull($response->thumbFile);
+        $this->assertNotNull($response->thumbHalf);
     }
 
     private function createMockRepository()
@@ -143,7 +147,7 @@ class CreateVideoUseCaseUnitTest extends TestCase
     private function createMockFileStorage()
     {
         $mockRepository = Mockery::mock(stdClass::class, FileStorageInterface::class);
-        $mockRepository->shouldReceive('store')->andReturn('path/file.png');
+        $mockRepository->shouldReceive('store')->andReturn('path/file.mp4');
 
         return $mockRepository;
     }
