@@ -2,7 +2,6 @@
 
 namespace Core\UseCase\Video\Create;
 
-use Core\Domain\Entity\VideoEntity;
 use Core\Domain\Enum\MediaStatus;
 use Core\Domain\Events\VideoCreatedEvent;
 use Core\Domain\Exception\NotFoundException;
@@ -14,6 +13,7 @@ use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Media;
 use Core\UseCase\Interfaces\FileStorageInterface;
 use Core\UseCase\Interfaces\TransactionDbInterface;
+use Core\UseCase\Video\Builder\BuilderVideo;
 use Core\UseCase\Video\Create\DTO\VideoCreateInputDto;
 use Core\UseCase\Video\Create\DTO\VideoCreateOutputDto;
 use Core\UseCase\Video\Interfaces\VideoEventManagerInterface;
@@ -21,7 +21,7 @@ use Throwable;
 
 class CreateVideoUseCase
 {
-    protected VideoEntity $entity;
+    protected BuilderVideo $builder;
 
     public function __construct(
         protected VideoRepositoryInterface      $repository,
@@ -33,21 +33,22 @@ class CreateVideoUseCase
         protected CastMemberRepositoryInterface $castMemberRepository,
     )
     {
+        $this->builder = new BuilderVideo();
     }
 
 
     public function execute(VideoCreateInputDto $input): VideoCreateOutputDto
     {
         $this->validateAllIds($input);
-        $this->entity = $this->createEntity($input);
+        $this->builder->createEntity($input);
 
         try {
-            $this->repository->insert($this->entity);
+            $this->repository->insert($this->builder->getEntity());
 
             $this->storageFiles($input);
-            $this->repository->updateMedia($this->entity);
+            $this->repository->updateMedia($this->builder->getEntity());
 
-            $videoCreateOutputDto = $this->output($this->entity);
+            $videoCreateOutputDto = $this->output();
 
             $this->transaction->commit();
 
@@ -61,65 +62,29 @@ class CreateVideoUseCase
         }
     }
 
-    private function createEntity(VideoCreateInputDto $input): VideoEntity
-    {
-        $this->entity = new VideoEntity(
-            title: $input->title,
-            description: $input->description,
-            yearLaunched: $input->yearLaunched,
-            duration: $input->duration,
-            opened: $input->opened,
-            rating: $input->rating
-        );
-
-        foreach ($input->categoriesId as $categoryId) {
-            $this->entity->addCategory($categoryId);
-        }
-        foreach ($input->genresId as $genreId) {
-            $this->entity->addGenre($genreId);
-        }
-        foreach ($input->castMembersId as $castMemberId) {
-            $this->entity->addCastMember($castMemberId);
-        }
-
-        return $this->entity;
-    }
-
     private function storageFiles(object $input): void
     {
-        if ($pathVideoFile = $this->storeFile($this->entity->id, $input->videoFile)) {
-            $media = new Media(
-                filePath: $pathVideoFile,
-                mediaStatus: MediaStatus::PROCESSING
-            );
-            $this->entity->setVideoFile($media);
-            $this->eventManager->dispatch(new VideoCreatedEvent($this->entity));
+        $path = $this->builder->getEntity()->id;
+
+        if ($pathVideoFile = $this->storeFile($path, $input->videoFile)) {
+            $this->builder->addMediaVideo($pathVideoFile, MediaStatus::PROCESSING);
+            $this->eventManager->dispatch(new VideoCreatedEvent($this->builder->getEntity()));
         }
 
-        if ($pathTrailerFile = $this->storeFile($this->entity->id, $input->trailerFile)) {
-            $media = new Media(
-                filePath: $pathTrailerFile,
-                mediaStatus: MediaStatus::PROCESSING
-            );
-            $this->entity->setTrailerFile($media);
+        if ($pathTrailerFile = $this->storeFile($path, $input->trailerFile)) {
+            $this->builder->addTrailer($pathTrailerFile);
         }
 
-        if ($pathBannerFile = $this->storeFile($this->entity->id, $input->bannerFile)) {
-            $this->entity->setBannerFile(new Image(
-                path: $pathBannerFile
-            ));
+        if ($pathBannerFile = $this->storeFile($path, $input->bannerFile)) {
+            $this->builder->addBanner($pathBannerFile);
         }
 
-        if ($pathThumbFile = $this->storeFile($this->entity->id, $input->thumbFile)) {
-            $this->entity->setThumbFile(new Image(
-                path: $pathThumbFile
-            ));
+        if ($pathThumbFile = $this->storeFile($path, $input->thumbFile)) {
+            $this->builder->addThumb($pathThumbFile);
         }
 
-        if ($pathThumbHalf = $this->storeFile($this->entity->id, $input->thumbHalf)) {
-            $this->entity->setThumbHalf(new Image(
-                path: $pathThumbHalf
-            ));
+        if ($pathThumbHalf = $this->storeFile($path, $input->thumbHalf)) {
+            $this->builder->addThumbHalf($pathThumbHalf);
         }
     }
 
@@ -177,9 +142,10 @@ class CreateVideoUseCase
         }
     }
 
-    private
-    function output(VideoEntity $entity): VideoCreateOutputDto
+    private function output(): VideoCreateOutputDto
     {
+        $entity = $this->builder->getEntity();
+
         return new VideoCreateOutputDto(
             id: $entity->id(),
             title: $entity->title,
