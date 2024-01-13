@@ -83,7 +83,8 @@ class CreateVideoUseCaseUnitTest extends TestCase
                 videoFile: ['tmp' => 'tmp/file.mp4'],
                 trailerFile: ['tmp' => 'tmp/file.mp4'],
                 thumbFile: ['tmp' => 'tmp/file.png'],
-                thumbHalf: ['tmp' => 'tmp/file.png']
+                thumbHalf: ['tmp' => 'tmp/file.png'],
+                bannerFile: ['tmp' => 'tmp/file.png'],
             )
         );
 
@@ -91,6 +92,7 @@ class CreateVideoUseCaseUnitTest extends TestCase
         $this->assertNotNull($response->trailerFile);
         $this->assertNotNull($response->thumbFile);
         $this->assertNotNull($response->thumbHalf);
+        $this->assertNotNull($response->bannerFile);
     }
 
     private function createMockRepository()
