@@ -76,6 +76,19 @@ class CreateVideoUseCaseUnitTest extends TestCase
         ];
     }
 
+    public function testUploadFiles()
+    {
+        $response = $this->useCase->execute(
+            input: $this->createMockInputDto(
+                videoFile: [
+                    'tmp' => 'tmp/file.png'
+                ]
+            )
+        );
+
+        $this->assertNotNull($response->videoFile);
+    }
+
     private function createMockRepository()
     {
         $mockRepository = Mockery::mock(stdClass::class, VideoRepositoryInterface::class);
@@ -144,9 +157,14 @@ class CreateVideoUseCaseUnitTest extends TestCase
     }
 
     private function createMockInputDto(
-        array $categoriesId = [],
-        array $genresId = [],
-        array $castMembersId = []
+        array  $categoriesId = [],
+        array  $genresId = [],
+        array  $castMembersId = [],
+        ?array $videoFile = null,
+        ?array $trailerFile = null,
+        ?array $thumbFile = null,
+        ?array $thumbHalf = null,
+        ?array $bannerFile = null,
     )
     {
         return Mockery::mock(VideoCreateInputDto::class, [
@@ -159,6 +177,11 @@ class CreateVideoUseCaseUnitTest extends TestCase
             $categoriesId,
             $genresId,
             $castMembersId,
+            $videoFile,
+            $trailerFile,
+            $thumbFile,
+            $thumbHalf,
+            $bannerFile,
         ]);
     }
 
