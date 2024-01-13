@@ -47,29 +47,33 @@ class CreateVideoUseCaseUnitTest extends TestCase
         $this->assertInstanceOf(VideoCreateOutputDto::class, $response);
     }
 
-    public function testExceptionCategoriesIds()
+    /**
+     * @dataProvider dataProviderIds
+     */
+    public function testExceptionCategoriesIds(
+        string $label,
+        array  $ids
+    )
     {
         $this->expectException(NotFoundException::class);
-        $this->expectExceptionMessage('Category uuid-1 not found');
+        $this->expectExceptionMessage(sprintf(
+            '%s %s not found',
+            $label,
+            implode(', ', $ids
+            )
+        ));
 
         $this->useCase->execute(
-            input: $this->createMockInputDto(categoriesId: [
-                'uuid-1'
-            ])
+            input: $this->createMockInputDto(categoriesId: $ids)
         );
     }
 
-    public function testExceptionMessageCategoriesIds()
+    public static function dataProviderIds(): array
     {
-        $this->expectException(NotFoundException::class);
-        $this->expectExceptionMessage('Categories uuid-1, uuid-2 not found');
-
-        $this->useCase->execute(
-            input: $this->createMockInputDto(categoriesId: [
-                'uuid-1',
-                'uuid-2'
-            ])
-        );
+        return [
+            ['Category', ['uud-1']],
+            ['Categories', ['uud-1', 'uud-2']],
+        ];
     }
 
     private function createMockRepository()
