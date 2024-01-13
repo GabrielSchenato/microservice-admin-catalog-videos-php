@@ -26,6 +26,8 @@ class CreateVideoUseCaseUnitTest extends TestCase
     protected function createUseCase(
         int $timesCallMethodActionRepository = 1,
         int $timesCallMethodUpdateMediaRepository = 1,
+        int $timesCallMethodCommitTransaction = 1,
+        int $timesCallMethodRollbackTransaction = 0,
     )
     {
         $this->useCase = new CreateVideoUseCase(
@@ -33,7 +35,10 @@ class CreateVideoUseCaseUnitTest extends TestCase
                 timesCallAction: $timesCallMethodActionRepository,
                 timesCallActionUpdateMedia: $timesCallMethodUpdateMediaRepository
             ),
-            transaction: $this->createMockTransaction(),
+            transaction: $this->createMockTransaction(
+                timesCallCommit: $timesCallMethodCommitTransaction,
+                timesCallRollback: $timesCallMethodRollbackTransaction
+            ),
             storage: $this->createMockFileStorage(),
             eventManager: $this->createMockEventManager(),
             categoryRepository: $this->createMockCategoryRepository(),
@@ -71,7 +76,8 @@ class CreateVideoUseCaseUnitTest extends TestCase
 
         $this->createUseCase(
             timesCallMethodActionRepository: 0,
-            timesCallMethodUpdateMediaRepository: 0
+            timesCallMethodUpdateMediaRepository: 0,
+            timesCallMethodCommitTransaction: 0
         );
 
         $this->useCase->execute(
@@ -191,11 +197,18 @@ class CreateVideoUseCaseUnitTest extends TestCase
         return $mockRepository;
     }
 
-    private function createMockTransaction()
+    private function createMockTransaction(
+        int $timesCallCommit,
+        int $timesCallRollback,
+    )
     {
         $mockRepository = Mockery::mock(stdClass::class, TransactionDbInterface::class);
-        $mockRepository->shouldReceive('commit');
-        $mockRepository->shouldReceive('rollback');
+        $mockRepository
+            ->shouldReceive('commit')
+            ->times($timesCallCommit);
+        $mockRepository
+            ->shouldReceive('rollback')
+            ->times($timesCallRollback);
 
         return $mockRepository;
     }
