@@ -52,6 +52,8 @@ class CreateVideoUseCaseUnitTest extends TestCase
         $mockRepository
             ->shouldReceive('insert')
             ->andReturn($this->createMockEntity());
+        $mockRepository
+            ->shouldReceive('updateMedia');
 
         return $mockRepository;
     }
