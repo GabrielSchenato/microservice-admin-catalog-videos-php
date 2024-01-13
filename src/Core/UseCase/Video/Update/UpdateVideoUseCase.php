@@ -3,7 +3,6 @@
 namespace Core\UseCase\Video\Update;
 
 use Core\Domain\Builder\Video\BuilderInterface;
-use Core\Domain\Builder\Video\CreateBuilderVideo;
 use Core\Domain\Builder\Video\UpdateBuilderVideo;
 use Core\UseCase\Video\BaseVideoUseCase;
 use Core\UseCase\Video\Update\DTO\VideoUpdateInputDto;
@@ -15,7 +14,15 @@ class UpdateVideoUseCase extends BaseVideoUseCase
     public function execute(VideoUpdateInputDto $input): VideoUpdateOutputDto
     {
         $this->validateAllIds($input);
-        $this->builder->createEntity($input);
+
+        $entity = $this->repository->findById($input->id);
+
+        $entity->update(
+            title: $input->title,
+            description: $input->description
+        );
+
+        $this->builder->setEntity($entity);
 
         try {
             $this->repository->update($this->builder->getEntity());
@@ -62,6 +69,6 @@ class UpdateVideoUseCase extends BaseVideoUseCase
 
     protected function getBuilder(): BuilderInterface
     {
-       return new UpdateBuilderVideo();
+        return new UpdateBuilderVideo();
     }
 }

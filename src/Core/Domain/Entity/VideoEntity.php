@@ -60,7 +60,7 @@ class VideoEntity extends AbstractEntity
     /**
      * @throws NotificationException
      */
-    public function update(string $title, string $description = ''): void
+    public function update(string $title, string $description): void
     {
         $this->title = $title;
         $this->description = $description;
