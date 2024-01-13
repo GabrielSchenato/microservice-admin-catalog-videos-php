@@ -7,17 +7,17 @@ use Core\Domain\Enum\MediaStatus;
 
 interface BuilderInterface
 {
-    public function createEntity(object $input): void;
+    public function createEntity(object $input): self;
 
-    public function addMediaVideo(string $path, MediaStatus $mediaStatus): void;
+    public function addMediaVideo(string $path, MediaStatus $mediaStatus): self;
 
-    public function addTrailer(string $path): void;
+    public function addTrailer(string $path): self;
 
-    public function addThumb(string $path): void;
+    public function addThumb(string $path): self;
 
-    public function addThumbHalf(string $path): void;
+    public function addThumbHalf(string $path): self;
 
-    public function addBanner(string $path): void;
+    public function addBanner(string $path): self;
 
     public function getEntity(): AbstractEntity;
 }

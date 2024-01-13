@@ -8,7 +8,7 @@ use Core\Domain\Enum\MediaStatus;
 use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Media;
 
-class BuilderVideo implements BuilderInterface
+class CreateBuilderVideo implements BuilderInterface
 {
     private ?VideoEntity $entity = null;
 
@@ -17,7 +17,7 @@ class BuilderVideo implements BuilderInterface
         $this->reset();
     }
 
-    public function createEntity(object $input): void
+    public function createEntity(object $input): self
     {
         $this->entity = new VideoEntity(
             title: $input->title,
@@ -28,7 +28,13 @@ class BuilderVideo implements BuilderInterface
             rating: $input->rating
         );
 
+        $this->addIds($input);
 
+        return $this;
+    }
+
+    protected function addIds(object $input)
+    {
         foreach ($input->categoriesId as $categoryId) {
             $this->entity->addCategory($categoryId);
         }
@@ -40,43 +46,53 @@ class BuilderVideo implements BuilderInterface
         }
     }
 
-    public function addMediaVideo(string $path, MediaStatus $mediaStatus): void
+    public function addMediaVideo(string $path, MediaStatus $mediaStatus): self
     {
         $media = new Media(
             filePath: $path,
             mediaStatus: $mediaStatus
         );
         $this->entity->setVideoFile($media);
+
+        return $this;
     }
 
-    public function addTrailer(string $path): void
+    public function addTrailer(string $path): self
     {
         $media = new Media(
             filePath: $path,
             mediaStatus: MediaStatus::COMPLETE
         );
         $this->entity->setTrailerFile($media);
+
+        return $this;
     }
 
-    public function addThumb(string $path): void
+    public function addThumb(string $path): self
     {
         $this->entity->setThumbFile(new Image(
             path: $path
         ));
+
+        return $this;
     }
 
-    public function addThumbHalf(string $path): void
+    public function addThumbHalf(string $path): self
     {
         $this->entity->setThumbHalf(new Image(
             path: $path
         ));
+
+        return $this;
     }
 
-    public function addBanner(string $path): void
+    public function addBanner(string $path): self
     {
         $this->entity->setBannerFile(new Image(
             path: $path
         ));
+
+        return $this;
     }
 
     public function getEntity(): AbstractEntity
