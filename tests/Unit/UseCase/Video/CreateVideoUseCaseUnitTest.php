@@ -8,7 +8,7 @@ use Core\UseCase\Video\Create\DTO\VideoCreateInputDto;
 use Core\UseCase\Video\Create\DTO\VideoCreateOutputDto;
 use Mockery;
 
-class CreateVideoUseCaseUnit extends BaseVideoUseCaseUnit
+class CreateVideoUseCaseUnitTest extends BaseVideoUseCaseUnit
 {
 
     public function testExecuteInputOutput()

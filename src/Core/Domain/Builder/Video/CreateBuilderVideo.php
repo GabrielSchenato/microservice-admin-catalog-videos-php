@@ -10,7 +10,7 @@ use Core\Domain\ValueObject\Media;
 
 class CreateBuilderVideo implements BuilderInterface
 {
-    private ?VideoEntity $entity = null;
+    protected ?VideoEntity $entity = null;
 
     public function __construct()
     {

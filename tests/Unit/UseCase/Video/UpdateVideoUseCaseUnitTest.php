@@ -2,14 +2,13 @@
 
 namespace Tests\Unit\UseCase\Video;
 
-use Core\Domain\Enum\Rating;
 use Core\Domain\ValueObject\Uuid;
-use Core\UseCase\Video\Update\UpdateVideoUseCase;
 use Core\UseCase\Video\Update\DTO\VideoUpdateInputDto;
 use Core\UseCase\Video\Update\DTO\VideoUpdateOutputDto;
+use Core\UseCase\Video\Update\UpdateVideoUseCase;
 use Mockery;
 
-class UpdateVideoUseCaseUnit extends BaseVideoUseCaseUnit
+class UpdateVideoUseCaseUnitTest extends BaseVideoUseCaseUnit
 {
 
     public function testExecuteInputOutput()
@@ -38,10 +37,6 @@ class UpdateVideoUseCaseUnit extends BaseVideoUseCaseUnit
             Uuid::random(),
             'title',
             'desc',
-            2023,
-            12,
-            true,
-            Rating::RATE12,
             $categoriesId,
             $genresId,
             $castMembersId,
