@@ -14,7 +14,7 @@ use Core\UseCase\Interfaces\FileStorageInterface;
 use Core\UseCase\Interfaces\TransactionDbInterface;
 use Core\UseCase\Video\Interfaces\VideoEventManagerInterface;
 
-abstract class BaseCreateVideoUseCase
+abstract class BaseVideoUseCase
 {
     protected CreateBuilderVideo $builder;
 

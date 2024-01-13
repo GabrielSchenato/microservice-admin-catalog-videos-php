@@ -11,17 +11,30 @@ use Core\Domain\Repository\GenreRepositoryInterface;
 use Core\Domain\Repository\VideoRepositoryInterface;
 use Core\UseCase\Interfaces\FileStorageInterface;
 use Core\UseCase\Interfaces\TransactionDbInterface;
-use Core\UseCase\Video\Create\CreateVideoUseCase;
-use Core\UseCase\Video\Create\DTO\VideoCreateInputDto;
-use Core\UseCase\Video\Create\DTO\VideoCreateOutputDto;
+use Core\UseCase\Video\BaseVideoUseCase;
 use Core\UseCase\Video\Interfaces\VideoEventManagerInterface;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class CreateVideoUseCaseUnitTest extends TestCase
+abstract class BaseVideoUseCaseUnit extends TestCase
 {
-    protected CreateVideoUseCase $useCase;
+    protected BaseVideoUseCase $useCase;
+
+    abstract protected function getNameActionRepository(): string;
+
+    abstract protected function getUseCase(): string;
+
+    abstract protected function createMockInputDto(
+        array  $categoriesId = [],
+        array  $genresId = [],
+        array  $castMembersId = [],
+        ?array $videoFile = null,
+        ?array $trailerFile = null,
+        ?array $thumbFile = null,
+        ?array $thumbHalf = null,
+        ?array $bannerFile = null,
+    );
 
     protected function createUseCase(
         int $timesCallMethodActionRepository = 1,
@@ -32,7 +45,7 @@ class CreateVideoUseCaseUnitTest extends TestCase
         int $timesCallMethodEventManager = 0,
     )
     {
-        $this->useCase = new CreateVideoUseCase(
+        $this->useCase = new ($this->getUseCase())(
             repository: $this->createMockRepository(
                 timesCallAction: $timesCallMethodActionRepository,
                 timesCallActionUpdateMedia: $timesCallMethodUpdateMediaRepository
@@ -47,17 +60,6 @@ class CreateVideoUseCaseUnitTest extends TestCase
             genreRepository: $this->createMockGenreRepository(),
             castMemberRepository: $this->createMockCastMemberRepository(),
         );
-    }
-
-    public function testExecuteInputOutput()
-    {
-        $this->createUseCase();
-
-        $response = $this->useCase->execute(
-            input: $this->createMockInputDto()
-        );
-
-        $this->assertInstanceOf(VideoCreateOutputDto::class, $response);
     }
 
     /**
@@ -169,7 +171,7 @@ class CreateVideoUseCaseUnitTest extends TestCase
     {
         $mockRepository = Mockery::mock(stdClass::class, VideoRepositoryInterface::class);
         $mockRepository
-            ->shouldReceive('insert')
+            ->shouldReceive($this->getNameActionRepository())
             ->times($timesCallAction)
             ->andReturn($this->createMockEntity());
         $mockRepository
@@ -244,35 +246,6 @@ class CreateVideoUseCaseUnitTest extends TestCase
             ->times($timesCall);
 
         return $mockRepository;
-    }
-
-    private function createMockInputDto(
-        array  $categoriesId = [],
-        array  $genresId = [],
-        array  $castMembersId = [],
-        ?array $videoFile = null,
-        ?array $trailerFile = null,
-        ?array $thumbFile = null,
-        ?array $thumbHalf = null,
-        ?array $bannerFile = null,
-    )
-    {
-        return Mockery::mock(VideoCreateInputDto::class, [
-            'title',
-            'desc',
-            2023,
-            12,
-            true,
-            Rating::RATE12,
-            $categoriesId,
-            $genresId,
-            $castMembersId,
-            $videoFile,
-            $trailerFile,
-            $thumbFile,
-            $thumbHalf,
-            $bannerFile,
-        ]);
     }
 
     private function createMockEntity()

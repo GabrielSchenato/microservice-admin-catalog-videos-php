@@ -2,12 +2,12 @@
 
 namespace Core\UseCase\Video\Create;
 
-use Core\UseCase\Video\BaseCreateVideoUseCase;
+use Core\UseCase\Video\BaseVideoUseCase;
 use Core\UseCase\Video\Create\DTO\VideoCreateInputDto;
 use Core\UseCase\Video\Create\DTO\VideoCreateOutputDto;
 use Throwable;
 
-class CreateVideoUseCase extends BaseCreateVideoUseCase
+class CreateVideoUseCase extends BaseVideoUseCase
 {
     public function execute(VideoCreateInputDto $input): VideoCreateOutputDto
     {
