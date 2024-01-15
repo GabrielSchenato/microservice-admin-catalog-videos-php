@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Video;
+use App\Repositories\Eloquent\Traits\VideoTrait;
 use App\Repositories\Presenters\PaginationPresenter;
 use Core\Domain\Builder\Video\UpdateVideoBuilder;
 use Core\Domain\Entity\AbstractEntity;
@@ -16,6 +17,8 @@ use Core\Domain\ValueObject\Uuid;
 
 class VideoEloquentRepository implements VideoRepositoryInterface
 {
+    use VideoTrait;
+
     public function __construct(protected Video $model)
     {
     }
@@ -98,7 +101,18 @@ class VideoEloquentRepository implements VideoRepositoryInterface
 
     public function updateMedia(AbstractEntity $entity): AbstractEntity
     {
-        // TODO: Implement updateMedia() method.
+        if (! $objectModel = $this->model->find($entity->id())) {
+            throw new NotFoundException('Video not found');
+        }
+
+        $this->updateMediaVideo($entity, $objectModel);
+        $this->updateMediaTrailer($entity, $objectModel);
+
+        $this->updateImageBanner($entity, $objectModel);
+        $this->updateImageThumb($entity, $objectModel);
+        $this->updateImageThumbHalf($entity, $objectModel);
+
+        return $this->toVideo($objectModel);
     }
 
     protected function syncRelationships(Video $model, AbstractEntity $entity): void
