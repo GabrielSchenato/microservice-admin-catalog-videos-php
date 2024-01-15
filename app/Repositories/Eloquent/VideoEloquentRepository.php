@@ -93,7 +93,17 @@ class VideoEloquentRepository implements VideoRepositoryInterface
     {
         $paginator = $this->model
             ->when($filter, fn($query) => $query->where('title', 'LIKE', "%{$filter}%"))
-            ->orderBy('id', $order)
+            ->with([
+                'media',
+                'trailer',
+                'banner',
+                'thumb',
+                'thumbHalf',
+                'categories',
+                'castMembers',
+                'genres',
+            ])
+            ->orderBy('title', $order)
             ->paginate($totalPage, ['*'], 'page', $page);
 
         return new PaginationPresenter($paginator);
@@ -101,7 +111,7 @@ class VideoEloquentRepository implements VideoRepositoryInterface
 
     public function updateMedia(AbstractEntity $entity): AbstractEntity
     {
-        if (! $objectModel = $this->model->find($entity->id())) {
+        if (!$objectModel = $this->model->find($entity->id())) {
             throw new NotFoundException('Video not found');
         }
 
