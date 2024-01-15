@@ -9,7 +9,7 @@ interface BuilderInterface
 {
     public function createEntity(object $input): self;
 
-    public function addMediaVideo(string $path, MediaStatus $mediaStatus): self;
+    public function addMediaVideo(string $path, MediaStatus $mediaStatus, string $encodedPath = ''): self;
 
     public function addTrailer(string $path): self;
 
