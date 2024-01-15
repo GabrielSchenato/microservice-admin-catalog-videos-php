@@ -7,10 +7,12 @@ use App\Models\Category;
 use App\Models\Genre;
 use App\Models\Video as Model;
 use Core\Domain\Entity\VideoEntity;
+use Core\Domain\Enum\MediaStatus;
 use Core\Domain\Enum\Rating;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\PaginationInterface;
 use Core\Domain\Repository\VideoRepositoryInterface;
+use Core\Domain\ValueObject\Media;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 use Tests\TestCase;
@@ -252,5 +254,47 @@ class VideoEloquentRepositoryTest extends TestCase
         $this->assertSoftDeleted('videos', [
             'id' => $videoDb->id,
         ]);
+    }
+
+    public function testInsertWithMediaTrailer()
+    {
+        $entity = new VideoEntity(
+            title: 'Test',
+            description: 'Test',
+            yearLaunched: 2026,
+            duration: 1,
+            opened: true,
+            rating: Rating::L,
+            trailerFile: new Media(
+                filePath: 'test.mp4',
+                mediaStatus: MediaStatus::PROCESSING,
+            ),
+        );
+        $this->repository->insert($entity);
+
+        $this->assertDatabaseCount('media_videos', 0);
+        $this->repository->updateMedia($entity);
+        $this->assertDatabaseHas('media_videos', [
+            'video_id' => $entity->id(),
+            'file_path' => 'test.mp4',
+            'media_status' => MediaStatus::PROCESSING->value,
+        ]);
+
+        $entity->setTrailerFile(new Media(
+            filePath: 'test2.mp4',
+            mediaStatus: MediaStatus::COMPLETE,
+            encodedPath: 'test2.xpto',
+        ));
+
+        $entityDb = $this->repository->updateMedia($entity);
+        $this->assertDatabaseCount('media_videos', 1);
+        $this->assertDatabaseHas('media_videos', [
+            'video_id' => $entity->id(),
+            'file_path' => 'test2.mp4',
+            'media_status' => MediaStatus::COMPLETE->value,
+            'encoded_path' => 'test2.xpto',
+        ]);
+
+        $this->assertNotNull($entityDb->getTrailerFile());
     }
 }
