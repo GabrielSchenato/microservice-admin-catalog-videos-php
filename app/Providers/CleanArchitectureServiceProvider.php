@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\VideoEvent;
+use App\Services\AMQP\AMQPInterface;
+use App\Services\AMQP\PhpAmqpService;
 use App\Repositories\Eloquent\{CastMemberEloquentRepository,
     CategoryEloquentRepository,
     GenreEloquentRepository,
@@ -39,6 +41,12 @@ class CleanArchitectureServiceProvider extends ServiceProvider
         $this->app->bind(
             TransactionDbInterface::class,
             TransactionDb::class
+        );
+
+
+        $this->app->bind(
+            AMQPInterface::class,
+            PhpAmqpService::class
         );
     }
 
