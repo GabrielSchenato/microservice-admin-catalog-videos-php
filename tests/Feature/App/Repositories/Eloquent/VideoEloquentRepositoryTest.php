@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace Tests\Feature\App\Repositories\Eloquent;
 
 use App\Enums\ImageTypes;
 use App\Models\CastMember;
 use App\Models\Category;
 use App\Models\Genre;
 use App\Models\Video as Model;
+use App\Repositories\Eloquent\VideoEloquentRepository;
 use Core\Domain\Entity\VideoEntity;
 use Core\Domain\Enum\MediaStatus;
 use Core\Domain\Enum\Rating;
