@@ -10,10 +10,14 @@ use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\Domain\Repository\GenreRepositoryInterface;
 use Core\Domain\Repository\VideoRepositoryInterface;
 use Core\UseCase\Interfaces\TransactionDbInterface;
+use Exception;
+use Illuminate\Database\Events\TransactionBeginning;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Event;
 use Tests\Stubs\UploadFilesStub;
 use Tests\Stubs\VideoEventStub;
 use Tests\TestCase;
+use Throwable;
 
 abstract class BaseVideoUseCase extends TestCase
 {
@@ -126,6 +130,58 @@ abstract class BaseVideoUseCase extends TestCase
                 'withBanner' => true,
             ],
         ];
+    }
+
+    public function testTransactionException()
+    {
+        Event::listen(TransactionBeginning::class, fn() => throw new Exception('begin transaction'));
+        try {
+            $sut = $this->makeSut();
+            $sut->execute($this->inputDTO());
+            $this->fail();
+        } catch (Throwable $th) {
+            $this->assertDatabaseCount('videos', 0);
+        }
+    }
+
+    public function testUploadFilesException()
+    {
+        Event::listen(UploadFilesStub::class, fn() => throw new Exception());
+
+        try {
+            $sut = $this->makeSut();
+            $input = $this->inputDTO(videoFile: [
+                'tmp_name' => 'video.mp4',
+                'name' => 'video.mp4',
+                'type' => 'tmp/video.mp4',
+                'error' => 0,
+            ]);
+            $sut->execute($input);
+
+            $this->fail();
+        } catch (Throwable $th) {
+            $this->assertDatabaseCount('videos', 0);
+        }
+    }
+
+    public function testEventException()
+    {
+        Event::listen(VideoEventStub::class, fn() => throw new Exception());
+
+        try {
+            $sut = $this->makeSut();
+            $input = $this->inputDTO(videoFile: [
+                'tmp_name' => 'video.mp4',
+                'name' => 'video.mp4',
+                'type' => 'tmp/video.mp4',
+                'error' => 0,
+            ]);
+            $sut->execute($input);
+
+            $this->fail();
+        } catch (Throwable $th) {
+            $this->assertDatabaseCount('videos', 0);
+        }
     }
 
     protected function makeSut()
