@@ -2,7 +2,12 @@
 
 namespace Api;
 
+use App\Models\CastMember;
+use App\Models\Category;
+use App\Models\Genre;
 use App\Models\Video;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -136,54 +141,69 @@ class VideoApiTest extends TestCase
 
     public function testValidationsStore(): void
     {
-        $data = [];
+        $response = $this->postJson($this->endpoint);
 
-        $response = $this->postJson($this->endpoint, $data);
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonStructure([
-            'message',
-            'errors' => [
-                'name'
-            ]
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors([
+            'title',
+            'description',
+            'year_launched',
+            'duration',
+            'rating',
+            'opened',
+            'categories',
+            'genres',
+            'cast_members',
         ]);
     }
 
     public function testStore(): void
     {
+        $mediaVideoFile = UploadedFile::fake()->create('video.mp4', 1, 'video/mp4');
+        $imageVideoFile = UploadedFile::fake()->image('image.png');
+
+        $categoriesIds = Category::factory()->count(3)->create()->pluck('id')->toArray();
+        $genresIds = Genre::factory()->count(3)->create()->pluck('id')->toArray();
+        $castMembersIds = CastMember::factory()->count(3)->create()->pluck('id')->toArray();
+
         $data = [
-            'name' => 'Teste'
+            'title' => 'test title',
+            'description' => 'test desc',
+            'year_launched' => 2000,
+            'duration' => 1,
+            'rating' => 'L',
+            'opened' => true,
+            'categories' => $categoriesIds,
+            'genres' => $genresIds,
+            'cast_members' => $castMembersIds,
+            'video_file' => $mediaVideoFile,
+            'trailer_file' => $mediaVideoFile,
+            'banner_file' => $imageVideoFile,
+            'thumb_file' => $imageVideoFile,
+            'thumb_half_file' => $imageVideoFile,
         ];
-
         $response = $this->postJson($this->endpoint, $data);
-
-        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertCreated();
         $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'description',
-                'is_active',
-                'created_at'
-            ]
+            'data' => $this->serializedFields,
         ]);
 
-        $data = [
-            'name' => 'Teste',
-            'description' => 'Teste',
-            'is_active' => false
-        ];
-
-        $response = $this->postJson($this->endpoint, $data);
-
-        $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertEquals($data['name'], $response['data']['name']);
-        $this->assertEquals($data['description'], $response['data']['description']);
-        $this->assertFalse($response['data']['is_active']);
+        $this->assertDatabaseCount('videos', 1);
         $this->assertDatabaseHas('videos', [
-            'id' => $response['data']['id'],
-            'is_active' => false
+            'id' => $response->json('data.id'),
         ]);
+
+        $this->assertEquals($categoriesIds, $response->json('data.categories'));
+        $this->assertEquals($genresIds, $response->json('data.genres'));
+        $this->assertEquals($castMembersIds, $response->json('data.cast_members'));
+
+        Storage::assertExists($response->json('data.video'));
+        Storage::assertExists($response->json('data.trailer'));
+        Storage::assertExists($response->json('data.banner'));
+        Storage::assertExists($response->json('data.thumb'));
+        Storage::assertExists($response->json('data.thumb_half'));
+
+        Storage::deleteDirectory($response->json('data.id'));
     }
 
     public function testNotFoundUpdate(): void
