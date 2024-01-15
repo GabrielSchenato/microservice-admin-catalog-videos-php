@@ -300,6 +300,48 @@ class VideoEloquentRepositoryTest extends TestCase
         $this->assertNotNull($entityDb->getTrailerFile());
     }
 
+    public function testInsertWithMediaVideo()
+    {
+        $entity = new VideoEntity(
+            title: 'Test',
+            description: 'Test',
+            yearLaunched: 2026,
+            duration: 1,
+            opened: true,
+            rating: Rating::L,
+            videoFile: new Media(
+                filePath: 'test.mp4',
+                mediaStatus: MediaStatus::PROCESSING,
+            ),
+        );
+        $this->repository->insert($entity);
+
+        $this->assertDatabaseCount('media_videos', 0);
+        $this->repository->updateMedia($entity);
+        $this->assertDatabaseHas('media_videos', [
+            'video_id' => $entity->id(),
+            'file_path' => 'test.mp4',
+            'media_status' => MediaStatus::PROCESSING->value,
+        ]);
+
+        $entity->setVideoFile(new Media(
+            filePath: 'test2.mp4',
+            mediaStatus: MediaStatus::COMPLETE,
+            encodedPath: 'test2.xpto',
+        ));
+
+        $entityDb = $this->repository->updateMedia($entity);
+        $this->assertDatabaseCount('media_videos', 1);
+        $this->assertDatabaseHas('media_videos', [
+            'video_id' => $entity->id(),
+            'file_path' => 'test2.mp4',
+            'media_status' => MediaStatus::COMPLETE->value,
+            'encoded_path' => 'test2.xpto',
+        ]);
+
+        $this->assertNotNull($entityDb->getVideoFile());
+    }
+
     public function testInsertWithImageBanner()
     {
         $entity = new VideoEntity(
