@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Adapters\ApiAdapter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGenreRequest;
 use App\Http\Requests\UpdateGenreRequest;
@@ -31,17 +32,7 @@ class GenreController extends Controller
             )
         );
 
-        return GenreResource::collection(collect($response->items()))->additional([
-            'meta' => [
-                'total' => $response->total(),
-                'current_page' => $response->currentPage(),
-                'last_page' => $response->lastPage(),
-                'first_page' => $response->firstPage(),
-                'per_page' => $response->perPage(),
-                'to' => $response->to(),
-                'from' => $response->from(),
-            ]
-        ]);
+        return (new ApiAdapter($response))->toJson();
     }
 
     public function store(StoreGenreRequest $request, CreateGenreUseCase $useCase)
@@ -54,9 +45,7 @@ class GenreController extends Controller
             )
         );
 
-        return (new GenreResource($response))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return ApiAdapter::json($response, Response::HTTP_CREATED);
     }
 
     public function show($id, ListGenreUseCase $useCase)
@@ -67,9 +56,7 @@ class GenreController extends Controller
             )
         );
 
-        return (new GenreResource($response))
-            ->response()
-            ->setStatusCode(Response::HTTP_OK);
+        return ApiAdapter::json($response);
     }
 
     public function update($id, UpdateGenreRequest $request, UpdateGenreUseCase $useCase)
@@ -82,9 +69,7 @@ class GenreController extends Controller
             )
         );
 
-        return (new GenreResource($response))
-            ->response()
-            ->setStatusCode(Response::HTTP_OK);
+        return ApiAdapter::json($response);
     }
 
     public function destroy($id, DeleteGenreUseCase $useCase)

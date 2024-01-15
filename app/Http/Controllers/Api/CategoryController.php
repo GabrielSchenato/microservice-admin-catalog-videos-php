@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Adapters\ApiAdapter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
@@ -31,17 +32,7 @@ class CategoryController extends Controller
             )
         );
 
-        return CategoryResource::collection(collect($response->items()))->additional([
-            'meta' => [
-                'total' => $response->total(),
-                'current_page' => $response->currentPage(),
-                'last_page' => $response->lastPage(),
-                'first_page' => $response->firstPage(),
-                'per_page' => $response->perPage(),
-                'to' => $response->to(),
-                'from' => $response->from(),
-            ]
-        ]);
+        return (new ApiAdapter($response))->toJson();
     }
 
     public function store(StoreCategoryRequest $request, CreateCategoryUseCase $useCase)
@@ -54,9 +45,7 @@ class CategoryController extends Controller
             )
         );
 
-        return (new CategoryResource($response))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return ApiAdapter::json($response, Response::HTTP_CREATED);
     }
 
     public function show($id, ListCategoryUseCase $useCase)
@@ -67,9 +56,7 @@ class CategoryController extends Controller
             )
         );
 
-        return (new CategoryResource($response))
-            ->response()
-            ->setStatusCode(Response::HTTP_OK);
+        return ApiAdapter::json($response);
     }
 
     public function update($id, UpdateCategoryRequest $request, UpdateCategoryUseCase $useCase)
@@ -81,9 +68,7 @@ class CategoryController extends Controller
             )
         );
 
-        return (new CategoryResource($response))
-            ->response()
-            ->setStatusCode(Response::HTTP_OK);
+        return ApiAdapter::json($response);
     }
 
     public function destroy($id, DeleteCategoryUseCase $useCase)

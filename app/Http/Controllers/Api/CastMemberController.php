@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Adapters\ApiAdapter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCastMemberRequest;
 use App\Http\Requests\UpdateCastMemberRequest;
-use App\Http\Resources\CastMemberResource;
 use Core\UseCase\CastMember\CreateCastMemberUseCase;
 use Core\UseCase\CastMember\DeleteCastMemberUseCase;
 use Core\UseCase\CastMember\ListCastMembersUseCase;
@@ -31,17 +31,7 @@ class CastMemberController extends Controller
             )
         );
 
-        return CastMemberResource::collection(collect($response->items()))->additional([
-            'meta' => [
-                'total' => $response->total(),
-                'current_page' => $response->currentPage(),
-                'last_page' => $response->lastPage(),
-                'first_page' => $response->firstPage(),
-                'per_page' => $response->perPage(),
-                'to' => $response->to(),
-                'from' => $response->from(),
-            ]
-        ]);
+        return (new ApiAdapter($response))->toJson();
     }
 
     public function store(StoreCastMemberRequest $request, CreateCastMemberUseCase $useCase)
@@ -53,9 +43,7 @@ class CastMemberController extends Controller
             )
         );
 
-        return (new CastMemberResource($response))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return ApiAdapter::json($response, Response::HTTP_CREATED);
     }
 
     public function show($id, ListCastMemberUseCase $useCase)
@@ -66,9 +54,7 @@ class CastMemberController extends Controller
             )
         );
 
-        return (new CastMemberResource($response))
-            ->response()
-            ->setStatusCode(Response::HTTP_OK);
+        return ApiAdapter::json($response);
     }
 
     public function update($id, UpdateCastMemberRequest $request, UpdateCastMemberUseCase $useCase)
@@ -80,9 +66,7 @@ class CastMemberController extends Controller
             )
         );
 
-        return (new CastMemberResource($response))
-            ->response()
-            ->setStatusCode(Response::HTTP_OK);
+        return ApiAdapter::json($response);
     }
 
     public function destroy($id, DeleteCastMemberUseCase $useCase)
