@@ -77,12 +77,12 @@ abstract class BaseVideoUseCase extends TestCase
         $this->assertEquals($input->title, $response->title);
         $this->assertEquals($input->description, $response->description);
 
-        $this->assertCount($categories, $response->categoriesId);
-        $this->assertEqualsCanonicalizing($input->categoriesId, $response->categoriesId);
-        $this->assertCount($genres, $response->genresId);
-        $this->assertEqualsCanonicalizing($input->genresId, $response->genresId);
-        $this->assertCount($castMembers, $response->castMembersId);
-        $this->assertEqualsCanonicalizing($input->castMembersId, $response->castMembersId);
+        $this->assertCount($categories, $response->categories);
+        $this->assertEqualsCanonicalizing($input->categoriesId, $response->categories);
+        $this->assertCount($genres, $response->genres);
+        $this->assertEqualsCanonicalizing($input->genresId, $response->genres);
+        $this->assertCount($castMembers, $response->castMembers);
+        $this->assertEqualsCanonicalizing($input->castMembersId, $response->castMembers);
 
         $this->assertTrue($withMediaVideo ? $response->videoFile !== null : $response->videoFile === null);
         $this->assertTrue($withTrailer ? $response->trailerFile !== null : $response->trailerFile === null);

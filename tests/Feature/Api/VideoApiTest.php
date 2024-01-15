@@ -206,57 +206,53 @@ class VideoApiTest extends TestCase
         Storage::deleteDirectory($response->json('data.id'));
     }
 
-    public function testNotFoundUpdate(): void
-    {
-        $response = $this->putJson("$this->endpoint/fake_value", [
-            'name' => 'Teste'
-        ]);
-
-        $response->assertStatus(Response::HTTP_NOT_FOUND);
-    }
-
-    public function testValidationsUpdate(): void
-    {
-        $data = [
-            'name' => ''
-        ];
-
-        $response = $this->putJson("$this->endpoint/fake_value", $data);
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonStructure([
-            'message',
-            'errors' => [
-                'name'
-            ]
-        ]);
-    }
-
     public function testUpdate(): void
     {
         $video = Video::factory()->create();
 
+        $mediaVideoFile = UploadedFile::fake()->create('video.mp4', 1, 'video/mp4');
+        $imageVideoFile = UploadedFile::fake()->image('image.png');
+
+        $categoriesIds = Category::factory()->count(3)->create()->pluck('id')->toArray();
+        $genresIds = Genre::factory()->count(3)->create()->pluck('id')->toArray();
+        $castMembersIds = CastMember::factory()->count(3)->create()->pluck('id')->toArray();
+
         $data = [
-            'name' => 'Teste'
+            'title' => 'title updated',
+            'description' => 'desc updated',
+            'categories' => $categoriesIds,
+            'genres' => $genresIds,
+            'cast_members' => $castMembersIds,
+            'video_file' => $mediaVideoFile,
+            'trailer_file' => $mediaVideoFile,
+            'banner_file' => $imageVideoFile,
+            'thumb_file' => $imageVideoFile,
+            'thumb_half_file' => $imageVideoFile,
         ];
-
-        $response = $this->putJson("{$this->endpoint}/{$video->id}", $data);
-
-        $response->assertStatus(Response::HTTP_OK);
+        $response = $this->putJson("$this->endpoint/{$video->id}", $data);
+        $response->assertOk();
         $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'description',
-                'is_active',
-                'created_at'
-            ]
+            'data' => $this->serializedFields,
         ]);
 
-        $this->assertEquals($data['name'], $response['data']['name']);
+        $this->assertDatabaseCount('videos', 1);
         $this->assertDatabaseHas('videos', [
-            'name' => $data['name']
+            'id' => $response->json('data.id'),
+            'title' => $data['title'],
+            'description' => $data['description'],
         ]);
+
+        $this->assertEquals($categoriesIds, $response->json('data.categories'));
+        $this->assertEquals($genresIds, $response->json('data.genres'));
+        $this->assertEquals($castMembersIds, $response->json('data.cast_members'));
+
+        Storage::assertExists($response->json('data.video'));
+        Storage::assertExists($response->json('data.trailer'));
+        Storage::assertExists($response->json('data.banner'));
+        Storage::assertExists($response->json('data.thumb'));
+        Storage::assertExists($response->json('data.thumb_half'));
+
+        Storage::deleteDirectory($response->json('data.id'));
     }
 
     public function testNotFoundDelete(): void
