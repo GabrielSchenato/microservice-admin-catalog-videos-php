@@ -1,12 +1,10 @@
 <?php
 
-namespace Core\UseCase\Video;
+namespace Tests\Feature\Core\UseCase\Video;
 
 use App\Models\Video;
-use Core\Domain\Enum\Rating;
 use Core\UseCase\Video\Update\DTO\VideoUpdateInputDto;
 use Core\UseCase\Video\Update\UpdateVideoUseCase;
-use Tests\Feature\Core\UseCase\Video\BaseVideoUseCase;
 
 class UpdateVideoUseCaseTest extends BaseVideoUseCase
 {
