@@ -51,34 +51,34 @@ class Video extends Model
     {
         return $this
             ->hasOne(MediaVideo::class)
-            ->whereType(MediaTypes::VIDEO->value);
+            ->whereType((string)MediaTypes::VIDEO->value);
     }
 
     public function trailer(): HasOne
     {
         return $this
             ->hasOne(MediaVideo::class)
-            ->whereType(MediaTypes::TRAILER->value);
+            ->whereType((string)MediaTypes::TRAILER->value);
     }
 
     public function banner()
     {
         return $this
             ->hasOne(ImageVideo::class)
-            ->whereType(ImageTypes::BANNER);
+            ->whereType((string)ImageTypes::BANNER->value);
     }
 
     public function thumb()
     {
         return $this
             ->hasOne(ImageVideo::class)
-            ->whereType(ImageTypes::THUMB);
+            ->whereType((string)ImageTypes::THUMB->value);
     }
 
     public function thumbHalf()
     {
         return $this
             ->hasOne(ImageVideo::class)
-            ->whereType(ImageTypes::THUMB_HALF);
+            ->whereType((string)ImageTypes::THUMB_HALF->value);
     }
 }
