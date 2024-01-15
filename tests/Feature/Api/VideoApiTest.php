@@ -129,13 +129,7 @@ class VideoApiTest extends TestCase
 
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'description',
-                'is_active',
-                'created_at'
-            ]
+            'data' => $this->serializedFields,
         ]);
         $this->assertEquals($video->id, $response['data']['id']);
     }
