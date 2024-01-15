@@ -15,6 +15,7 @@ use Core\UseCase\Interfaces\TransactionDbInterface;
 use Core\UseCase\Video\Create\CreateVideoUseCase;
 use Core\UseCase\Video\Create\DTO\VideoCreateInputDto;
 use Core\UseCase\Video\Interfaces\VideoEventManagerInterface;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class CreateVideoUseCaseTest extends TestCase
@@ -36,6 +37,14 @@ class CreateVideoUseCaseTest extends TestCase
         $genresId = Genre::factory()->count(3)->create()->pluck('id')->toArray();
         $castMembersId = CastMember::factory()->count(3)->create()->pluck('id')->toArray();
 
+        $fakeFile = UploadedFile::fake()->create('video.mp4', 1, 'video/mp4');
+        $file = [
+            'tmp_name' => $fakeFile->getPathname(),
+            'name' => $fakeFile->getClientOriginalName(),
+            'type' => $fakeFile->getExtension(),
+            'error' => $fakeFile->getError(),
+        ];
+
         $input = new VideoCreateInputDto(
             title: 'test',
             description: 'test',
@@ -45,7 +54,8 @@ class CreateVideoUseCaseTest extends TestCase
             rating: Rating::RATE10,
             categoriesId: $categoriesId,
             genresId: $genresId,
-            castMembersId: $castMembersId
+            castMembersId: $castMembersId,
+            videoFile: $file
         );
 
         $response = $useCase->execute($input);
@@ -60,5 +70,11 @@ class CreateVideoUseCaseTest extends TestCase
         $this->assertCount(count($input->categoriesId), $response->categoriesId);
         $this->assertCount(count($input->genresId), $response->genresId);
         $this->assertCount(count($input->castMembersId), $response->castMembersId);
+
+        $this->assertNotNull($response->videoFile);
+        $this->assertNull($response->trailerFile);
+        $this->assertNull($response->bannerFile);
+        $this->assertNull($response->thumbHalf);
+        $this->assertNull($response->thumbFile);
     }
 }
