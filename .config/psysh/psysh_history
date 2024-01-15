@@ -1,0 +1,5 @@
+php artisan tinker
+\App\Models\Category::factory->create();
+\App\Models\Category::factory()->create();
+\App\Models\Genre::factory()->create();
+\App\Models\CastMember::factory()->create();
