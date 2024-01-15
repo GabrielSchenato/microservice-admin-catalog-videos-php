@@ -32,7 +32,7 @@ class CreateVideoBuilder implements BuilderInterface
         return $this;
     }
 
-    protected function addIds(object $input)
+    public function addIds(object $input)
     {
         foreach ($input->categoriesId as $categoryId) {
             $this->entity->addCategory($categoryId);
