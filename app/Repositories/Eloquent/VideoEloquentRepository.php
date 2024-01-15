@@ -4,29 +4,37 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Video;
 use App\Repositories\Presenters\PaginationPresenter;
+use Core\Domain\Builder\Video\UpdateVideoBuilder;
 use Core\Domain\Entity\AbstractEntity;
 use Core\Domain\Entity\VideoEntity;
+use Core\Domain\Enum\MediaStatus;
+use Core\Domain\Enum\Rating;
 use Core\Domain\Exception\NotFoundException;
 use Core\Domain\Repository\PaginationInterface;
 use Core\Domain\Repository\VideoRepositoryInterface;
+use Core\Domain\ValueObject\Uuid;
 
 class VideoEloquentRepository implements VideoRepositoryInterface
 {
-    public function __construct(private Video $model)
+    public function __construct(protected Video $model)
     {
     }
 
     public function insert(AbstractEntity $entity): VideoEntity
     {
-        $entity = $this->model->create([
-            'id' => $entity->id,
-            'name' => $entity->name,
+        $entityDb = $this->model->create([
+            'id' => $entity->id(),
+            'title' => $entity->title,
             'description' => $entity->description,
-            'is_active' => $entity->isActive,
-            'created_at' => $entity->createdAt(),
+            'year_launched' => $entity->yearLaunched,
+            'rating' => $entity->rating->value,
+            'duration' => $entity->duration,
+            'opened' => $entity->opened,
         ]);
 
-        return $this->toVideo($entity);
+        $this->syncRelationships($entityDb, $entity);
+
+        return $this->toVideo($entityDb);
     }
 
     public function findById(string $id): VideoEntity
@@ -38,14 +46,6 @@ class VideoEloquentRepository implements VideoRepositoryInterface
         return $this->toVideo($video);
     }
 
-    public function getIdsListIds(array $categoriesId = []): array
-    {
-        return $this->model
-            ->whereIn('id', $categoriesId)
-            ->pluck('id')
-            ->toArray();
-    }
-
     public function update(AbstractEntity $entity): VideoEntity
     {
         if (!$videoDb = $this->model->find($entity->id())) {
@@ -53,12 +53,17 @@ class VideoEloquentRepository implements VideoRepositoryInterface
         }
 
         $videoDb->update([
-            'name' => $entity->name,
+            'title' => $entity->title,
             'description' => $entity->description,
-            'is_active' => $entity->isActive
+            'year_launched' => $entity->yearLaunched,
+            'rating' => $entity->rating->value,
+            'duration' => $entity->duration,
+            'opened' => $entity->opened,
         ]);
 
         $videoDb->refresh();
+
+        $this->syncRelationships($videoDb, $entity);
 
         return $this->toVideo($videoDb);
     }
@@ -73,39 +78,86 @@ class VideoEloquentRepository implements VideoRepositoryInterface
 
     public function findAll(string $filter = '', $order = 'DESC'): array
     {
-        $categories = $this->model
-            ->when($filter, fn($query) => $query->where('name', 'LIKE', "%{$filter}%"))
+        $videos = $this->model
+            ->when($filter, fn($query) => $query->where('title', 'LIKE', "%{$filter}%"))
             ->orderBy('id', $order)
             ->get();
 
-        return $categories->toArray();
+        return $videos->toArray();
     }
 
     public function paginate(string $filter = '', $order = 'DESC', int $page = 1, int $totalPage = 15): PaginationInterface
     {
         $paginator = $this->model
-            ->when($filter, fn($query) => $query->where('name', 'LIKE', "%{$filter}%"))
+            ->when($filter, fn($query) => $query->where('title', 'LIKE', "%{$filter}%"))
             ->orderBy('id', $order)
-            ->paginate($totalPage);
+            ->paginate($totalPage, ['*'], 'page', $page);
 
         return new PaginationPresenter($paginator);
-    }
-
-    private function toVideo(object $object): VideoEntity
-    {
-        $entity = new VideoEntity(
-            id: $object->id,
-            name: $object->name,
-            description: $object->description,
-            createdAt: $object->created_at
-        );
-        $object->is_active ? $entity->activate() : $entity->disabled();
-
-        return $entity;
     }
 
     public function updateMedia(AbstractEntity $entity): AbstractEntity
     {
         // TODO: Implement updateMedia() method.
+    }
+
+    protected function syncRelationships(Video $model, AbstractEntity $entity): void
+    {
+        $model->categories()->sync($entity->categoriesId);
+        $model->genres()->sync($entity->genresId);
+        $model->castMembers()->sync($entity->castMembersId);
+    }
+
+    private function toVideo(object $object): VideoEntity
+    {
+        $entity = new VideoEntity(
+            title: $object->title,
+            description: $object->description,
+            yearLaunched: (int)$object->year_launched,
+            duration: (bool)$object->duration,
+            opened: $object->opened,
+            rating: Rating::from($object->rating),
+            id: new Uuid($object->id)
+        );
+        foreach ($object->categories as $category) {
+            $entity->addCategory($category->id);
+        }
+
+        foreach ($object->genres as $genre) {
+            $entity->addGenre($genre->id);
+        }
+
+        foreach ($object->castMembers as $castMember) {
+            $entity->addCastMember($castMember->id);
+        }
+
+        $builder = (new UpdateVideoBuilder())
+            ->setEntity($entity);
+
+        if ($trailer = $object->trailer) {
+            $builder->addTrailer($trailer->file_path);
+        }
+
+        if ($mediaVideo = $object->media) {
+            $builder->addMediaVideo(
+                path: $mediaVideo->file_path,
+                mediaStatus: MediaStatus::from($mediaVideo->media_status),
+                encodedPath: $mediaVideo->encoded_path
+            );
+        }
+
+        if ($banner = $object->banner) {
+            $builder->addBanner($banner->path);
+        }
+
+        if ($thumb = $object->thumb) {
+            $builder->addThumb($thumb->path);
+        }
+
+        if ($thumbHalf = $object->thumbHalf) {
+            $builder->addThumbHalf($thumbHalf->path);
+        }
+
+        return $builder->getEntity();
     }
 }

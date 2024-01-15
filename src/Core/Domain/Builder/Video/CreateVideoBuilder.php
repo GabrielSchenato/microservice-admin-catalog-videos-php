@@ -8,7 +8,7 @@ use Core\Domain\Enum\MediaStatus;
 use Core\Domain\ValueObject\Image;
 use Core\Domain\ValueObject\Media;
 
-class CreateBuilderVideo implements BuilderInterface
+class CreateVideoBuilder implements BuilderInterface
 {
     protected ?VideoEntity $entity = null;
 
@@ -46,11 +46,12 @@ class CreateBuilderVideo implements BuilderInterface
         }
     }
 
-    public function addMediaVideo(string $path, MediaStatus $mediaStatus): self
+    public function addMediaVideo(string $path, MediaStatus $mediaStatus, string $encodedPath = ''): self
     {
         $media = new Media(
             filePath: $path,
-            mediaStatus: $mediaStatus
+            mediaStatus: $mediaStatus,
+            encodedPath: $encodedPath
         );
         $this->entity->setVideoFile($media);
 

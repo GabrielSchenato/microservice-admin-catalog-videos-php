@@ -3,7 +3,7 @@
 namespace Core\UseCase\Video\Update;
 
 use Core\Domain\Builder\Video\BuilderInterface;
-use Core\Domain\Builder\Video\UpdateBuilderVideo;
+use Core\Domain\Builder\Video\UpdateVideoBuilder;
 use Core\UseCase\Video\BaseVideoUseCase;
 use Core\UseCase\Video\Update\DTO\VideoUpdateInputDto;
 use Core\UseCase\Video\Update\DTO\VideoUpdateOutputDto;
@@ -69,6 +69,6 @@ class UpdateVideoUseCase extends BaseVideoUseCase
 
     protected function getBuilder(): BuilderInterface
     {
-        return new UpdateBuilderVideo();
+        return new UpdateVideoBuilder();
     }
 }

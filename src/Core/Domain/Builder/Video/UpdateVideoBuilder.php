@@ -6,7 +6,7 @@ use Core\Domain\Entity\VideoEntity;
 use Core\Domain\ValueObject\Uuid;
 use DateTime;
 
-class UpdateBuilderVideo extends CreateBuilderVideo
+class UpdateVideoBuilder extends CreateVideoBuilder
 {
 
     public function createEntity(object $input): self
