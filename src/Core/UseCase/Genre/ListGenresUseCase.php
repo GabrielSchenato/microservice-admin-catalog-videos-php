@@ -3,8 +3,8 @@
 namespace Core\UseCase\Genre;
 
 use Core\Domain\Repository\GenreRepositoryInterface;
+use Core\Domain\Repository\PaginationInterface;
 use Core\UseCase\DTO\Genre\ListGenres\ListGenresInputDto;
-use Core\UseCase\DTO\Genre\ListGenres\ListGenresOutputDto;
 
 class ListGenresUseCase
 {
@@ -14,24 +14,13 @@ class ListGenresUseCase
     {
     }
 
-    public function execute(ListGenresInputDto $input): ListGenresOutputDto
+    public function execute(ListGenresInputDto $input): PaginationInterface
     {
-        $genres = $this->repository->paginate(
+        return $this->repository->paginate(
             filter: $input->filter,
             order: $input->order,
             page: $input->page,
             totalPage: $input->totalPage
-        );
-
-        return new ListGenresOutputDto(
-            items: $genres->items(),
-            total: $genres->total(),
-            current_page: $genres->currentPage(),
-            last_page: $genres->lastPage(),
-            first_page: $genres->firstPage(),
-            per_page: $genres->perPage(),
-            to: $genres->to(),
-            from: $genres->from()
         );
     }
 }

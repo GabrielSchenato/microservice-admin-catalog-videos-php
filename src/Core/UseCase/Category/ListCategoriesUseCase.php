@@ -3,8 +3,8 @@
 namespace Core\UseCase\Category;
 
 use Core\Domain\Repository\CategoryRepositoryInterface;
+use Core\Domain\Repository\PaginationInterface;
 use Core\UseCase\DTO\Category\ListCategories\ListCategoriesInputDto;
-use Core\UseCase\DTO\Category\ListCategories\ListCategoriesOutputDto;
 
 class ListCategoriesUseCase
 {
@@ -14,24 +14,13 @@ class ListCategoriesUseCase
     {
     }
 
-    public function execute(ListCategoriesInputDto $input): ListCategoriesOutputDto
+    public function execute(ListCategoriesInputDto $input): PaginationInterface
     {
-        $categories = $this->repository->paginate(
+        return $this->repository->paginate(
             filter: $input->filter,
             order: $input->order,
             page: $input->page,
             totalPage: $input->totalPage
-        );
-
-        return new ListCategoriesOutputDto(
-            items: $categories->items(),
-            total: $categories->total(),
-            current_page: $categories->currentPage(),
-            last_page: $categories->lastPage(),
-            first_page: $categories->firstPage(),
-            per_page: $categories->perPage(),
-            to: $categories->to(),
-            from: $categories->from()
         );
     }
 }

@@ -30,8 +30,8 @@ class ListGenresUseCaseUnitTest extends TestCase
         $useCase = new ListGenresUseCase($mockRepository);
         $response = $useCase->execute($mockInputDto);
 
-        $this->assertCount(0, $response->items);
-        $this->assertInstanceOf(ListGenresOutputDto::class, $response);
+        $this->assertCount(0, $response->items());
+        $this->assertInstanceOf(PaginationInterface::class, $response);
     }
 
     protected function mockPagination(array $items = [])
@@ -74,9 +74,9 @@ class ListGenresUseCaseUnitTest extends TestCase
         $useCase = new ListGenresUseCase($mockRepository);
         $response = $useCase->execute($mockInputDto);
 
-        $this->assertCount(1, $response->items);
-        $this->assertInstanceOf(stdClass::class, $response->items[0]);
-        $this->assertInstanceOf(ListGenresOutputDto::class, $response);
+        $this->assertCount(1, $response->items());
+        $this->assertInstanceOf(stdClass::class, $response->items()[0]);
+        $this->assertInstanceOf(PaginationInterface::class, $response);
     }
 
     protected function tearDown(): void

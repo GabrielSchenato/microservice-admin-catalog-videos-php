@@ -33,8 +33,8 @@ class ListVideosUseCaseTest extends TestCase
             totalPage: $perPage
         ));
 
-        $this->assertCount($perPage, $response->items);
-        $this->assertEquals($total, $response->total);
+        $this->assertCount($perPage, $response->items());
+        $this->assertEquals($total, $response->total());
     }
 
     public static function provider(): array

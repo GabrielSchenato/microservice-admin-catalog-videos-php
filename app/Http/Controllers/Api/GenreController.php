@@ -31,15 +31,15 @@ class GenreController extends Controller
             )
         );
 
-        return GenreResource::collection(collect($response->items))->additional([
+        return GenreResource::collection(collect($response->items()))->additional([
             'meta' => [
-                'total' => $response->total,
-                'current_page' => $response->current_page,
-                'last_page' => $response->last_page,
-                'first_page' => $response->first_page,
-                'per_page' => $response->per_page,
-                'to' => $response->to,
-                'from' => $response->from,
+                'total' => $response->total(),
+                'current_page' => $response->currentPage(),
+                'last_page' => $response->lastPage(),
+                'first_page' => $response->firstPage(),
+                'per_page' => $response->perPage(),
+                'to' => $response->to(),
+                'from' => $response->from(),
             ]
         ]);
     }

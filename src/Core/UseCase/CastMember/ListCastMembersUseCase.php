@@ -3,8 +3,8 @@
 namespace Core\UseCase\CastMember;
 
 use Core\Domain\Repository\CastMemberRepositoryInterface;
+use Core\Domain\Repository\PaginationInterface;
 use Core\UseCase\DTO\CastMember\ListCastMembers\ListCastMembersInputDto;
-use Core\UseCase\DTO\CastMember\ListCastMembers\ListCastMembersOutputDto;
 
 class ListCastMembersUseCase
 {
@@ -14,24 +14,13 @@ class ListCastMembersUseCase
     {
     }
 
-    public function execute(ListCastMembersInputDto $input): ListCastMembersOutputDto
+    public function execute(ListCastMembersInputDto $input): PaginationInterface
     {
-        $castMembers = $this->repository->paginate(
+        return $this->repository->paginate(
             filter: $input->filter,
             order: $input->order,
             page: $input->page,
             totalPage: $input->totalPage
-        );
-
-        return new ListCastMembersOutputDto(
-            items: $castMembers->items(),
-            total: $castMembers->total(),
-            current_page: $castMembers->currentPage(),
-            last_page: $castMembers->lastPage(),
-            first_page: $castMembers->firstPage(),
-            per_page: $castMembers->perPage(),
-            to: $castMembers->to(),
-            from: $castMembers->from()
         );
     }
 }
