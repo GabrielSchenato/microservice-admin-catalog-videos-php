@@ -33,7 +33,7 @@ abstract class BaseVideoUseCase extends TestCase
     /**
      * @dataProvider provider
      */
-    public function testCreate(
+    public function testAction(
         int  $categories,
         int  $genres,
         int  $castMembers,
@@ -44,16 +44,7 @@ abstract class BaseVideoUseCase extends TestCase
         bool $withBanner = false,
     ): void
     {
-        $useCase = new ($this->getUseCase())(
-            repository: $this->app->make(VideoRepositoryInterface::class),
-            transaction: $this->app->make(TransactionDbInterface::class),
-            storage: new UploadFilesStub(),
-            eventManager: new VideoEventStub(),
-            categoryRepository: $this->app->make(CategoryRepositoryInterface::class),
-            genreRepository: $this->app->make(GenreRepositoryInterface::class),
-            castMemberRepository: $this->app->make(CastMemberRepositoryInterface::class),
-        );
-
+        $sut = $this->makeSut();
         $categoriesId = Category::factory()->count($categories)->create()->pluck('id')->toArray();
         $genresId = Genre::factory()->count($genres)->create()->pluck('id')->toArray();
         $castMembersId = CastMember::factory()->count($castMembers)->create()->pluck('id')->toArray();
@@ -77,7 +68,7 @@ abstract class BaseVideoUseCase extends TestCase
             thumbHalf: $withThumbHalf ? $file : null,
         );
 
-        $response = $useCase->execute($input);
+        $response = $sut->execute($input);
 
         $this->assertEquals($input->title, $response->title);
         $this->assertEquals($input->description, $response->description);
@@ -135,5 +126,18 @@ abstract class BaseVideoUseCase extends TestCase
                 'withBanner' => true,
             ],
         ];
+    }
+
+    protected function makeSut()
+    {
+        return new ($this->getUseCase())(
+            repository: $this->app->make(VideoRepositoryInterface::class),
+            transaction: $this->app->make(TransactionDbInterface::class),
+            storage: new UploadFilesStub(),
+            eventManager: new VideoEventStub(),
+            categoryRepository: $this->app->make(CategoryRepositoryInterface::class),
+            genreRepository: $this->app->make(GenreRepositoryInterface::class),
+            castMemberRepository: $this->app->make(CastMemberRepositoryInterface::class),
+        );
     }
 }
