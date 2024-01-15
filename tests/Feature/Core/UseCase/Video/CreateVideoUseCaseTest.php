@@ -10,12 +10,12 @@ use Core\Domain\Repository\CastMemberRepositoryInterface;
 use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\Domain\Repository\GenreRepositoryInterface;
 use Core\Domain\Repository\VideoRepositoryInterface;
-use Core\UseCase\Interfaces\FileStorageInterface;
 use Core\UseCase\Interfaces\TransactionDbInterface;
 use Core\UseCase\Video\Create\CreateVideoUseCase;
 use Core\UseCase\Video\Create\DTO\VideoCreateInputDto;
 use Core\UseCase\Video\Interfaces\VideoEventManagerInterface;
 use Illuminate\Http\UploadedFile;
+use Tests\Stubs\UploadFilesStub;
 use Tests\TestCase;
 
 class CreateVideoUseCaseTest extends TestCase
@@ -38,7 +38,7 @@ class CreateVideoUseCaseTest extends TestCase
         $useCase = new CreateVideoUseCase(
             repository: $this->app->make(VideoRepositoryInterface::class),
             transaction: $this->app->make(TransactionDbInterface::class),
-            storage: $this->app->make(FileStorageInterface::class),
+            storage: new UploadFilesStub(),
             eventManager: $this->app->make(VideoEventManagerInterface::class),
             categoryRepository: $this->app->make(CategoryRepositoryInterface::class),
             genreRepository: $this->app->make(GenreRepositoryInterface::class),
@@ -97,7 +97,7 @@ class CreateVideoUseCaseTest extends TestCase
         $this->assertTrue($withBanner ? $response->bannerFile !== null : $response->bannerFile === null);
     }
 
-    protected static function provider(): array
+    public static function provider(): array
     {
         return [
             'Test with all IDs and media video' => [
