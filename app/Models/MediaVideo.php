@@ -21,8 +21,7 @@ class MediaVideo extends Model
     ];
 
     protected $casts = [
-        'id' => 'string',
-        'deleted_at' => 'datetime',
+        'id' => 'string'
     ];
 
     public function video(): BelongsTo

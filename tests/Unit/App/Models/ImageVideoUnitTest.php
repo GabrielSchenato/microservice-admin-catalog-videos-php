@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Tests\Unit\App\Models\ModelTestCase;
 
-class MediaVideoUnitTest extends ModelTestCase
+class ImageVideoUnitTest extends ModelTestCase
 {
     protected function model(): Model
     {
-        return new MediaVideo();
+        return new ImageVideo();
     }
 
 
@@ -26,9 +26,7 @@ class MediaVideoUnitTest extends ModelTestCase
     protected function fillables(): array
     {
         return [
-            'file_path',
-            'encoded_path',
-            'media_status',
+            'path',
             'type',
         ];
     }
