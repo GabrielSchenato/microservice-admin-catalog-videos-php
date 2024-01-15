@@ -2,7 +2,7 @@
 
 namespace Core\Domain\Builder\Video;
 
-use Core\Domain\Entity\AbstractEntity;
+use Core\Domain\Entity\VideoEntity;
 use Core\Domain\Enum\MediaStatus;
 
 interface BuilderInterface
@@ -19,5 +19,5 @@ interface BuilderInterface
 
     public function addBanner(string $path): self;
 
-    public function getEntity(): AbstractEntity;
+    public function getEntity(): VideoEntity;
 }

@@ -2,7 +2,6 @@
 
 namespace Core\Domain\Builder\Video;
 
-use Core\Domain\Entity\AbstractEntity;
 use Core\Domain\Entity\VideoEntity;
 use Core\Domain\Enum\MediaStatus;
 use Core\Domain\ValueObject\Image;
@@ -96,7 +95,7 @@ class CreateVideoBuilder implements BuilderInterface
         return $this;
     }
 
-    public function getEntity(): AbstractEntity
+    public function getEntity(): VideoEntity
     {
         return $this->entity;
     }
