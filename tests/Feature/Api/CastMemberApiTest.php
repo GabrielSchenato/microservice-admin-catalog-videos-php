@@ -6,9 +6,12 @@ use App\Models\CastMember;
 use Core\Domain\Enum\CastMemberType;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+use Tests\Traits\WithoutMiddlewareTrait;
 
 class CastMemberApiTest extends TestCase
 {
+    use WithoutMiddlewareTrait;
+
     protected string $endpoint = '/api/cast_members';
 
     public function testListEmptyAllCastMembers(): void

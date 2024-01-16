@@ -10,9 +10,12 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+use Tests\Traits\WithoutMiddlewareTrait;
 
 class VideoApiTest extends TestCase
 {
+    use WithoutMiddlewareTrait;
+
     protected string $endpoint = '/api/videos';
 
     protected array $serializedFields = [

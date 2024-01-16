@@ -6,9 +6,12 @@ use App\Models\Category;
 use App\Models\Genre;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+use Tests\Traits\WithoutMiddlewareTrait;
 
 class GenreApiTest extends TestCase
 {
+    use WithoutMiddlewareTrait;
+
     protected string $endpoint = '/api/genres';
 
     public function testListEmptyAllGenres(): void

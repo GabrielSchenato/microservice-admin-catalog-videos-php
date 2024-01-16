@@ -5,9 +5,12 @@ namespace Tests\Feature\Api;
 use App\Models\Category;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+use Tests\Traits\WithoutMiddlewareTrait;
 
 class CategoryApiTest extends TestCase
 {
+    use WithoutMiddlewareTrait;
+
     protected string $endpoint = '/api/categories';
 
     public function testListEmptyAllCategories(): void
