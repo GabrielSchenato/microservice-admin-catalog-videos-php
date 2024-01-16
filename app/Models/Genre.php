@@ -23,7 +23,7 @@ class Genre extends Model
     protected $casts = [
         'id' => 'string',
         'is_active' => 'boolean',
-        'deleted_at' => 'datetime'
+        'deleted_at' => 'datetime',
     ];
 
     public function categories(): BelongsToMany

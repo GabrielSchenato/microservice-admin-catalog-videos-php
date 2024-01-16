@@ -23,7 +23,7 @@ class DeleteCategoryUseCaseUnitTest extends TestCase
             ->andReturn(true);
 
         $mockInputDto = Mockery::mock(CategoryInputDto::class, [
-            $uuid
+            $uuid,
         ]);
 
         $useCase = new DeleteCategoryUseCase($mockRepository);
@@ -40,7 +40,7 @@ class DeleteCategoryUseCaseUnitTest extends TestCase
         $mockRepository->shouldReceive('delete')->andReturn(false);
 
         $mockInputDto = Mockery::mock(CategoryInputDto::class, [
-            $uuid
+            $uuid,
         ]);
 
         $useCase = new DeleteCategoryUseCase($mockRepository);

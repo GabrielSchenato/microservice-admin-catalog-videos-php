@@ -19,7 +19,7 @@ class CastMemberResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'type' => $this->type,
-            'created_at' => Carbon::make($this->created_at)->format('Y-m-d H:i:s')
+            'created_at' => Carbon::make($this->created_at)->format('Y-m-d H:i:s'),
         ];
     }
 }

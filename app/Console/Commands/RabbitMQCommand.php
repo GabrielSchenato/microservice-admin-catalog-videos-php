@@ -24,10 +24,9 @@ class RabbitMQCommand extends Command
     protected $description = 'Consumer RabbitMQ';
 
     public function __construct(
-        private AMQPInterface                 $amqp,
+        private AMQPInterface $amqp,
         private ChangeEncodedPathVideoUseCase $useCase,
-    )
-    {
+    ) {
         parent::__construct();
     }
 
@@ -42,7 +41,7 @@ class RabbitMQCommand extends Command
             $body = json_decode($message->body);
 
             if (isset($body->Error) && $body->Error === '') {
-                $encodedPath = $body->video->encoded_video_folder . '/stream.mpd';
+                $encodedPath = $body->video->encoded_video_folder.'/stream.mpd';
                 $videoId = $body->video->resource_id;
 
                 $this->useCase->execute(

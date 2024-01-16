@@ -34,7 +34,7 @@ class GenreEloquentRepository implements GenreRepositoryInterface
 
     public function findById(string $id): GenreEntity
     {
-        if (!$genre = $this->model->find($id)) {
+        if (! $genre = $this->model->find($id)) {
             throw new NotFoundException();
         }
 
@@ -51,13 +51,13 @@ class GenreEloquentRepository implements GenreRepositoryInterface
 
     public function update(GenreEntity $genre): GenreEntity
     {
-        if (!$genreDb = $this->model->find($genre->id())) {
+        if (! $genreDb = $this->model->find($genre->id())) {
             throw new NotFoundException('Genre Not Found');
         }
 
         $genreDb->update([
             'name' => $genre->name,
-            'is_active' => $genre->isActive
+            'is_active' => $genre->isActive,
         ]);
 
         if (count($genre->categoriesId) > 0) {
@@ -71,16 +71,17 @@ class GenreEloquentRepository implements GenreRepositoryInterface
 
     public function delete(string $id): bool
     {
-        if (!$genreDb = $this->model->find($id)) {
+        if (! $genreDb = $this->model->find($id)) {
             throw new NotFoundException('Genre Not Found');
         }
+
         return $genreDb->delete();
     }
 
     public function findAll(string $filter = '', $order = 'DESC'): array
     {
         $categories = $this->model
-            ->when($filter, fn($query) => $query->where('name', 'LIKE', "%{$filter}%"))
+            ->when($filter, fn ($query) => $query->where('name', 'LIKE', "%{$filter}%"))
             ->orderBy('id', $order)
             ->get();
 
@@ -90,7 +91,7 @@ class GenreEloquentRepository implements GenreRepositoryInterface
     public function paginate(string $filter = '', $order = 'DESC', int $page = 1, int $totalPage = 15): PaginationInterface
     {
         $paginator = $this->model
-            ->when($filter, fn($query) => $query->where('name', 'LIKE', "%{$filter}%"))
+            ->when($filter, fn ($query) => $query->where('name', 'LIKE', "%{$filter}%"))
             ->orderBy('id', $order)
             ->paginate($totalPage);
 

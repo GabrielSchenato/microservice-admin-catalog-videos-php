@@ -12,7 +12,6 @@ use Ramsey\Uuid\Uuid as RamseyUuid;
 
 class CastMemberEntityUnitTest extends TestCase
 {
-
     public function testAttributesCreate()
     {
         $name = 'New CastMember';

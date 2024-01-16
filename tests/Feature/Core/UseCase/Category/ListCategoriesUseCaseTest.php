@@ -7,7 +7,6 @@ use App\Repositories\Eloquent\CategoryEloquentRepository;
 use Core\Domain\Repository\PaginationInterface;
 use Core\UseCase\Category\ListCategoriesUseCase;
 use Core\UseCase\DTO\Category\ListCategories\ListCategoriesInputDto;
-use Core\UseCase\DTO\Category\ListCategories\ListCategoriesOutputDto;
 use Tests\TestCase;
 
 class ListCategoriesUseCaseTest extends TestCase
@@ -32,6 +31,7 @@ class ListCategoriesUseCaseTest extends TestCase
     {
         $repository = new CategoryEloquentRepository(new Model());
         $useCase = new ListCategoriesUseCase($repository);
+
         return $useCase->execute(new ListCategoriesInputDto());
     }
 }

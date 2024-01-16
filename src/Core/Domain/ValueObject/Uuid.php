@@ -8,14 +8,13 @@ class Uuid
 {
     public function __construct(
         protected string $value
-    )
-    {
+    ) {
         $this->ensureIsValid();
     }
 
     private function ensureIsValid(): void
     {
-        if (!\Ramsey\Uuid\Uuid::isValid($this->value)) {
+        if (! \Ramsey\Uuid\Uuid::isValid($this->value)) {
             throw new InvalidArgumentException(sprintf('<%s> does not allow the value <%s>.', static::class, $this->value));
         }
     }

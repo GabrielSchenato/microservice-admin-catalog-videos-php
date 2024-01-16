@@ -9,10 +9,8 @@ use Core\UseCase\Video\Delete\DeleteVideoUseCase;
 use Core\UseCase\Video\Delete\DTO\VideoDeleteInputDto;
 use Tests\TestCase;
 
-
 class DeleteVideoUseCaseTest extends TestCase
 {
-
     public function testDelete(): void
     {
         $video = Video::factory()->create();
@@ -39,5 +37,4 @@ class DeleteVideoUseCaseTest extends TestCase
             id: 'fake_id'
         ));
     }
-
 }

@@ -25,17 +25,17 @@ class UpdateGenreRequest extends FormRequest
             'name' => [
                 'required',
                 'min:3',
-                'max:255'
+                'max:255',
             ],
             'is_active' => [
                 'nullable',
-                'boolean'
+                'boolean',
             ],
             'categories_ids' => [
                 'nullable',
                 'array',
-                'exists:categories,id,deleted_at,NULL'
-            ]
+                'exists:categories,id,deleted_at,NULL',
+            ],
         ];
     }
 }

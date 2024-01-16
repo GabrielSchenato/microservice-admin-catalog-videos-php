@@ -16,12 +16,12 @@ class CastMember extends Model
     protected $fillable = [
         'id',
         'name',
-        'type'
+        'type',
     ];
 
     protected $casts = [
         'id' => 'string',
-        'deleted_at' => 'datetime'
+        'deleted_at' => 'datetime',
     ];
 
     public function videos(): BelongsToMany

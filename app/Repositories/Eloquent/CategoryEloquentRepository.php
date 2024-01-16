@@ -30,7 +30,7 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 
     public function findById(string $id): CategoryEntity
     {
-        if (!$category = $this->model->find($id)) {
+        if (! $category = $this->model->find($id)) {
             throw new NotFoundException();
         }
 
@@ -47,14 +47,14 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 
     public function update(CategoryEntity $category): CategoryEntity
     {
-        if (!$categoryDb = $this->model->find($category->id())) {
+        if (! $categoryDb = $this->model->find($category->id())) {
             throw new NotFoundException('Category Not Found');
         }
 
         $categoryDb->update([
             'name' => $category->name,
             'description' => $category->description,
-            'is_active' => $category->isActive
+            'is_active' => $category->isActive,
         ]);
 
         $categoryDb->refresh();
@@ -64,16 +64,17 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
 
     public function delete(string $id): bool
     {
-        if (!$categoryDb = $this->model->find($id)) {
+        if (! $categoryDb = $this->model->find($id)) {
             throw new NotFoundException('Category Not Found');
         }
+
         return $categoryDb->delete();
     }
 
     public function findAll(string $filter = '', $order = 'DESC'): array
     {
         $categories = $this->model
-            ->when($filter, fn($query) => $query->where('name', 'LIKE', "%{$filter}%"))
+            ->when($filter, fn ($query) => $query->where('name', 'LIKE', "%{$filter}%"))
             ->orderBy('id', $order)
             ->get();
 
@@ -83,7 +84,7 @@ class CategoryEloquentRepository implements CategoryRepositoryInterface
     public function paginate(string $filter = '', $order = 'DESC', int $page = 1, int $totalPage = 15): PaginationInterface
     {
         $paginator = $this->model
-            ->when($filter, fn($query) => $query->where('name', 'LIKE', "%{$filter}%"))
+            ->when($filter, fn ($query) => $query->where('name', 'LIKE', "%{$filter}%"))
             ->orderBy('id', $order)
             ->paginate($totalPage);
 

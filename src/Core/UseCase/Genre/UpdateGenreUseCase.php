@@ -13,11 +13,10 @@ use Core\UseCase\Interfaces\TransactionDbInterface;
 class UpdateGenreUseCase
 {
     public function __construct(
-        protected GenreRepositoryInterface    $repository,
-        protected TransactionDbInterface      $transaction,
+        protected GenreRepositoryInterface $repository,
+        protected TransactionDbInterface $transaction,
         protected CategoryRepositoryInterface $categoryRepository,
-    )
-    {
+    ) {
     }
 
     /**

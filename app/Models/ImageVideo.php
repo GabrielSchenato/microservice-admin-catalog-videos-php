@@ -19,7 +19,7 @@ class ImageVideo extends Model
     ];
 
     protected $casts = [
-        'id' => 'string'
+        'id' => 'string',
     ];
 
     public function video(): BelongsTo

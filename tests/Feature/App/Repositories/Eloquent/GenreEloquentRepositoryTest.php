@@ -33,7 +33,7 @@ class GenreEloquentRepositoryTest extends TestCase
         $this->assertInstanceOf(GenreRepositoryInterface::class, $this->repository);
         $this->assertInstanceOf(GenreEntity::class, $response);
         $this->assertDatabaseHas('genres', [
-            'name' => $entity->name
+            'name' => $entity->name,
         ]);
     }
 
@@ -136,7 +136,7 @@ class GenreEloquentRepositoryTest extends TestCase
 
         $response = $this->repository->insert($genre);
         $this->assertDatabaseHas('genres', [
-            'id' => $response->id
+            'id' => $response->id,
         ]);
         $this->assertDatabaseCount('category_genre', 4);
     }

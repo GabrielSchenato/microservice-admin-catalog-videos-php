@@ -8,22 +8,20 @@ use Core\UseCase\Video\Create\DTO\VideoCreateInputDto;
 
 class CreateVideoUseCaseTest extends BaseVideoUseCase
 {
-
     public function getUseCase(): string
     {
         return CreateVideoUseCase::class;
     }
 
-    public function inputDTO(array  $categories = [],
-                             array  $genres = [],
-                             array  $castMembers = [],
-                             ?array $videoFile = null,
-                             ?array $trailerFile = null,
-                             ?array $bannerFile = null,
-                             ?array $thumbFile = null,
-                             ?array $thumbHalf = null,
-    ): object
-    {
+    public function inputDTO(array $categories = [],
+        array $genres = [],
+        array $castMembers = [],
+        ?array $videoFile = null,
+        ?array $trailerFile = null,
+        ?array $bannerFile = null,
+        ?array $thumbFile = null,
+        ?array $thumbHalf = null,
+    ): object {
         return new VideoCreateInputDto(
             title: 'test',
             description: 'test',

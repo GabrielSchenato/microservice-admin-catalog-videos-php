@@ -12,8 +12,7 @@ class CreateCategoryUseCase
 {
     public function __construct(
         protected CategoryRepositoryInterface $repository
-    )
-    {
+    ) {
     }
 
     /**

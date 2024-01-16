@@ -19,7 +19,7 @@ class GenreResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'is_active' => $this->is_active,
-            'created_at' => Carbon::make($this->created_at)->format('Y-m-d H:i:s')
+            'created_at' => Carbon::make($this->created_at)->format('Y-m-d H:i:s'),
         ];
     }
 }

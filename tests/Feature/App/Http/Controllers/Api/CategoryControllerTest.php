@@ -22,6 +22,7 @@ use Tests\TestCase;
 class CategoryControllerTest extends TestCase
 {
     protected CategoryEloquentRepository $repository;
+
     protected CategoryController $controller;
 
     protected function setUp(): void
@@ -48,7 +49,7 @@ class CategoryControllerTest extends TestCase
         $request = new StoreCategoryRequest();
         $request->headers->set('Content-type', 'application/json');
         $request->setJson(new InputBag([
-            'name' => 'Teste'
+            'name' => 'Teste',
         ]));
 
         $response = $this->controller->store($request, $useCase);
@@ -79,7 +80,7 @@ class CategoryControllerTest extends TestCase
         $request = new UpdateCategoryRequest();
         $request->headers->set('Content-type', 'application/json');
         $request->setJson(new InputBag([
-            'name' => 'Teste'
+            'name' => 'Teste',
         ]));
 
         $response = $this->controller->update($category->id, $request, $useCase);
@@ -87,7 +88,7 @@ class CategoryControllerTest extends TestCase
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->status());
         $this->assertDatabaseHas('categories', [
-            'name' => 'Teste'
+            'name' => 'Teste',
         ]);
     }
 

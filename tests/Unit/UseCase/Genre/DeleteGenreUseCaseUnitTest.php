@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\UseCase\Genre;
 
-use Core\Domain\Entity\GenreEntity;
 use Core\Domain\Repository\GenreRepositoryInterface;
 use Core\Domain\ValueObject\Uuid;
 use Core\UseCase\DTO\Genre\DeleteGenre\GenreDeleteOutputDto;
@@ -26,7 +25,7 @@ class DeleteGenreUseCaseUnitTest extends TestCase
             ->andReturn(true);
 
         $mockInputDto = Mockery::mock(GenreInputDto::class, [
-            $uuid
+            $uuid,
         ]);
 
         $useCase = new DeleteGenreUseCase($mockRepository);

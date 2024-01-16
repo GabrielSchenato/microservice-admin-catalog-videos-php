@@ -45,5 +45,4 @@ abstract class ModelTestCase extends TestCase
 
         $this->assertEquals($expected, $actual);
     }
-
 }

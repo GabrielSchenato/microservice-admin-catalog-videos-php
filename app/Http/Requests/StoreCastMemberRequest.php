@@ -25,12 +25,12 @@ class StoreCastMemberRequest extends FormRequest
             'name' => [
                 'required',
                 'min:3',
-                'max:255'
+                'max:255',
             ],
             'type' => [
                 'required',
                 'int',
-            ]
+            ],
         ];
     }
 }

@@ -13,7 +13,6 @@ use stdClass;
 
 class DeleteVideoUseCaseUnitTest extends TestCase
 {
-
     public function testDelete()
     {
         $uuid = Uuid::random();
@@ -41,7 +40,7 @@ class DeleteVideoUseCaseUnitTest extends TestCase
     private function getMockInputDto(string $id)
     {
         return Mockery::mock(VideoDeleteInputDto::class, [
-            $id
+            $id,
         ]);
     }
 }

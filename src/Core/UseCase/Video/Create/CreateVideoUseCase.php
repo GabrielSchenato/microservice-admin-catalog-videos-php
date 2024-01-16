@@ -30,7 +30,9 @@ class CreateVideoUseCase extends BaseVideoUseCase
         } catch (Throwable $th) {
             $this->transaction->rollback();
 
-            if (isset($pathMedia)) $this->storage->delete($pathMedia);
+            if (isset($pathMedia)) {
+                $this->storage->delete($pathMedia);
+            }
 
             throw $th;
         }

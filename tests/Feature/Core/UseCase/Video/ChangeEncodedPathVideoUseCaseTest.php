@@ -8,10 +8,8 @@ use Core\UseCase\Video\ChangeEncoded\ChangeEncodedPathVideoUseCase;
 use Core\UseCase\Video\ChangeEncoded\DTO\VideoChangeEncodedInputDto;
 use Tests\TestCase;
 
-
 class ChangeEncodedPathVideoUseCaseTest extends TestCase
 {
-
     public function testIfUpdatedMediaInDatabase()
     {
         $video = Video::factory()->create();
@@ -32,5 +30,4 @@ class ChangeEncodedPathVideoUseCaseTest extends TestCase
             'encoded_path' => $input->encodedPath,
         ]);
     }
-
 }

@@ -23,7 +23,7 @@ class ListGenreUseCaseUnitTest extends TestCase
             $genreName,
             $uuid,
             true,
-            []
+            [],
         ]);
         $mockEntity->shouldReceive('id')->andReturn($uuid);
         $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
@@ -36,7 +36,7 @@ class ListGenreUseCaseUnitTest extends TestCase
             ->andReturn($mockEntity);
 
         $mockInputDto = Mockery::mock(GenreInputDto::class, [
-            $uuid
+            $uuid,
         ]);
 
         $useCase = new ListGenreUseCase($mockRepository);

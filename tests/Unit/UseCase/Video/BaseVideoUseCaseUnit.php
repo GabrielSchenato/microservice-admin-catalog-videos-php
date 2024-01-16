@@ -26,9 +26,9 @@ abstract class BaseVideoUseCaseUnit extends TestCase
     abstract protected function getUseCase(): string;
 
     abstract protected function createMockInputDto(
-        array  $categoriesId = [],
-        array  $genresId = [],
-        array  $castMembersId = [],
+        array $categoriesId = [],
+        array $genresId = [],
+        array $castMembersId = [],
         ?array $videoFile = null,
         ?array $trailerFile = null,
         ?array $thumbFile = null,
@@ -43,8 +43,7 @@ abstract class BaseVideoUseCaseUnit extends TestCase
         int $timesCallMethodRollbackTransaction = 0,
         int $timesCallMethodFileStorage = 0,
         int $timesCallMethodEventManager = 0,
-    )
-    {
+    ) {
         $this->useCase = new ($this->getUseCase())(
             repository: $this->createMockRepository(
                 timesCallAction: $timesCallMethodActionRepository,
@@ -67,9 +66,8 @@ abstract class BaseVideoUseCaseUnit extends TestCase
      */
     public function testExceptionCategoriesIds(
         string $label,
-        array  $ids
-    )
-    {
+        array $ids
+    ) {
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage(sprintf(
             '%s %s not found',
@@ -106,10 +104,9 @@ abstract class BaseVideoUseCaseUnit extends TestCase
         array $thumb,
         array $thumbHalf,
         array $banner,
-        int   $timesStorage,
-        int   $timesEventManager = 0
-    )
-    {
+        int $timesStorage,
+        int $timesEventManager = 0
+    ) {
         $this->createUseCase(
             timesCallMethodFileStorage: $timesStorage,
             timesCallMethodEventManager: $timesEventManager
@@ -142,7 +139,7 @@ abstract class BaseVideoUseCaseUnit extends TestCase
                 'thumbHalf' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.mp4'],
                 'banner' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.mp4'],
                 'timesStorage' => 5,
-                'timesEventManager' => 1
+                'timesEventManager' => 1,
             ],
             [
                 'video' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.mp4'],
@@ -151,7 +148,7 @@ abstract class BaseVideoUseCaseUnit extends TestCase
                 'thumbHalf' => ['value' => null, 'expected' => null],
                 'banner' => ['value' => ['tmp' => 'tmp/file.mp4'], 'expected' => 'path/file.mp4'],
                 'timesStorage' => 3,
-                'timesEventManager' => 1
+                'timesEventManager' => 1,
             ],
             [
                 'video' => ['value' => null, 'expected' => null],
@@ -159,16 +156,15 @@ abstract class BaseVideoUseCaseUnit extends TestCase
                 'thumb' => ['value' => null, 'expected' => null],
                 'thumbHalf' => ['value' => null, 'expected' => null],
                 'banner' => ['value' => null, 'expected' => null],
-                'timesStorage' => 0
-            ]
+                'timesStorage' => 0,
+            ],
         ];
     }
 
     private function createMockRepository(
         int $timesCallAction,
         int $timesCallActionUpdateMedia,
-    )
-    {
+    ) {
         $entity = $this->createEntity();
         $mockRepository = Mockery::mock(stdClass::class, VideoRepositoryInterface::class);
         $mockRepository
@@ -218,8 +214,7 @@ abstract class BaseVideoUseCaseUnit extends TestCase
     private function createMockTransaction(
         int $timesCallCommit,
         int $timesCallRollback,
-    )
-    {
+    ) {
         $mockRepository = Mockery::mock(stdClass::class, TransactionDbInterface::class);
         $mockRepository
             ->shouldReceive('commit')

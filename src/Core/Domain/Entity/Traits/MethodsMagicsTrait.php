@@ -11,8 +11,9 @@ trait MethodsMagicsTrait
      */
     public function __get(string $name)
     {
-        if (isset($this->{$name}))
+        if (isset($this->{$name})) {
             return $this->{$name};
+        }
 
         $className = get_class($this);
         throw new Exception("Property {$name} not found in class {$className}");
@@ -20,7 +21,7 @@ trait MethodsMagicsTrait
 
     public function id(): string
     {
-        return (string)$this->id;
+        return (string) $this->id;
     }
 
     public function createdAt(): string

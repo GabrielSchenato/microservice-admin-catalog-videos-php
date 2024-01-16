@@ -24,5 +24,4 @@ Route::middleware(['auth:api', 'can:admin-catalog'])->group(function () {
     Route::apiResource('/videos', VideoController::class);
 });
 
-
-Route::get('/', fn() => response()->json(['message' => 'success']));
+Route::get('/', fn () => response()->json(['message' => 'success']));

@@ -7,7 +7,6 @@ use Core\Domain\Repository\CastMemberRepositoryInterface;
 use Core\Domain\Repository\PaginationInterface;
 use Core\UseCase\CastMember\ListCastMembersUseCase;
 use Core\UseCase\DTO\CastMember\ListCastMembers\ListCastMembersInputDto;
-use Core\UseCase\DTO\CastMember\ListCastMembers\ListCastMembersOutputDto;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -60,7 +59,7 @@ class ListCastMembersUseCaseUnitTest extends TestCase
         $register->updated_at = 'updated_at';
         $register->deleted_at = 'deleted_at';
         $mockPagination = $this->mockPagination([
-            $register
+            $register,
         ]);
 
         $mockRepository = Mockery::mock(stdClass::class, CastMemberRepositoryInterface::class);

@@ -29,12 +29,12 @@ class CreateGenreUseCaseUnitTest extends TestCase
         $mockTransactionDb = $this->getMockTransactionDb();
         $mockCategoryRepository = $this->getMockCategoryRepository();
         $mockCategoryRepository->shouldReceive('getIdsListIds')->andReturn([
-            $uuid->__toString()
+            $uuid->__toString(),
         ]);
 
         $mockInputDto = Mockery::mock(GenreCreateInputDto::class, [
             $genreName,
-            [$uuid->__toString()]
+            [$uuid->__toString()],
         ]);
 
         $useCase = new CreateGenreUseCase($mockRepository, $mockTransactionDb, $mockCategoryRepository);
@@ -60,7 +60,7 @@ class CreateGenreUseCaseUnitTest extends TestCase
 
         $mockInputDto = Mockery::mock(GenreCreateInputDto::class, [
             $genreName,
-            [$uuid->__toString()]
+            [$uuid->__toString()],
         ]);
 
         $useCase = new CreateGenreUseCase($mockRepository, $mockTransactionDb, $mockCategoryRepository);
@@ -74,18 +74,17 @@ class CreateGenreUseCaseUnitTest extends TestCase
         parent::tearDown();
     }
 
-
     protected function getMockEntity(string $genreName, Uuid $uuid)
     {
         $mockEntity = Mockery::mock(GenreEntity::class, [
             $genreName,
-            $uuid
+            $uuid,
         ]);
         $mockEntity->shouldReceive('id')->andReturn($uuid);
         $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
+
         return $mockEntity;
     }
-
 
     protected function getMockRepository($mockEntity, int $times = 1)
     {
@@ -94,6 +93,7 @@ class CreateGenreUseCaseUnitTest extends TestCase
             ->shouldReceive('insert')
             ->times($times)
             ->andReturn($mockEntity);
+
         return $mockRepository;
     }
 
@@ -102,6 +102,7 @@ class CreateGenreUseCaseUnitTest extends TestCase
         $mockTransactionDb = Mockery::mock(stdClass::class, TransactionDbInterface::class);
         $mockTransactionDb->shouldReceive('commit');
         $mockTransactionDb->shouldReceive('rollback');
+
         return $mockTransactionDb;
     }
 

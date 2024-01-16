@@ -8,14 +8,12 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class ApiAdapter
 {
     public function __construct(
         // private ?PaginationInterface $response = null
         private readonly PaginationInterface $response
-    )
-    {
+    ) {
     }
 
     public function toJson(): AnonymousResourceCollection

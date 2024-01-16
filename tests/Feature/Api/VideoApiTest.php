@@ -41,13 +41,12 @@ class VideoApiTest extends TestCase
      * @dataProvider dataProviderPagination
      */
     public function testListAllVideos(
-        int    $total,
-        int    $totalCurrentPage,
-        int    $page = 1,
-        int    $perPage = 15,
+        int $total,
+        int $totalCurrentPage,
+        int $page = 1,
+        int $perPage = 15,
         string $filter = '',
-    ): void
-    {
+    ): void {
         Video::factory()->count($total)->create();
 
         if ($filter) {
@@ -179,7 +178,7 @@ class VideoApiTest extends TestCase
             'categories' => $categoriesIds,
             'genres' => $genresIds,
             'cast_members' => $castMembersIds,
-//            'video_file' => $mediaVideoFile,
+            //            'video_file' => $mediaVideoFile,
             'trailer_file' => $mediaVideoFile,
             'banner_file' => $imageVideoFile,
             'thumb_file' => $imageVideoFile,
@@ -191,7 +190,7 @@ class VideoApiTest extends TestCase
             'data' => $this->serializedFields,
         ]);
 
-//        $this->assertDatabaseCount('videos', 1);
+        //        $this->assertDatabaseCount('videos', 1);
         $this->assertDatabaseHas('videos', [
             'id' => $response->json('data.id'),
         ]);
@@ -200,7 +199,7 @@ class VideoApiTest extends TestCase
         $this->assertEquals($genresIds, $response->json('data.genres'));
         $this->assertEquals($castMembersIds, $response->json('data.cast_members'));
 
-//        Storage::assertExists($response->json('data.video'));
+        //        Storage::assertExists($response->json('data.video'));
         Storage::assertExists($response->json('data.trailer'));
         Storage::assertExists($response->json('data.banner'));
         Storage::assertExists($response->json('data.thumb'));
@@ -226,7 +225,7 @@ class VideoApiTest extends TestCase
             'categories' => $categoriesIds,
             'genres' => $genresIds,
             'cast_members' => $castMembersIds,
-//            'video_file' => $mediaVideoFile,
+            //            'video_file' => $mediaVideoFile,
             'trailer_file' => $mediaVideoFile,
             'banner_file' => $imageVideoFile,
             'thumb_file' => $imageVideoFile,
@@ -238,7 +237,7 @@ class VideoApiTest extends TestCase
             'data' => $this->serializedFields,
         ]);
 
-//        $this->assertDatabaseCount('videos', 1);
+        //        $this->assertDatabaseCount('videos', 1);
         $this->assertDatabaseHas('videos', [
             'id' => $response->json('data.id'),
             'title' => $data['title'],
@@ -249,7 +248,7 @@ class VideoApiTest extends TestCase
         $this->assertEquals($genresIds, $response->json('data.genres'));
         $this->assertEquals($castMembersIds, $response->json('data.cast_members'));
 
-//        Storage::assertExists($response->json('data.video'));
+        //        Storage::assertExists($response->json('data.video'));
         Storage::assertExists($response->json('data.trailer'));
         Storage::assertExists($response->json('data.banner'));
         Storage::assertExists($response->json('data.thumb'));
@@ -273,8 +272,7 @@ class VideoApiTest extends TestCase
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertSoftDeleted('videos', [
-            'id' => $video->id
+            'id' => $video->id,
         ]);
     }
-
 }

@@ -38,7 +38,7 @@ class GenreApiTest extends TestCase
                 'per_page',
                 'to',
                 'from',
-            ]
+            ],
         ]);
         $response->assertJsonCount(15, 'data');
     }
@@ -59,7 +59,7 @@ class GenreApiTest extends TestCase
                 'per_page',
                 'to',
                 'from',
-            ]
+            ],
         ]);
         $this->assertEquals(2, $response['meta']['current_page']);
         $this->assertEquals(25, $response['meta']['total']);
@@ -85,8 +85,8 @@ class GenreApiTest extends TestCase
                 'id',
                 'name',
                 'is_active',
-                'created_at'
-            ]
+                'created_at',
+            ],
         ]);
         $this->assertEquals($genre->id, $response['data']['id']);
     }
@@ -101,8 +101,8 @@ class GenreApiTest extends TestCase
         $response->assertJsonStructure([
             'message',
             'errors' => [
-                'name'
-            ]
+                'name',
+            ],
         ]);
     }
 
@@ -111,7 +111,7 @@ class GenreApiTest extends TestCase
         $categories = Category::factory()->count(10)->create();
         $data = [
             'name' => 'Teste',
-            'categories_ids' => $categories->pluck('id')->toArray()
+            'categories_ids' => $categories->pluck('id')->toArray(),
         ];
 
         $response = $this->postJson($this->endpoint, $data);
@@ -122,13 +122,13 @@ class GenreApiTest extends TestCase
                 'id',
                 'name',
                 'is_active',
-                'created_at'
-            ]
+                'created_at',
+            ],
         ]);
 
         $data = [
             'name' => 'Teste',
-            'is_active' => false
+            'is_active' => false,
         ];
 
         $response = $this->postJson($this->endpoint, $data);
@@ -138,7 +138,7 @@ class GenreApiTest extends TestCase
         $this->assertFalse($response['data']['is_active']);
         $this->assertDatabaseHas('genres', [
             'id' => $response['data']['id'],
-            'is_active' => false
+            'is_active' => false,
         ]);
         $this->assertDatabaseCount('category_genre', 10);
     }
@@ -146,7 +146,7 @@ class GenreApiTest extends TestCase
     public function testNotFoundUpdate(): void
     {
         $response = $this->putJson("$this->endpoint/fake_value", [
-            'name' => 'Teste'
+            'name' => 'Teste',
         ]);
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
@@ -155,7 +155,7 @@ class GenreApiTest extends TestCase
     public function testValidationsUpdate(): void
     {
         $data = [
-            'name' => ''
+            'name' => '',
         ];
 
         $response = $this->putJson("$this->endpoint/fake_value", $data);
@@ -164,8 +164,8 @@ class GenreApiTest extends TestCase
         $response->assertJsonStructure([
             'message',
             'errors' => [
-                'name'
-            ]
+                'name',
+            ],
         ]);
     }
 
@@ -174,7 +174,7 @@ class GenreApiTest extends TestCase
         $genre = Genre::factory()->create();
 
         $data = [
-            'name' => 'Teste'
+            'name' => 'Teste',
         ];
 
         $response = $this->putJson("{$this->endpoint}/{$genre->id}", $data);
@@ -185,13 +185,13 @@ class GenreApiTest extends TestCase
                 'id',
                 'name',
                 'is_active',
-                'created_at'
-            ]
+                'created_at',
+            ],
         ]);
 
         $this->assertEquals($data['name'], $response['data']['name']);
         $this->assertDatabaseHas('genres', [
-            'name' => $data['name']
+            'name' => $data['name'],
         ]);
     }
 
@@ -210,8 +210,7 @@ class GenreApiTest extends TestCase
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertSoftDeleted('genres', [
-            'id' => $genre->id
+            'id' => $genre->id,
         ]);
     }
-
 }

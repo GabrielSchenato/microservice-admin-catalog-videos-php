@@ -42,10 +42,9 @@ class ListVideosUseCaseUnitTest extends TestCase
     private function getMockInputDto()
     {
         return Mockery::mock(VideosListInputDto::class, [
-            '', 'DESC', 1, 15
+            '', 'DESC', 1, 15,
         ]);
     }
-
 
     protected function tearDown(): void
     {

@@ -15,7 +15,6 @@ use stdClass;
 
 class ChangeEncodedPathVideoUseCaseUnitTest extends TestCase
 {
-
     public function testSpies()
     {
         $input = new VideoChangeEncodedInputDto(
@@ -79,5 +78,4 @@ class ChangeEncodedPathVideoUseCaseUnitTest extends TestCase
             rating: Rating::L
         );
     }
-
 }

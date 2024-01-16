@@ -6,7 +6,6 @@ use App\Adapters\ApiAdapter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
-use App\Http\Resources\VideoResource;
 use Core\Domain\Enum\Rating;
 use Core\UseCase\Video\Create\CreateVideoUseCase;
 use Core\UseCase\Video\Create\DTO\VideoCreateInputDto;
@@ -29,8 +28,8 @@ class VideoController extends Controller
             input: new VideosListInputDto(
                 filter: $request->filter ?? '',
                 order: $request->get('order', 'DESC'),
-                page: (int)$request->get('page', 1),
-                totalPage: (int)$request->get('total_page', 15)
+                page: (int) $request->get('page', 1),
+                totalPage: (int) $request->get('total_page', 15)
             )
         );
 

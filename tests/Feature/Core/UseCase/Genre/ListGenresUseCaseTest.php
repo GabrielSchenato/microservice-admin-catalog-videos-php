@@ -5,9 +5,8 @@ namespace Tests\Feature\Core\UseCase\Genre;
 use App\Models\Genre as Model;
 use App\Repositories\Eloquent\GenreEloquentRepository;
 use Core\Domain\Repository\PaginationInterface;
-use Core\UseCase\Genre\ListGenresUseCase;
 use Core\UseCase\DTO\Genre\ListGenres\ListGenresInputDto;
-use Core\UseCase\DTO\Genre\ListGenres\ListGenresOutputDto;
+use Core\UseCase\Genre\ListGenresUseCase;
 use Tests\TestCase;
 
 class ListGenresUseCaseTest extends TestCase
@@ -32,6 +31,7 @@ class ListGenresUseCaseTest extends TestCase
     {
         $repository = new GenreEloquentRepository(new Model());
         $useCase = new ListGenresUseCase($repository);
+
         return $useCase->execute(new ListGenresInputDto());
     }
 }

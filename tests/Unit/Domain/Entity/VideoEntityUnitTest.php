@@ -15,7 +15,6 @@ use Ramsey\Uuid\Uuid as RamseyUuid;
 
 class VideoEntityUnitTest extends TestCase
 {
-
     public function testAttributesCreate()
     {
         $title = 'New Video';
@@ -68,25 +67,25 @@ class VideoEntityUnitTest extends TestCase
         $this->assertEquals($date, $video->createdAt());
     }
 
-//    public function testUpdate()
-//    {
-//        $uuid = new Uuid(RamseyUuid::uuid4()->toString());
-//        $createdAt = '2024-01-01 12:00:00';
-//
-//        $video = new VideoEntity(
-//            title: 'Old Video',
-//            type: VideoType::ACTOR,
-//            id: $uuid,
-//            createdAt: new DateTime($createdAt)
-//        );
-//        $video->update(
-//            title: 'New Video'
-//        );
-//
-//        $this->assertEquals($uuid, $video->id());
-//        $this->assertEquals($createdAt, $video->createdAt());
-//        $this->assertEquals('New Video', $video->title);
-//    }
+    //    public function testUpdate()
+    //    {
+    //        $uuid = new Uuid(RamseyUuid::uuid4()->toString());
+    //        $createdAt = '2024-01-01 12:00:00';
+    //
+    //        $video = new VideoEntity(
+    //            title: 'Old Video',
+    //            type: VideoType::ACTOR,
+    //            id: $uuid,
+    //            createdAt: new DateTime($createdAt)
+    //        );
+    //        $video->update(
+    //            title: 'New Video'
+    //        );
+    //
+    //        $this->assertEquals($uuid, $video->id());
+    //        $this->assertEquals($createdAt, $video->createdAt());
+    //        $this->assertEquals('New Video', $video->title);
+    //    }
 
     public function testException()
     {
@@ -143,7 +142,7 @@ class VideoEntityUnitTest extends TestCase
             published: true,
             categoriesId: [
                 $categoryId1,
-                $categoryId2
+                $categoryId2,
             ]
         );
 
@@ -196,7 +195,7 @@ class VideoEntityUnitTest extends TestCase
             published: true,
             genresId: [
                 $genreId1,
-                $genreId2
+                $genreId2,
             ]
         );
 
@@ -249,7 +248,7 @@ class VideoEntityUnitTest extends TestCase
             published: true,
             castMembersId: [
                 $castMemberId1,
-                $castMemberId2
+                $castMemberId2,
             ]
         );
 
@@ -347,7 +346,6 @@ class VideoEntityUnitTest extends TestCase
         $this->assertInstanceOf(Media::class, $video->getTrailerFile());
         $this->assertEquals($trailerFile->filePath, $video->getTrailerFile()->filePath);
     }
-
 
     public function testValueObjectMediaVideoFile()
     {

@@ -6,7 +6,6 @@ use Core\Domain\Repository\CategoryRepositoryInterface;
 use Core\Domain\Repository\PaginationInterface;
 use Core\UseCase\Category\ListCategoriesUseCase;
 use Core\UseCase\DTO\Category\ListCategories\ListCategoriesInputDto;
-use Core\UseCase\DTO\Category\ListCategories\ListCategoriesOutputDto;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -60,7 +59,7 @@ class ListCategoriesUseCaseUnitTest extends TestCase
         $register->updated_at = 'updated_at';
         $register->deleted_at = 'deleted_at';
         $mockPagination = $this->mockPagination([
-            $register
+            $register,
         ]);
 
         $mockRepository = Mockery::mock(stdClass::class, CategoryRepositoryInterface::class);

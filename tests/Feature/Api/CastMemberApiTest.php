@@ -38,7 +38,7 @@ class CastMemberApiTest extends TestCase
                 'per_page',
                 'to',
                 'from',
-            ]
+            ],
         ]);
         $response->assertJsonCount(15, 'data');
     }
@@ -59,7 +59,7 @@ class CastMemberApiTest extends TestCase
                 'per_page',
                 'to',
                 'from',
-            ]
+            ],
         ]);
         $this->assertEquals(2, $response['meta']['current_page']);
         $this->assertEquals(25, $response['meta']['total']);
@@ -71,7 +71,7 @@ class CastMemberApiTest extends TestCase
         $name = 'Teste';
         CastMember::factory()->count(10)->create();
         CastMember::factory()->count(10)->create([
-            'name' => $name
+            'name' => $name,
         ]);
 
         $response = $this->getJson("$this->endpoint?filter={$name}");
@@ -99,8 +99,8 @@ class CastMemberApiTest extends TestCase
                 'id',
                 'name',
                 'type',
-                'created_at'
-            ]
+                'created_at',
+            ],
         ]);
         $this->assertEquals($category->id, $response['data']['id']);
     }
@@ -116,8 +116,8 @@ class CastMemberApiTest extends TestCase
             'message',
             'errors' => [
                 'name',
-                'type'
-            ]
+                'type',
+            ],
         ]);
     }
 
@@ -125,7 +125,7 @@ class CastMemberApiTest extends TestCase
     {
         $data = [
             'name' => 'Teste',
-            'type' => CastMemberType::DIRECTOR->value
+            'type' => CastMemberType::DIRECTOR->value,
         ];
 
         $response = $this->postJson($this->endpoint, $data);
@@ -136,10 +136,9 @@ class CastMemberApiTest extends TestCase
                 'id',
                 'name',
                 'type',
-                'created_at'
-            ]
+                'created_at',
+            ],
         ]);
-
 
         $this->assertEquals($data['name'], $response['data']['name']);
         $this->assertEquals($data['type'], $response['data']['type']);
@@ -148,7 +147,7 @@ class CastMemberApiTest extends TestCase
     public function testNotFoundUpdate(): void
     {
         $response = $this->putJson("$this->endpoint/fake_value", [
-            'name' => 'Teste'
+            'name' => 'Teste',
         ]);
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
@@ -158,7 +157,7 @@ class CastMemberApiTest extends TestCase
     {
         $data = [
             'name' => '',
-            'type' => ''
+            'type' => '',
         ];
 
         $response = $this->putJson("$this->endpoint/fake_value", $data);
@@ -167,8 +166,8 @@ class CastMemberApiTest extends TestCase
         $response->assertJsonStructure([
             'message',
             'errors' => [
-                'name'
-            ]
+                'name',
+            ],
         ]);
     }
 
@@ -177,7 +176,7 @@ class CastMemberApiTest extends TestCase
         $category = CastMember::factory()->create();
 
         $data = [
-            'name' => 'Teste'
+            'name' => 'Teste',
         ];
 
         $response = $this->putJson("{$this->endpoint}/{$category->id}", $data);
@@ -188,13 +187,13 @@ class CastMemberApiTest extends TestCase
                 'id',
                 'name',
                 'type',
-                'created_at'
-            ]
+                'created_at',
+            ],
         ]);
 
         $this->assertEquals($data['name'], $response['data']['name']);
         $this->assertDatabaseHas('cast_members', [
-            'name' => $data['name']
+            'name' => $data['name'],
         ]);
     }
 
@@ -213,8 +212,7 @@ class CastMemberApiTest extends TestCase
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertSoftDeleted('cast_members', [
-            'id' => $category->id
+            'id' => $category->id,
         ]);
     }
-
 }

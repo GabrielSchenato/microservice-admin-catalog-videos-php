@@ -23,7 +23,7 @@ class CreateCastMemberUseCaseUnitTest extends TestCase
         $mockEntity = Mockery::mock(CastMemberEntity::class, [
             $castMemberName,
             CastMemberType::DIRECTOR,
-            new Uuid($uuid)
+            new Uuid($uuid),
         ]);
         $mockEntity->shouldReceive('id')->andReturn($uuid);
         $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
@@ -36,7 +36,7 @@ class CreateCastMemberUseCaseUnitTest extends TestCase
 
         $mockInputDto = Mockery::mock(CastMemberCreateInputDto::class, [
             $castMemberName,
-            1
+            1,
         ]);
 
         $useCase = new CreateCastMemberUseCase($mockRepository);

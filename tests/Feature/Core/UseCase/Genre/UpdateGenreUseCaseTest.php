@@ -35,7 +35,7 @@ class UpdateGenreUseCaseTest extends TestCase
         $this->assertEquals($newName, $response->name);
 
         $this->assertDatabaseHas('genres', [
-            'name' => $response->name
+            'name' => $response->name,
         ]);
         $this->assertDatabaseCount('category_genre', 10);
     }
@@ -85,13 +85,11 @@ class UpdateGenreUseCaseTest extends TestCase
         }
     }
 
-    /**
-     * @return UpdateGenreUseCase
-     */
     protected function getUseCase(): UpdateGenreUseCase
     {
         $repository = new GenreEloquentRepository(new Model());
         $categoryRepository = new CategoryEloquentRepository(new ModelCategory());
+
         return new UpdateGenreUseCase(
             $repository,
             new TransactionDb(),

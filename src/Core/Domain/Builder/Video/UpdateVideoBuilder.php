@@ -8,7 +8,6 @@ use DateTime;
 
 class UpdateVideoBuilder extends CreateVideoBuilder
 {
-
     public function createEntity(object $input): self
     {
         $this->entity = new VideoEntity(

@@ -8,7 +8,6 @@ use Core\UseCase\Video\List\DTO\VideoListOutputDto;
 
 class ListVideoUseCase
 {
-
     public function __construct(private VideoRepositoryInterface $repository)
     {
     }

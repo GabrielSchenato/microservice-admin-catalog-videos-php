@@ -23,7 +23,7 @@ class DeleteCategoryUseCaseTest extends TestCase
         );
 
         $this->assertSoftDeleted('categories', [
-            'id' => $categoryDb->id
+            'id' => $categoryDb->id,
         ]);
     }
 }

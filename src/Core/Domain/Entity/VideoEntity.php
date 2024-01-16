@@ -19,25 +19,24 @@ class VideoEntity extends AbstractEntity
      * @throws NotificationException
      */
     public function __construct(
-        protected string    $title,
-        protected string    $description,
-        protected int       $yearLaunched,
-        protected int       $duration,
-        protected bool      $opened,
-        protected Rating    $rating,
-        protected ?Uuid     $id = null,
-        protected bool      $published = false,
+        protected string $title,
+        protected string $description,
+        protected int $yearLaunched,
+        protected int $duration,
+        protected bool $opened,
+        protected Rating $rating,
+        protected ?Uuid $id = null,
+        protected bool $published = false,
         protected ?DateTime $createdAt = null,
-        protected array     $categoriesId = [],
-        protected array     $genresId = [],
-        protected array     $castMembersId = [],
-        protected ?Image    $thumbFile = null,
-        protected ?Image    $thumbHalf = null,
-        protected ?Image    $bannerFile = null,
-        protected ?Media    $trailerFile = null,
-        protected ?Media    $videoFile = null,
-    )
-    {
+        protected array $categoriesId = [],
+        protected array $genresId = [],
+        protected array $castMembersId = [],
+        protected ?Image $thumbFile = null,
+        protected ?Image $thumbHalf = null,
+        protected ?Image $bannerFile = null,
+        protected ?Media $trailerFile = null,
+        protected ?Media $videoFile = null,
+    ) {
         parent::__construct();
 
         $this->id = $this->id ?? Uuid::random();
@@ -98,81 +97,51 @@ class VideoEntity extends AbstractEntity
         unset($this->castMembersId[array_search($castMemberId, $this->castMembersId)]);
     }
 
-    /**
-     * @return Image|null
-     */
     public function getThumbFile(): ?Image
     {
         return $this->thumbFile;
     }
 
-    /**
-     * @param Image $thumbFile
-     */
     public function setThumbFile(Image $thumbFile): void
     {
         $this->thumbFile = $thumbFile;
     }
 
-    /**
-     * @return Image|null
-     */
     public function getThumbHalf(): ?Image
     {
         return $this->thumbHalf;
     }
 
-    /**
-     * @param Image $thumbHalf
-     */
     public function setThumbHalf(Image $thumbHalf): void
     {
         $this->thumbHalf = $thumbHalf;
     }
 
-    /**
-     * @return Image|null
-     */
     public function getBannerFile(): ?Image
     {
         return $this->bannerFile;
     }
 
-    /**
-     * @param Image $bannerFile
-     */
     public function setBannerFile(Image $bannerFile): void
     {
         $this->bannerFile = $bannerFile;
     }
 
-    /**
-     * @return Media|null
-     */
     public function getTrailerFile(): ?Media
     {
         return $this->trailerFile;
     }
 
-    /**
-     * @param Media $trailerFile
-     */
     public function setTrailerFile(Media $trailerFile): void
     {
         $this->trailerFile = $trailerFile;
     }
 
-    /**
-     * @return Media|null
-     */
     public function getVideoFile(): ?Media
     {
         return $this->videoFile;
     }
 
-    /**
-     * @param Media $videoFile
-     */
     public function setVideoFile(Media $videoFile): void
     {
         $this->videoFile = $videoFile;

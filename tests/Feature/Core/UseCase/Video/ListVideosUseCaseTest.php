@@ -8,18 +8,15 @@ use Core\UseCase\Video\ListPaginate\DTO\VideosListInputDto;
 use Core\UseCase\Video\ListPaginate\ListVideosUseCase;
 use Tests\TestCase;
 
-
 class ListVideosUseCaseTest extends TestCase
 {
-
     /**
      * @dataProvider provider
      */
     public function testPagination(
         int $total,
         int $perPage,
-    )
-    {
+    ) {
         Video::factory()->count($total)->create();
 
         $useCase = new ListVideosUseCase(
@@ -52,5 +49,4 @@ class ListVideosUseCaseTest extends TestCase
             ],
         ];
     }
-
 }

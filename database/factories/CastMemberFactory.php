@@ -19,10 +19,11 @@ class CastMemberFactory extends Factory
     public function definition(): array
     {
         $types = [CastMemberType::DIRECTOR, CastMemberType::ACTOR];
+
         return [
             'id' => Str::uuid(),
             'name' => $this->faker->name(),
-            'type' => $types[array_rand($types)]
+            'type' => $types[array_rand($types)],
         ];
     }
 }

@@ -11,7 +11,6 @@ use Ramsey\Uuid\Uuid as RamseyUuid;
 
 class GenreEntityUnitTest extends TestCase
 {
-
     public function testAttributesCreate()
     {
         $name = 'New Genre';
@@ -123,7 +122,7 @@ class GenreEntityUnitTest extends TestCase
             name: 'New Genre',
             categoriesId: [
                 $categoryId1,
-                $categoryId2
+                $categoryId2,
             ]
         );
 

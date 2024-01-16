@@ -25,17 +25,17 @@ class StoreCategoryRequest extends FormRequest
             'name' => [
                 'required',
                 'min:3',
-                'max:255'
+                'max:255',
             ],
             'description' => [
                 'nullable',
                 'min:3',
-                'max:255'
+                'max:255',
             ],
             'is_active' => [
                 'nullable',
-                'boolean'
-            ]
+                'boolean',
+            ],
         ];
     }
 }

@@ -6,7 +6,6 @@ use App\Adapters\ApiAdapter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGenreRequest;
 use App\Http\Requests\UpdateGenreRequest;
-use App\Http\Resources\GenreResource;
 use Core\UseCase\DTO\Genre\CreateGenre\GenreCreateInputDto;
 use Core\UseCase\DTO\Genre\GenreInputDto;
 use Core\UseCase\DTO\Genre\ListGenres\ListGenresInputDto;
@@ -27,8 +26,8 @@ class GenreController extends Controller
             input: new ListGenresInputDto(
                 filter: $request->get('filter', ''),
                 order: $request->get('order', 'DESC'),
-                page: (int)$request->get('page'),
-                totalPage: (int)$request->get('total_page', 15)
+                page: (int) $request->get('page'),
+                totalPage: (int) $request->get('total_page', 15)
             )
         );
 
@@ -41,7 +40,7 @@ class GenreController extends Controller
             input: new GenreCreateInputDto(
                 name: $request->name,
                 categoriesId: $request->categories_ids ?? [],
-                isActive: (bool)$request->is_active ?? true
+                isActive: (bool) $request->is_active ?? true
             )
         );
 

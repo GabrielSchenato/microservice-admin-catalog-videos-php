@@ -50,7 +50,7 @@ class VideoEloquentRepositoryTest extends TestCase
 
         $this->assertInstanceOf(VideoEntity::class, $response);
         $this->assertDatabaseHas('videos', [
-            'title' => $entity->title
+            'title' => $entity->title,
         ]);
     }
 
@@ -85,7 +85,7 @@ class VideoEloquentRepositoryTest extends TestCase
 
         $this->assertInstanceOf(VideoEntity::class, $response);
         $this->assertDatabaseHas('videos', [
-            'title' => $entity->title
+            'title' => $entity->title,
         ]);
         $this->assertDatabaseCount('category_video', 4);
         $this->assertDatabaseCount('genre_video', 4);
@@ -124,7 +124,7 @@ class VideoEloquentRepositoryTest extends TestCase
         $title = 'Test';
         Model::factory()->count(10)->create();
         Model::factory()->count(10)->create([
-            'title' => $title
+            'title' => $title,
         ]);
         $response = $this->repository->findAll(
             filter: $title
@@ -141,8 +141,7 @@ class VideoEloquentRepositoryTest extends TestCase
         int $page,
         int $totalPage,
         int $total = 50,
-    )
-    {
+    ) {
         Model::factory()->count($total)->create();
 
         $response = $this->repository->paginate(
@@ -453,5 +452,4 @@ class VideoEloquentRepositoryTest extends TestCase
 
         $this->assertNotNull($entityDb->getThumbHalf());
     }
-
 }

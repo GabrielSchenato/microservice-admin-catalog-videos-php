@@ -21,7 +21,7 @@ class GenreFactory extends Factory
             'id' => Str::uuid(),
             'name' => $this->faker->name(),
             'is_active' => true,
-            'created_at' => now()
+            'created_at' => now(),
         ];
     }
 }

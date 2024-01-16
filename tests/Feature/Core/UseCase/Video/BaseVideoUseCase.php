@@ -24,9 +24,9 @@ abstract class BaseVideoUseCase extends TestCase
     abstract public function getUseCase(): string;
 
     abstract public function inputDTO(
-        array  $categories = [],
-        array  $genres = [],
-        array  $castMembers = [],
+        array $categories = [],
+        array $genres = [],
+        array $castMembers = [],
         ?array $videoFile = null,
         ?array $trailerFile = null,
         ?array $bannerFile = null,
@@ -38,16 +38,15 @@ abstract class BaseVideoUseCase extends TestCase
      * @dataProvider provider
      */
     public function testAction(
-        int  $categories,
-        int  $genres,
-        int  $castMembers,
+        int $categories,
+        int $genres,
+        int $castMembers,
         bool $withMediaVideo = false,
         bool $withTrailer = false,
         bool $withThumb = false,
         bool $withThumbHalf = false,
         bool $withBanner = false,
-    ): void
-    {
+    ): void {
         $sut = $this->makeSut();
         $categoriesId = Category::factory()->count($categories)->create()->pluck('id')->toArray();
         $genresId = Genre::factory()->count($genres)->create()->pluck('id')->toArray();
@@ -107,7 +106,7 @@ abstract class BaseVideoUseCase extends TestCase
             'Test with categories and genres and without files' => [
                 'categories' => 3,
                 'genres' => 3,
-                'castMembers' => 0
+                'castMembers' => 0,
             ],
             'Test with all IDs and all medias' => [
                 'categories' => 2,
@@ -134,7 +133,7 @@ abstract class BaseVideoUseCase extends TestCase
 
     public function testTransactionException()
     {
-        Event::listen(TransactionBeginning::class, fn() => throw new Exception('begin transaction'));
+        Event::listen(TransactionBeginning::class, fn () => throw new Exception('begin transaction'));
         try {
             $sut = $this->makeSut();
             $sut->execute($this->inputDTO());
@@ -146,7 +145,7 @@ abstract class BaseVideoUseCase extends TestCase
 
     public function testUploadFilesException()
     {
-        Event::listen(UploadFilesStub::class, fn() => throw new Exception());
+        Event::listen(UploadFilesStub::class, fn () => throw new Exception());
 
         try {
             $sut = $this->makeSut();
@@ -166,7 +165,7 @@ abstract class BaseVideoUseCase extends TestCase
 
     public function testEventException()
     {
-        Event::listen(VideoEventStub::class, fn() => throw new Exception());
+        Event::listen(VideoEventStub::class, fn () => throw new Exception());
 
         try {
             $sut = $this->makeSut();

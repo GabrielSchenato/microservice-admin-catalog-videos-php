@@ -19,12 +19,11 @@ class CastMemberEntity
      * @throws Exception
      */
     public function __construct(
-        protected string         $name,
+        protected string $name,
         protected CastMemberType $type,
-        protected ?Uuid          $id = null,
-        protected ?DateTime      $createdAt = null
-    )
-    {
+        protected ?Uuid $id = null,
+        protected ?DateTime $createdAt = null
+    ) {
         $this->id = $this->id ?? Uuid::random();
         $this->createdAt = $this->createdAt ?? new DateTime();
 

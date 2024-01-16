@@ -11,8 +11,7 @@ class UpdateCastMemberUseCase
 {
     public function __construct(
         protected CastMemberRepositoryInterface $repository
-    )
-    {
+    ) {
     }
 
     /**

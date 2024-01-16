@@ -28,7 +28,7 @@ class UpdateCategoryUseCaseTest extends TestCase
         $this->assertEquals($categoryDb->description, $response->description);
 
         $this->assertDatabaseHas('categories', [
-            'name' => $response->name
+            'name' => $response->name,
         ]);
     }
 }

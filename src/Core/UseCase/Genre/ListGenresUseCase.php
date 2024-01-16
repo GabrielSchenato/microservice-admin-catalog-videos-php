@@ -10,8 +10,7 @@ class ListGenresUseCase
 {
     public function __construct(
         protected GenreRepositoryInterface $repository
-    )
-    {
+    ) {
     }
 
     public function execute(ListGenresInputDto $input): PaginationInterface

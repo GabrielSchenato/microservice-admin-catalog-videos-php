@@ -34,7 +34,7 @@ class CastMemberEloquentRepositoryTest extends TestCase
         $this->assertInstanceOf(CastMemberRepositoryInterface::class, $this->repository);
         $this->assertInstanceOf(CastMemberEntity::class, $response);
         $this->assertDatabaseHas('cast_members', [
-            'name' => $entity->name
+            'name' => $entity->name,
         ]);
     }
 

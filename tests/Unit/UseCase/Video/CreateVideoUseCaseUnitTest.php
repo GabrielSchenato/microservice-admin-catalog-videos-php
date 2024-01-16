@@ -10,7 +10,6 @@ use Mockery;
 
 class CreateVideoUseCaseUnitTest extends BaseVideoUseCaseUnit
 {
-
     public function testExecuteInputOutput()
     {
         $this->createUseCase();
@@ -23,16 +22,15 @@ class CreateVideoUseCaseUnitTest extends BaseVideoUseCaseUnit
     }
 
     protected function createMockInputDto(
-        array  $categoriesId = [],
-        array  $genresId = [],
-        array  $castMembersId = [],
+        array $categoriesId = [],
+        array $genresId = [],
+        array $castMembersId = [],
         ?array $videoFile = null,
         ?array $trailerFile = null,
         ?array $thumbFile = null,
         ?array $thumbHalf = null,
         ?array $bannerFile = null,
-    )
-    {
+    ) {
         return Mockery::mock(VideoCreateInputDto::class, [
             'title',
             'desc',

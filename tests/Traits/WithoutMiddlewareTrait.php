@@ -13,7 +13,7 @@ trait WithoutMiddlewareTrait
 
         $this->withoutMiddleware([
             Authenticate::class,
-            Authorize::class
+            Authorize::class,
         ]);
     }
 }

@@ -25,7 +25,7 @@ class UpdateCastMemberUseCaseUnitTest extends TestCase
         $mockEntity = Mockery::mock(CastMemberEntity::class, [
             $castMemberName,
             $castMemberType,
-            new Uuid($uuid)
+            new Uuid($uuid),
         ]);
         $mockEntity->shouldReceive('update');
         $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
@@ -43,7 +43,7 @@ class UpdateCastMemberUseCaseUnitTest extends TestCase
 
         $mockInputDto = Mockery::mock(CastMemberUpdateInputDto::class, [
             $uuid,
-            $castMemberNewName
+            $castMemberNewName,
         ]);
 
         $useCase = new UpdateCastMemberUseCase($mockRepository);

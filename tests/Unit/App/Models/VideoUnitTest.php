@@ -14,12 +14,11 @@ class VideoUnitTest extends ModelTestCase
         return new Video();
     }
 
-
     protected function traits(): array
     {
         return [
             HasFactory::class,
-            SoftDeletes::class
+            SoftDeletes::class,
         ];
     }
 
@@ -41,7 +40,7 @@ class VideoUnitTest extends ModelTestCase
     {
         return [
             'id' => 'string',
-            'deleted_at' => 'datetime'
+            'deleted_at' => 'datetime',
         ];
     }
 }

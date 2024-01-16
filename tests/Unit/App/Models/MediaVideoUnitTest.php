@@ -14,12 +14,11 @@ class MediaVideoUnitTest extends ModelTestCase
         return new MediaVideo();
     }
 
-
     protected function traits(): array
     {
         return [
             HasFactory::class,
-            UuidTrait::class
+            UuidTrait::class,
         ];
     }
 
@@ -36,7 +35,7 @@ class MediaVideoUnitTest extends ModelTestCase
     protected function casts(): array
     {
         return [
-            'id' => 'string'
+            'id' => 'string',
         ];
     }
 }

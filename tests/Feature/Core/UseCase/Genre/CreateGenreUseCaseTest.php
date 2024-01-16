@@ -15,7 +15,6 @@ use Throwable;
 
 class CreateGenreUseCaseTest extends TestCase
 {
-
     public function testCreate(): void
     {
         $name = 'Teste';
@@ -34,7 +33,7 @@ class CreateGenreUseCaseTest extends TestCase
         $this->assertEquals($name, $response->name);
         $this->assertNotEmpty($response->id);
         $this->assertDatabaseHas('genres', [
-            'id' => $response->id
+            'id' => $response->id,
         ]);
         $this->assertDatabaseCount('category_genre', 10);
     }
@@ -80,13 +79,11 @@ class CreateGenreUseCaseTest extends TestCase
         }
     }
 
-    /**
-     * @return CreateGenreUseCase
-     */
     protected function getUseCase(): CreateGenreUseCase
     {
         $repository = new GenreEloquentRepository(new Model());
         $categoryRepository = new CategoryEloquentRepository(new ModelCategory());
+
         return new CreateGenreUseCase(
             $repository,
             new TransactionDb(),

@@ -37,7 +37,7 @@ class CategoryApiTest extends TestCase
                 'per_page',
                 'to',
                 'from',
-            ]
+            ],
         ]);
         $response->assertJsonCount(15, 'data');
     }
@@ -58,7 +58,7 @@ class CategoryApiTest extends TestCase
                 'per_page',
                 'to',
                 'from',
-            ]
+            ],
         ]);
         $this->assertEquals(2, $response['meta']['current_page']);
         $this->assertEquals(25, $response['meta']['total']);
@@ -85,8 +85,8 @@ class CategoryApiTest extends TestCase
                 'name',
                 'description',
                 'is_active',
-                'created_at'
-            ]
+                'created_at',
+            ],
         ]);
         $this->assertEquals($category->id, $response['data']['id']);
     }
@@ -101,15 +101,15 @@ class CategoryApiTest extends TestCase
         $response->assertJsonStructure([
             'message',
             'errors' => [
-                'name'
-            ]
+                'name',
+            ],
         ]);
     }
 
     public function testStore(): void
     {
         $data = [
-            'name' => 'Teste'
+            'name' => 'Teste',
         ];
 
         $response = $this->postJson($this->endpoint, $data);
@@ -121,14 +121,14 @@ class CategoryApiTest extends TestCase
                 'name',
                 'description',
                 'is_active',
-                'created_at'
-            ]
+                'created_at',
+            ],
         ]);
 
         $data = [
             'name' => 'Teste',
             'description' => 'Teste',
-            'is_active' => false
+            'is_active' => false,
         ];
 
         $response = $this->postJson($this->endpoint, $data);
@@ -139,14 +139,14 @@ class CategoryApiTest extends TestCase
         $this->assertFalse($response['data']['is_active']);
         $this->assertDatabaseHas('categories', [
             'id' => $response['data']['id'],
-            'is_active' => false
+            'is_active' => false,
         ]);
     }
 
     public function testNotFoundUpdate(): void
     {
         $response = $this->putJson("$this->endpoint/fake_value", [
-            'name' => 'Teste'
+            'name' => 'Teste',
         ]);
 
         $response->assertStatus(Response::HTTP_NOT_FOUND);
@@ -155,7 +155,7 @@ class CategoryApiTest extends TestCase
     public function testValidationsUpdate(): void
     {
         $data = [
-            'name' => ''
+            'name' => '',
         ];
 
         $response = $this->putJson("$this->endpoint/fake_value", $data);
@@ -164,8 +164,8 @@ class CategoryApiTest extends TestCase
         $response->assertJsonStructure([
             'message',
             'errors' => [
-                'name'
-            ]
+                'name',
+            ],
         ]);
     }
 
@@ -174,7 +174,7 @@ class CategoryApiTest extends TestCase
         $category = Category::factory()->create();
 
         $data = [
-            'name' => 'Teste'
+            'name' => 'Teste',
         ];
 
         $response = $this->putJson("{$this->endpoint}/{$category->id}", $data);
@@ -186,13 +186,13 @@ class CategoryApiTest extends TestCase
                 'name',
                 'description',
                 'is_active',
-                'created_at'
-            ]
+                'created_at',
+            ],
         ]);
 
         $this->assertEquals($data['name'], $response['data']['name']);
         $this->assertDatabaseHas('categories', [
-            'name' => $data['name']
+            'name' => $data['name'],
         ]);
     }
 
@@ -211,8 +211,7 @@ class CategoryApiTest extends TestCase
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertSoftDeleted('categories', [
-            'id' => $category->id
+            'id' => $category->id,
         ]);
     }
-
 }

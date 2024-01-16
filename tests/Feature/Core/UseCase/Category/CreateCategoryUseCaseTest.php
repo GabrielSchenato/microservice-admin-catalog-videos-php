@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 class CreateCategoryUseCaseTest extends TestCase
 {
-
     public function testCreate(): void
     {
         $name = 'Teste';
@@ -25,7 +24,7 @@ class CreateCategoryUseCaseTest extends TestCase
         $this->assertEquals($name, $response->name);
         $this->assertNotEmpty($response->id);
         $this->assertDatabaseHas('categories', [
-            'id' => $response->id
+            'id' => $response->id,
         ]);
     }
 }

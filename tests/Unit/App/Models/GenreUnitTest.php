@@ -14,12 +14,11 @@ class GenreUnitTest extends ModelTestCase
         return new Genre();
     }
 
-
     protected function traits(): array
     {
         return [
             HasFactory::class,
-            SoftDeletes::class
+            SoftDeletes::class,
         ];
     }
 
@@ -38,7 +37,7 @@ class GenreUnitTest extends ModelTestCase
         return [
             'id' => 'string',
             'is_active' => 'boolean',
-            'deleted_at' => 'datetime'
+            'deleted_at' => 'datetime',
         ];
     }
 }

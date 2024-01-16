@@ -10,8 +10,7 @@ class ListCategoriesUseCase
 {
     public function __construct(
         protected CategoryRepositoryInterface $repository
-    )
-    {
+    ) {
     }
 
     public function execute(ListCategoriesInputDto $input): PaginationInterface

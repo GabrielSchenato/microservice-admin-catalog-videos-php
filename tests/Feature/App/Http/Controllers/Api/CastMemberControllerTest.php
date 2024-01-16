@@ -23,6 +23,7 @@ use Tests\TestCase;
 class CastMemberControllerTest extends TestCase
 {
     protected CastMemberEloquentRepository $repository;
+
     protected CastMemberController $controller;
 
     protected function setUp(): void
@@ -50,7 +51,7 @@ class CastMemberControllerTest extends TestCase
         $request->headers->set('Content-type', 'application/json');
         $request->setJson(new InputBag([
             'name' => 'Teste',
-            'type' => CastMemberType::DIRECTOR->value
+            'type' => CastMemberType::DIRECTOR->value,
         ]));
 
         $response = $this->controller->store($request, $useCase);
@@ -81,7 +82,7 @@ class CastMemberControllerTest extends TestCase
         $request = new UpdateCastMemberRequest();
         $request->headers->set('Content-type', 'application/json');
         $request->setJson(new InputBag([
-            'name' => 'Teste'
+            'name' => 'Teste',
         ]));
 
         $response = $this->controller->update($castMember->id, $request, $useCase);
@@ -89,7 +90,7 @@ class CastMemberControllerTest extends TestCase
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->status());
         $this->assertDatabaseHas('cast_members', [
-            'name' => 'Teste'
+            'name' => 'Teste',
         ]);
     }
 

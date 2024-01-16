@@ -9,10 +9,8 @@ use Core\UseCase\Video\List\DTO\VideoListInputDto;
 use Core\UseCase\Video\List\ListVideoUseCase;
 use Tests\TestCase;
 
-
 class ListVideoUseCaseTest extends TestCase
 {
-
     public function testList(): void
     {
         $video = Video::factory()->create();
@@ -40,5 +38,4 @@ class ListVideoUseCaseTest extends TestCase
             id: 'fake_id'
         ));
     }
-
 }

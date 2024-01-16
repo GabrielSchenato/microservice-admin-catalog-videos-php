@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class NotificationUnitTest extends TestCase
 {
-
     public function testGetErrors()
     {
         $notification = new Notification();
@@ -21,7 +20,7 @@ class NotificationUnitTest extends TestCase
         $notification = new Notification();
         $notification->addError([
             'context' => 'video',
-            'message' => 'video title is required'
+            'message' => 'video title is required',
         ]);
 
         $errors = $notification->getErrors();
@@ -37,7 +36,7 @@ class NotificationUnitTest extends TestCase
 
         $notification->addError([
             'context' => 'video',
-            'message' => 'video title is required'
+            'message' => 'video title is required',
         ]);
 
         $this->assertTrue($notification->hasErrors());
@@ -49,11 +48,11 @@ class NotificationUnitTest extends TestCase
 
         $notification->addError([
             'context' => 'video',
-            'message' => 'video title is required'
+            'message' => 'video title is required',
         ]);
         $notification->addError([
             'context' => 'video',
-            'message' => 'description is required'
+            'message' => 'description is required',
         ]);
 
         $messages = $notification->messages();
@@ -68,16 +67,15 @@ class NotificationUnitTest extends TestCase
 
         $notification->addError([
             'context' => 'video',
-            'message' => 'video title is required'
+            'message' => 'video title is required',
         ]);
         $notification->addError([
             'context' => 'category',
-            'message' => 'name is required'
+            'message' => 'name is required',
         ]);
         $this->assertCount(2, $notification->getErrors());
         $messages = $notification->messages(context: 'video');
         $this->assertIsString($messages);
         $this->assertEquals(expected: 'video: video title is required, ', actual: $messages);
     }
-
 }

@@ -8,15 +8,14 @@ class VideoUpdateInputDto
         public string $id,
         public string $title,
         public string $description,
-        public array  $categoriesId,
-        public array  $genresId,
-        public array  $castMembersId,
+        public array $categoriesId,
+        public array $genresId,
+        public array $castMembersId,
         public ?array $videoFile = null,
         public ?array $trailerFile = null,
         public ?array $thumbFile = null,
         public ?array $thumbHalf = null,
         public ?array $bannerFile = null,
-    )
-    {
+    ) {
     }
 }

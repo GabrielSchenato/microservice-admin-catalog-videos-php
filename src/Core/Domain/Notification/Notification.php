@@ -25,8 +25,9 @@ class Notification
     {
         $messages = '';
         foreach ($this->errors as $error) {
-            if ($context === '' || $error['context'] == $context)
+            if ($context === '' || $error['context'] == $context) {
                 $messages .= "{$error['context']}: {$error['message']}, ";
+            }
         }
 
         return $messages;

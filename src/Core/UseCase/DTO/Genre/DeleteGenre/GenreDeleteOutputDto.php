@@ -6,7 +6,6 @@ class GenreDeleteOutputDto
 {
     public function __construct(
         public bool $success
-    )
-    {
+    ) {
     }
 }

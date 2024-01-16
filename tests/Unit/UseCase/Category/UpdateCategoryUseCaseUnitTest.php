@@ -23,7 +23,7 @@ class UpdateCategoryUseCaseUnitTest extends TestCase
         $mockEntity = Mockery::mock(CategoryEntity::class, [
             $uuid,
             $categoryName,
-            $categoryDescription
+            $categoryDescription,
         ]);
         $mockEntity->shouldReceive('update');
         $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
@@ -41,7 +41,7 @@ class UpdateCategoryUseCaseUnitTest extends TestCase
 
         $mockInputDto = Mockery::mock(CategoryUpdateInputDto::class, [
             $uuid,
-            $categoryNewName
+            $categoryNewName,
         ]);
 
         $useCase = new UpdateCategoryUseCase($mockRepository);

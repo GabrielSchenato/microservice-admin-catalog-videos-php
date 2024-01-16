@@ -15,7 +15,6 @@ use stdClass;
 
 class ListVideoUseCaseUnitTest extends TestCase
 {
-
     public function testList()
     {
         $uuid = Uuid::random();
@@ -55,7 +54,7 @@ class ListVideoUseCaseUnitTest extends TestCase
     private function getMockInputDto(string $id)
     {
         return Mockery::mock(VideoListInputDto::class, [
-            $id
+            $id,
         ]);
     }
 }

@@ -19,15 +19,14 @@ abstract class BaseVideoUseCase
     protected BuilderInterface $builder;
 
     public function __construct(
-        protected VideoRepositoryInterface      $repository,
-        protected TransactionDbInterface        $transaction,
-        protected FileStorageInterface          $storage,
-        protected VideoEventManagerInterface    $eventManager,
-        protected CategoryRepositoryInterface   $categoryRepository,
-        protected GenreRepositoryInterface      $genreRepository,
+        protected VideoRepositoryInterface $repository,
+        protected TransactionDbInterface $transaction,
+        protected FileStorageInterface $storage,
+        protected VideoEventManagerInterface $eventManager,
+        protected CategoryRepositoryInterface $categoryRepository,
+        protected GenreRepositoryInterface $genreRepository,
         protected CastMemberRepositoryInterface $castMemberRepository,
-    )
-    {
+    ) {
         $this->builder = $this->getBuilder();
     }
 
@@ -106,7 +105,7 @@ abstract class BaseVideoUseCase
         if ($count > 0) {
             $msg = sprintf(
                 '%s %s not found',
-                count($arrayDiff) > 1 ? $pluralLabel ?? $singularLabel . 's' : $singularLabel,
+                count($arrayDiff) > 1 ? $pluralLabel ?? $singularLabel.'s' : $singularLabel,
                 implode(', ', $arrayDiff)
             );
             throw new NotFoundException($msg);

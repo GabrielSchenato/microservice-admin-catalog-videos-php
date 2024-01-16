@@ -33,5 +33,4 @@ class ChangeEncodedPathVideoUseCase
             encodedPath: $input->encodedPath
         );
     }
-
 }

@@ -6,7 +6,6 @@ use App\Adapters\ApiAdapter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Http\Resources\CategoryResource;
 use Core\UseCase\Category\CreateCategoryUseCase;
 use Core\UseCase\Category\DeleteCategoryUseCase;
 use Core\UseCase\Category\ListCategoriesUseCase;
@@ -27,8 +26,8 @@ class CategoryController extends Controller
             input: new ListCategoriesInputDto(
                 filter: $request->get('filter', ''),
                 order: $request->get('order', 'DESC'),
-                page: (int)$request->get('page'),
-                totalPage: (int)$request->get('total_page', 15)
+                page: (int) $request->get('page'),
+                totalPage: (int) $request->get('total_page', 15)
             )
         );
 
@@ -41,7 +40,7 @@ class CategoryController extends Controller
             input: new CategoryCreateInputDto(
                 name: $request->name,
                 description: $request->description ?? '',
-                isActive: (bool)$request->is_active ?? true
+                isActive: (bool) $request->is_active ?? true
             )
         );
 

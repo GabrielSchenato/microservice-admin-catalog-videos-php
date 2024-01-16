@@ -20,7 +20,7 @@ class ListCategoryUseCaseUnitTest extends TestCase
         $categoryName = 'New Cat';
         $mockEntity = Mockery::mock(CategoryEntity::class, [
             $uuid,
-            $categoryName
+            $categoryName,
         ]);
         $mockEntity->shouldReceive('id')->andReturn($uuid);
         $mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
@@ -33,7 +33,7 @@ class ListCategoryUseCaseUnitTest extends TestCase
             ->andReturn($mockEntity);
 
         $mockInputDto = Mockery::mock(CategoryInputDto::class, [
-            $uuid
+            $uuid,
         ]);
 
         $useCase = new ListCategoryUseCase($mockRepository);

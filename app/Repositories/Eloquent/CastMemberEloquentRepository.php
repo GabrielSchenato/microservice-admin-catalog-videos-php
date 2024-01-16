@@ -31,7 +31,7 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 
     public function findById(string $id): CastMemberEntity
     {
-        if (!$castMember = $this->model->find($id)) {
+        if (! $castMember = $this->model->find($id)) {
             throw new NotFoundException();
         }
 
@@ -48,7 +48,7 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 
     public function update(CastMemberEntity $castMember): CastMemberEntity
     {
-        if (!$castMemberDb = $this->model->find($castMember->id())) {
+        if (! $castMemberDb = $this->model->find($castMember->id())) {
             throw new NotFoundException('Cast Member Not Found');
         }
 
@@ -63,16 +63,17 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
 
     public function delete(string $id): bool
     {
-        if (!$castMemberDb = $this->model->find($id)) {
+        if (! $castMemberDb = $this->model->find($id)) {
             throw new NotFoundException('Cast Member Not Found');
         }
+
         return $castMemberDb->delete();
     }
 
     public function findAll(string $filter = '', $order = 'DESC'): array
     {
         $categories = $this->model
-            ->when($filter, fn($query) => $query->where('name', 'LIKE', "%{$filter}%"))
+            ->when($filter, fn ($query) => $query->where('name', 'LIKE', "%{$filter}%"))
             ->orderBy('id', $order)
             ->get();
 
@@ -82,7 +83,7 @@ class CastMemberEloquentRepository implements CastMemberRepositoryInterface
     public function paginate(string $filter = '', $order = 'DESC', int $page = 1, int $totalPage = 15): PaginationInterface
     {
         $paginator = $this->model
-            ->when($filter, fn($query) => $query->where('name', 'LIKE', "%{$filter}%"))
+            ->when($filter, fn ($query) => $query->where('name', 'LIKE', "%{$filter}%"))
             ->orderBy('id', $order)
             ->paginate($totalPage);
 

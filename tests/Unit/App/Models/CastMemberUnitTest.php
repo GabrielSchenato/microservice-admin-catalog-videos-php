@@ -14,12 +14,11 @@ class CastMemberUnitTest extends ModelTestCase
         return new CastMember();
     }
 
-
     protected function traits(): array
     {
         return [
             HasFactory::class,
-            SoftDeletes::class
+            SoftDeletes::class,
         ];
     }
 
@@ -36,7 +35,7 @@ class CastMemberUnitTest extends ModelTestCase
     {
         return [
             'id' => 'string',
-            'deleted_at' => 'datetime'
+            'deleted_at' => 'datetime',
         ];
     }
 }

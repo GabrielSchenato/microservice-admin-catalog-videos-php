@@ -42,7 +42,7 @@ class VideoEloquentRepository implements VideoRepositoryInterface
 
     public function findById(string $id): VideoEntity
     {
-        if (!$video = $this->model->find($id)) {
+        if (! $video = $this->model->find($id)) {
             throw new NotFoundException();
         }
 
@@ -51,7 +51,7 @@ class VideoEloquentRepository implements VideoRepositoryInterface
 
     public function update(AbstractEntity $entity): VideoEntity
     {
-        if (!$videoDb = $this->model->find($entity->id())) {
+        if (! $videoDb = $this->model->find($entity->id())) {
             throw new NotFoundException('Video Not Found');
         }
 
@@ -73,16 +73,17 @@ class VideoEloquentRepository implements VideoRepositoryInterface
 
     public function delete(string $id): bool
     {
-        if (!$videoDb = $this->model->find($id)) {
+        if (! $videoDb = $this->model->find($id)) {
             throw new NotFoundException('Video Not Found');
         }
+
         return $videoDb->delete();
     }
 
     public function findAll(string $filter = '', $order = 'DESC'): array
     {
         $videos = $this->model
-            ->when($filter, fn($query) => $query->where('title', 'LIKE', "%{$filter}%"))
+            ->when($filter, fn ($query) => $query->where('title', 'LIKE', "%{$filter}%"))
             ->orderBy('id', $order)
             ->get();
 
@@ -92,7 +93,7 @@ class VideoEloquentRepository implements VideoRepositoryInterface
     public function paginate(string $filter = '', $order = 'DESC', int $page = 1, int $totalPage = 15): PaginationInterface
     {
         $paginator = $this->model
-            ->when($filter, fn($query) => $query->where('title', 'LIKE', "%{$filter}%"))
+            ->when($filter, fn ($query) => $query->where('title', 'LIKE', "%{$filter}%"))
             ->with([
                 'media',
                 'trailer',
@@ -111,7 +112,7 @@ class VideoEloquentRepository implements VideoRepositoryInterface
 
     public function updateMedia(AbstractEntity $entity): AbstractEntity
     {
-        if (!$objectModel = $this->model->find($entity->id())) {
+        if (! $objectModel = $this->model->find($entity->id())) {
             throw new NotFoundException('Video not found');
         }
 
@@ -137,8 +138,8 @@ class VideoEloquentRepository implements VideoRepositoryInterface
         $entity = new VideoEntity(
             title: $object->title,
             description: $object->description,
-            yearLaunched: (int)$object->year_launched,
-            duration: (bool)$object->duration,
+            yearLaunched: (int) $object->year_launched,
+            duration: (bool) $object->duration,
             opened: $object->opened,
             rating: Rating::from($object->rating),
             id: new Uuid($object->id)

@@ -14,12 +14,11 @@ class ImageVideoUnitTest extends ModelTestCase
         return new ImageVideo();
     }
 
-
     protected function traits(): array
     {
         return [
             HasFactory::class,
-            UuidTrait::class
+            UuidTrait::class,
         ];
     }
 
@@ -34,7 +33,7 @@ class ImageVideoUnitTest extends ModelTestCase
     protected function casts(): array
     {
         return [
-            'id' => 'string'
+            'id' => 'string',
         ];
     }
 }
