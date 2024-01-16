@@ -58,6 +58,13 @@ return [
             'ignore_exceptions' => false,
         ],
 
+        'logstash' => [
+            'driver' => 'custom',
+            'via' => \App\Services\Logging\LogstashLogger::class,
+            'host' => env('LOGSTASH_HOST'),
+            'port' => env('LOGSTASH_PORT'),
+        ],
+
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
