@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae50009129103c8d7a50a49c6f8e3fb1",
+    "content-hash": "5e52ffc9262d3c379f9108c21a21d121",
     "packages": [
         {
             "name": "brick/math",
@@ -3949,6 +3949,65 @@
                 }
             ],
             "time": "2022-10-12T17:22:51+00:00"
+        },
+        {
+            "name": "robsontenorio/laravel-keycloak-guard",
+            "version": "1.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/robsontenorio/laravel-keycloak-guard.git",
+                "reference": "042483a167bcdc74321dd49cb30b79c6531109bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/robsontenorio/laravel-keycloak-guard/zipball/042483a167bcdc74321dd49cb30b79c6531109bc",
+                "reference": "042483a167bcdc74321dd49cb30b79c6531109bc",
+                "shasum": ""
+            },
+            "require": {
+                "firebase/php-jwt": "^6.3",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.10",
+                "nunomaduro/collision": "^6.3",
+                "orchestra/testbench": "^7.7",
+                "pestphp/pest": "^1.22",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "KeycloakGuard\\KeycloakGuardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "KeycloakGuard\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robson Tenório"
+                }
+            ],
+            "description": "🔑 Simple Keycloak Guard for Laravel",
+            "homepage": "https://github.com/robsontenorio/laravel-keycloak-guard",
+            "keywords": [
+                "keycloak",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/robsontenorio/laravel-keycloak-guard/issues",
+                "source": "https://github.com/robsontenorio/laravel-keycloak-guard/tree/1.4.2"
+            },
+            "time": "2023-04-27T12:41:47+00:00"
         },
         {
             "name": "spatie/laravel-google-cloud-storage",
